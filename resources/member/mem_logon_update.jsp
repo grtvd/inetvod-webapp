@@ -1,0 +1,163 @@
+<%@ page contentType="text/html; charset=iso-8859-1" language="java" %>
+<%
+/**
+* Copyright © 2006 iNetVOD, Inc. All Rights Reserved.
+* Confidential and Proprietary
+* See Legal.txt for additional notices.
+*/
+%>
+<jsp:include flush="true" page="cookie_check.jsp" />
+<jsp:useBean id="newMember" class="com.inetvod.webapp.MemRegister" scope="request"/>
+
+<% 
+	newMember.Player_Logon_Id(newMember.getMember_id());
+	if(newMember.getError_flag())
+	{
+%>
+			<script  type="text/javascript">location.href="error.jsp"</script>
+<%			
+	}		
+%>
+<html>
+<head>
+<title>Player Logon</title>
+<link rel="stylesheet" href="../twc615.css" type="text/css" />
+<link href="../omnie.css" rel="stylesheet" type="text/css" />
+<script src="../includes/form_validations.js" type="text/javascript"></script>
+<script type="text/javascript">
+//Method for Form field validations
+function Call_Validator()
+{
+	var objButton = document.getElementById("btn_Continue");
+	objButton.disabled = true; 
+	//On submit will hide all the error messages 
+	Hide_All_Error_Messages();
+	
+	//Set default value as true
+	var validated = true
+	
+	//Condition to check of any validation fails and will display the error message 
+	if (
+			CheckForBlank(document.getElementById("tbx_Pin"), document.getElementById("err_Pin"), "PIN is a required field and must be entered ") == false ||
+			CheckExactLength(document.getElementById("tbx_Pin"), 6, document.getElementById("err_Pin"), "PIN must be 6 characters exactly") == false ||						
+			CompareObjectValues(document.getElementById("tbx_Pin"), document.getElementById("tbx_Confirm_Pin"), document.getElementById("err_Confirm_Pin"), "PIN and Confirm PIN are not matching") == false 
+		)
+	{
+		validated = false;
+		objButton.disabled = false;
+	}
+	
+	//If there is no error then will return true 	
+	if(validated)
+		document.inet.submit(); 
+//	return validated;
+	event.returnValue=false;
+}
+</script>
+
+</head>
+<body>
+<jsp:include flush="true" page="../includes/header.jsp"/>
+<div align="center">
+
+  <table border="0" cellpadding="0" cellspacing="0" width="760">
+    <tr>
+      <td align="left" valign="top" class="leftside" width="222"><jsp:include flush="true" page="../includes/left_navigation.jsp?page=other&link=logon"/>  
+      </td>
+      <td valign="top" class="contentWithoutBorder"><form action="mem_logon_update_save.jsp" method="post" name="inet">
+          <noscript>
+          <h1><font color="#FF0000">Your browser does not support JavaScript! Please enabale Javascript and try again...</font></h1>
+          </noscript>
+          <table border="0" cellpadding="1" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="520" id="tbl_Register">
+            <tr valign="top">
+              <td colspan="3"><h2>Player Logon</h2></td>
+            </tr>
+            <tr valign="top">
+              <td colspan="3" class="contentWithoutBorder" >
+			  <div id="err_General" style="display:none" class="contentRed"></div>
+			  To simplify access to the iNetVOD Service from remote-controlled devices , you account is
+              assigned a 9-digit, numeric only Logon ID.</td>
+            </tr>
+            
+            <tr valign="top">
+              <td colspan="3" align="right" >&nbsp;</td>
+            </tr>
+            <tr valign="top">
+              <td width="46" align="center" >&nbsp;</td>
+              <td align="right"><font size="2">Your Logon ID </font></td>
+              <td align="left"><font size="2">&nbsp;&nbsp;<strong><%= newMember.getPlayer_logon() %></strong></font></td>
+            </tr>
+            <tr>
+              <td colspan="3" align="right">&nbsp;</td>
+            </tr>
+            <tr>
+              <td colspan="3" align="left" class="contentWithoutBorder" >For additional ease of use and security , please select a 6-digit, numeric only PIN to be used with
+              your Logon ID:</td>
+            </tr>
+            
+            <tr valign="top">
+              <td align="center" >&nbsp;</td>
+              <td colspan="2" align="left">&nbsp;</td>
+            </tr>
+            <tr valign="top">
+              <td align="center" >&nbsp;</td>
+              <td width="122" align="right"><font size="2"><span class="contentRed">*</span>PIN</font></td>
+              <td width="366" align="left">&nbsp;&nbsp;<input type="password" name="tbx_Pin" id="tbx_Pin" size="6" maxlength="6" onKeyPress="IntIEKeyCap()" /><br />
+			  								&nbsp;&nbsp; <font size="1">6 digits, number only</font>
+			  <font size="2"><div id="err_Pin" style="display:none" class="contentRed"></div></font>			  </td>
+            </tr>
+            <tr valign="top">
+              <td align="center" >&nbsp;</td>
+              <td align="right"><font size="2"><span class="contentRed">*</span>Confirm PIN</font></td>
+              <td align="left">&nbsp;&nbsp;<input type="password" name="tbx_Confirm_Pin" id="tbx_Confirm_Pin"  size="6" maxlength="6" onKeyPress="IntIEKeyCap()" />
+			  											<font size="2"><div id="err_Confirm_Pin" style="display:none" class="contentRed"></div></font>			  
+			  </td>
+            </tr>
+            
+            <tr>
+              <td align="right" valign="top">&nbsp;</td>
+              <td colspan="2" align="left">&nbsp;</td>
+            </tr>
+            
+            
+            <tr>
+              <td valign="baseline">&nbsp;</td>
+              <td colspan="2">&nbsp;</td>
+            </tr>
+            <tr>
+              <td colspan="2" valign="baseline"><font size="2" class="contentRed">*Required</font></td>
+              <td><input type="button" value="Cancel" name="btn_Cancel"  onClick="javascript:location.href='cookie_exist_user.jsp'"  />
+					&nbsp;&nbsp;
+					<input type="button" value="Continue" id="btn_Continue" name="btn_Continue" onClick="Call_Validator()" /></td>
+            </tr>
+          </table>
+      </form>
+  </td></tr></table>
+</div>
+<script type="text/javascript">
+//Set focus on the First field of the page 
+setFocus();
+//Attache enter event on the browser to be fired and handled
+addKeyEvent();
+
+// If Javascript is enabled then display the content of the page
+	document.getElementById("tbl_Register").style.display = "inline"
+	
+	/***********************************************************/
+	//Server side error alert
+	var url = document.location.href.split("?")
+	var flag = -1
+	if(url.length > 1)
+		flag = <%= request.getParameter("flag") %>
+
+	if (flag == 2)
+	{
+		err_Obj = document.getElementById("err_General");
+		err_Obj.innerHTML = "An error has occured. Try again...<br>";
+		err_Obj.style.display = "inline";		
+	}
+	/***********************************************************/
+</script>
+<jsp:include flush="true" page="../includes/footer.jsp"/>
+</body>
+</html>
