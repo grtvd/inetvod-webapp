@@ -378,23 +378,19 @@ public class MemRegister extends MemRegisterSetVariables
 
 			//Instance of Member Pref to fetch the data
 			MemberPrefs mem_Prefs = MemberPrefs.getCreate(member_id);
-			ConnectionSpeed conn_Speed = mem_Prefs.getConnectionSpeed();
 
-			String parent_det = "";
+			StringBuilder parent_det = new StringBuilder();
 			if (mem_Prefs.getIncludeDownload())
-			{
-				parent_det  = "Downloaded";
-			}
+				parent_det.append("Downloaded");
 
 			if (mem_Prefs.getIncludeStreaming())
 			{
-
-				if (parent_det .length() > 1)
-					parent_det  = parent_det  + " , Streamed, " + Check_For_Null("" + conn_Speed);
-				else
-					parent_det  = "Streamed, " + Check_For_Null("" + conn_Speed);
+				if (parent_det.length() != 0)
+					parent_det.append(", ");
+				parent_det.append("Streamed, ");
+				parent_det.append(ConnectionSpeed.convertToString(mem_Prefs.getConnectionSpeed()));
 			}
-			setParental_details(parent_det);
+			setParental_details(parent_det.toString());
 
 			RatingList ratingList = RatingList.find();
 			if(mem_Prefs.getIncludeRatingIDList().size() == ratingList.size())

@@ -46,12 +46,12 @@
 						<tr valign="top">
 							<td colspan="4"><h2>Account Overview</h2></td>
 						</tr>
-						<tr valign="top">
+						<tr>
 							<td colspan="2" align="left" class="linkHeading">Registration Information </td>
 							<td colspan="2" align="left" class="linkHeading"><a href="mem_logon_update.jsp">:: Player
 								Logon</a></td>
 						</tr>
-						<tr valign="top">
+						<tr>
 							<td width="15%" align="right"><font size="2">Email&nbsp;</font></td>
 							<td width="40%" align="left"><font size="2"><a href="mem_email.jsp">
 								<span class="contentClipped" style="width:180;">
@@ -60,23 +60,23 @@
 							<td width="30%" align="left"><font size="2"><%= newMember
 								.getPlayer_logon()%></font></td>
 						</tr>
-						<tr valign="top">
+						<tr>
 							<td align="right"><font size="2">Password&nbsp;</font></td>
 							<td align="left"><font size="2"><a href="mem_password.jsp">update</a></font>
 							</td>
 							<td colspan="2" align="right">&nbsp;</td>
 						</tr>
-						<tr valign="top">
+						<tr>
 							<td colspan="2" align="center">&nbsp;</td>
 							<td colspan="2" align="left">&nbsp;</td>
 						</tr>
-						<tr valign="top">
+						<tr>
 							<td colspan="2" align="left" class="linkHeading"><a href="mem_personal.jsp">:: Personal
 								Information</a></td>
 							<td colspan="2" align="left" class="linkHeading"><a href="mem_parental.jsp">:: Parental
 								Controls</a></td>
 						</tr>
-						<tr valign="top">
+						<tr>
 							<td align="right"><font size="2">Name&nbsp;</font></td>
 							<td align="left"><span class="contentClipped" style="width:180;"><font size="2"><%= newMember
 								.Check_For_Null(newMember.getFirst_name())%></font></span></td>
@@ -99,17 +99,17 @@
 							<td><span class="contentClipped" style="width:180;"><font size="2"><%= newMember
 								.Check_For_Null(newMember.getCity()) %></font></span></td>
 						</tr>
-						<tr valign="top">
+						<tr>
 							<td colspan="2" align="right">&nbsp;</td>
 							<td colspan="2" align="left">&nbsp;</td>
 						</tr>
 
-						<tr valign="top">
+						<tr>
 							<td colspan="2" class="linkHeading"><a href="mem_card.jsp">:: Credit Card Information</a>
 							</td>
 							<td colspan="2" class="linkHeading"><a href="mem_content.jsp">:: Content Formats</a></td>
 						</tr>
-						<tr valign="top">
+						<tr>
 							<td align="right"><font size="2">Card&nbsp;</font></td>
 							<td><font size="2"><%= newMember
 								.Check_For_Null(newMember.getCard_number())%></font></td>
