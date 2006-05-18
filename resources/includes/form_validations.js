@@ -416,12 +416,18 @@ function Check_Streaming_Selected()
 		obj_Speed.disabled = true;
 }
 
-function Select_Radio(obj, selectedValue)
+function Select_Radio(objID, selectedValue)
 {
-	if(obj.value == selectedValue)
-		obj.checked = true;
-	else
-		obj.checked = false;
+	var objList = document.getElementsByName(objID);
+
+	if(objList && objList.length)
+	{
+		for(var items = 0; items < objList.length; items++)
+		{
+			if(objList[items].type == "radio")
+				objList[items].checked = (objList[items].value == selectedValue);
+		}
+	}
 }
 /*
 function fire()
@@ -433,24 +439,36 @@ function fire()
 
 function Show_Last_Form_Values(queryString)
 {
-	//flag=2&tbx_Card_Name=qwe&cmb_Card_Type=MasterCard&tbx_Card_Number=23421&cmb_Month=02&cmb_Year=2008&tbx_Code=234&tbx_Add_1=wqe&tbx_Add_2=awe&tbx_City=asd&tbx_State=asd&tbx_Zip=asd&cmb_Country=BA&tbx_Phone=sasd324
+	if(!queryString)
+		return;
+
 	var arr_QueryParam = null;
+	var objList = null;
 	var obj = null;
 	var arr_QueryString = queryString.split("&");
-	for (count=1; count < arr_QueryString.length ; count++)
+	for (var count = 0; count < arr_QueryString.length ; count++)
 	{
 		arr_QueryParam = arr_QueryString[count].split("=");
+
+		objList = document.getElementsByName(arr_QueryParam[0])
 		obj = document.getElementById(arr_QueryParam[0]);
 
-		if (obj.type == "text")
-			obj.value = arr_QueryParam[1];
-		else if (obj.type == "hidden")
-			obj.value = arr_QueryParam[1];
-		else if (obj.type == "select-one")
+		if(objList && objList.length && (objList.length > 1) && (objList[0].type == "radio"))
+		{
+			for(var items = 0; items < objList.length; items++)
+				objList[items].checked = (objList[items].value == arr_QueryParam[1]);
+		}
+		else if(obj)
+		{
+			if (obj.type == "text")
+				obj.value = arr_QueryParam[1];
+			else if (obj.type == "hidden")
+				obj.value = arr_QueryParam[1];
+			else if (obj.type == "select-one")
 				Select_Combo(obj, arr_QueryParam[1]);
-		else if (obj.type == "checkbox")
+			else if (obj.type == "checkbox")
 				Select_CheckBox(obj, arr_QueryParam[1]);
-
+		}
 	}
 
 }

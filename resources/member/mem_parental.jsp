@@ -36,7 +36,9 @@
 			// If Javascript is enabled then display the content of the page
 			document.getElementById("tbl_Register").style.display = "inline"
 			radio_Value = "<%= newMember.getInclude_adult() %>";
-			var_rating = "<%= newMember.getRatingId() %>";
+			var_rating = "<%= request.getParameter("cbx_Rating") == null ? "" : request.getParameter("cbx_Rating") %>";
+			if(var_rating == "")
+				var_rating = "<%= newMember.getRatingId() %>";
 
 			var url = document.location.href.split("?");
 			var flag = -1;
@@ -45,41 +47,19 @@
 
 			if(flag == 2)
 			{
-				Show_Form_Values(url[1]);
+				Show_Last_Form_Values(url[1]);
 				ShowGeneralError();
 			}
+			else
+				Select_Radio("rbtn_Adult", radio_Value);
 
 			Select_Ratings(var_rating);
-			Select_Radio(document.getElementById("rbtn_Adult_Never"), radio_Value);
-			Select_Radio(document.getElementById("rbtn_Adult_Pin"), radio_Value);
-			Select_Radio(document.getElementById("rbtn_Adult_Always"), radio_Value);
 
 			Enable_Pin_Date(document.getElementById("rbtn_Adult_Pin"));
 			Disable_Pin(document.getElementById("rbtn_Adult_Always"));
 
 			//Set focus on the First field of the page
 			setFocus();
-		}
-
-		//Method to show the last values of form on error
-		function Show_Form_Values(queryString)
-		{
-			//flag=2&tbx_Card_Name=qwe&cmb_Card_Type=MasterCard&tbx_Card_Number=23421&cmb_Month=02&cmb_Year=2008&tbx_Code=234&tbx_Add_1=wqe&tbx_Add_2=awe&tbx_City=asd&tbx_State=asd&tbx_Zip=asd&cmb_Country=BA&tbx_Phone=sasd324
-			var arr_QueryParam = null;
-			var obj = null;
-			var arr_QueryString = queryString.split("&");
-			for(count = 1; count < arr_QueryString.length; count++)
-			{
-				arr_QueryParam = arr_QueryString[count].split("=");
-				obj = document.getElementById(arr_QueryParam[0]);
-
-				if(obj.type == "text")
-					obj.value = arr_QueryParam[1];
-				else if(obj.type == "checkbox")
-					var_rating = arr_QueryParam[1];
-				else if(obj.type == "radio")
-					radio_Value = arr_QueryParam[1];
-			}
 		}
 
 		function Call_Validator()
@@ -152,7 +132,7 @@
 <tr valign="top">
 	<td colspan="2" class="contentWithoutBorder">
 		The iNetVOD Service can filter out undesirable content by using the MPAA movie ratings, TV
-		ratings, and other information provided by the content provider . When searching , content not
+		ratings, and other information provided by the content provider. When searching, content not
 		matching the filter criteria will not be seen in the search results.</td>
 </tr>
 <tr align="left" valign="top">
@@ -227,24 +207,22 @@
 	<td colspan="2">&nbsp;<div id="err_Rating" style="display:none" class="contentRed"></div></td>
 </tr>
 <tr>
-	<td colspan="2" align="right" class="contentWithoutBorder">In addition, all content, including adult content , can
-		be made accessible by entering a unique
-		adult PIN: (PIN will need to be re-entered with each session)</td>
+	<td colspan="2" align="right" class="contentWithoutBorder">In addition, all content, including adult content, can
+		be made accessible by entering a unique adult PIN: (PIN will need to be re-entered with each session)</td>
 </tr>
 <tr align="left">
 	<td colspan="2" valign="top"><font size="2" face="Verdana">
 		&nbsp;&nbsp;&nbsp;
 		<input name="rbtn_Adult" id="rbtn_Adult_Never" type="radio" value="Never" checked
 			onClick="Disable_Pin_Date(this)"/>
-		&nbsp;&nbsp;Adult content should never be accessible
+		&nbsp;Adult content should never be accessible
 	</font></td>
 </tr>
 <tr align="left">
 	<td colspan="2"><font size="2" face="Verdana"> &nbsp;&nbsp;&nbsp;
 		<input name="rbtn_Adult" id="rbtn_Adult_Pin" type="radio" value="PromptPassword"
 			onClick="Enable_Pin_Date(this)"/>
-		&nbsp;&nbsp;Adult content should be accessible after entering PIN&nbsp;
-		<div id="err_Add_2" style="display:none" class="contentRed"></div>
+		&nbsp;Adult content should be accessible after entering PIN
 	</font></td>
 </tr>
 <tr>
@@ -265,7 +243,7 @@
 <tr align="left">
 	<td colspan="2"><font size="2" face="Verdana">&nbsp;&nbsp;&nbsp;
 		<input name="rbtn_Adult" id="rbtn_Adult_Always" type="radio" value="Always" onClick="Disable_Pin(this)"/>
-		&nbsp;&nbsp;Adult content should always be accessible
+		&nbsp;Adult content should always be accessible
 	</font></td>
 </tr>
 <tr>
