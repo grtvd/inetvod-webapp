@@ -1,23 +1,29 @@
 /**
  * Copyright © 2006 iNetVOD, Inc. All Rights Reserved.
- * Confidential and Proprietary
- * See Legal.txt for additional notices.
+ * iNetVOD Confidential and Proprietary.  See LEGAL.txt.
  */
-
-/*
- * Class		:		memRegister
- * Purpose		:		Registration of User
- */
-
 package com.inetvod.webapp;
 
-import com.inetvod.common.dbdata.*;
-import com.inetvod.common.data.*;
-import com.inetvod.common.core.*;
-
-import java.util.*;
-import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import com.inetvod.common.core.CountryID;
+import com.inetvod.common.core.Logger;
+import com.inetvod.common.core.StrUtil;
+import com.inetvod.common.core.CompUtil;
+import com.inetvod.common.data.Address;
+import com.inetvod.common.data.ConnectionSpeed;
+import com.inetvod.common.data.CreditCard;
+import com.inetvod.common.data.CreditCardType;
+import com.inetvod.common.data.IncludeAdult;
+import com.inetvod.common.data.MemberID;
+import com.inetvod.common.data.RatingID;
+import com.inetvod.common.data.RatingIDList;
+import com.inetvod.common.dbdata.Member;
+import com.inetvod.common.dbdata.MemberAccount;
+import com.inetvod.common.dbdata.MemberLogon;
+import com.inetvod.common.dbdata.MemberPrefs;
+import com.inetvod.common.dbdata.RatingList;
 
 public class MemRegister extends MemRegisterSetVariables
 {
@@ -31,8 +37,7 @@ public class MemRegister extends MemRegisterSetVariables
 			setError_flag(false);
 			setEmail_Exist_Flag(false); // Check for email Id exist or not
 
-			MemberLogon memLogon = null;
-			memLogon = MemberLogon.findByEmail(getEmail_id());
+			MemberLogon memLogon = MemberLogon.findByEmail(getEmail_id());
 
 			if (memLogon == null)
 			{
@@ -40,7 +45,7 @@ public class MemRegister extends MemRegisterSetVariables
 				// Create Member ID
 				Member member = Member.newInstance();
 				member.update();
-				
+
 				// Get member Id
 				MemberID mem_id = member.getMemberID();
 
@@ -52,21 +57,20 @@ public class MemRegister extends MemRegisterSetVariables
 				//memLogon.setPassword(getPassword_id());
 				memLogon.setSecretQuestion(getSecret_question());
 				memLogon.setSecretAnswer(PasswordService.encrypt(getSecret_answer()));
-				memLogon.setTermsAcceptedVersion("1.0.0");	
+				memLogon.setTermsAcceptedVersion("1.0.0");
 				memLogon.setTermsAcceptedOn(new Date());
 				memLogon.update();
 
-				setMember_id(mem_id.toString()); 
+				setMember_id(mem_id.toString());
 			}
 			else
 				setEmail_Exist_Flag(true);
 
 
 		}
-		catch(Exception e) 
+		catch(Exception e)
 		{
 			setError_flag(true);
-			//System.out.println("Error in new_member() in com.inetvod.webapp.memRegister.java === " + e);
 			Logger.logErr(this, "new_Member", e);
 		}
 	}
@@ -82,8 +86,6 @@ public class MemRegister extends MemRegisterSetVariables
 		try
 		{
 			setError_flag(false);
-			// Create DB Connection
-			//DatabaseAdaptor.setDBConnectFile(CallServlet.openServlet_And_Return_Cnn_String("dbconnect", servlet_url));
 
 			// Cast Member ID
 			MemberID member_id = new MemberID(mem_id);
@@ -98,7 +100,7 @@ public class MemRegister extends MemRegisterSetVariables
 
 			// Create instance of Address from Member Account
 			Address address = mem_Account.getHomeAddress();
-			if (address != null) // Check if Address object is null 
+			if (address != null) // Check if Address object is null
 			{
 				setAddress_1(Check_For_Null(address.getAddrStreet1()));
 				setAddress_2(Check_For_Null(address.getAddrStreet2()));
@@ -109,14 +111,13 @@ public class MemRegister extends MemRegisterSetVariables
 				if (cntId == null)
 					setCountry_id("");
 				else
-					setCountry_id(cntId.toString());			
+					setCountry_id(cntId.toString());
 			}
 		}
 		catch(Exception e)
 		{
 			setError_flag(true);
 			Logger.logErr(this, "member_Personal", e);
-			//System.out.println("Error in member_Personal() in com.inetvod.webapp.memRegister.java === " + e);
 		}
 	}
 	/*-----------------------------------------------------------------------------------------------------*/
@@ -131,8 +132,6 @@ public class MemRegister extends MemRegisterSetVariables
 		try
 		{
 			setError_flag(false);
-			// Create DB Connection
-			//DatabaseAdaptor.setDBConnectFile(CallServlet.openServlet_And_Return_Cnn_String("dbconnect", servlet_url));
 
 			// Cast Member ID
 			MemberID member_id = new MemberID(mem_id);
@@ -142,15 +141,16 @@ public class MemRegister extends MemRegisterSetVariables
 			member.setFirstName(getFirst_name());
 			member.setLastName(getLast_name());
 			member.update();
-			
-			if(getAddress_1().length() > 0 || getAddress_2().length() > 0 || getCity().length() > 0 || getState().length() > 0 || getZip().length() > 0)
-			{
-				// Create instance of Member Account and fetch data into array
-				MemberAccount mem_Account = MemberAccount.getCreate(member_id);
 
+			// Create instance of Member Account and fetch data into array
+			MemberAccount mem_Account = MemberAccount.getCreate(member_id);
+
+			if(StrUtil.hasLen(getAddress_1()) || StrUtil.hasLen(getAddress_2()) || StrUtil.hasLen(getCity())
+				|| StrUtil.hasLen(getState()) || StrUtil.hasLen(getZip()) || StrUtil.hasLen(getCountry_id()))
+			{
 				// Create instance of Address from Member Account
 				Address address = new Address();
-				
+
 				address.setAddrStreet1(getAddress_1());
 				address.setAddrStreet2(getAddress_2());
 				address.setCity(getCity());
@@ -163,12 +163,16 @@ public class MemRegister extends MemRegisterSetVariables
 				mem_Account.setHomeAddress(address);
 				mem_Account.update();
 			}
+			else if(mem_Account.getHomeAddress() != null)
+			{
+				mem_Account.setHomeAddress(null);
+				mem_Account.update();
+			}
 		}
-		catch(Exception e) 
+		catch(Exception e)
 		{
 			setError_flag(true);
 			Logger.logErr(this, "update_Personal_Info", e);
-			//System.out.println("Error in new_member() in com.inetvod.webapp.memRegister.java === " + e);
 		}
 	}
 	/*-----------------------------------------------------------------------------------------------------*/
@@ -183,8 +187,6 @@ public class MemRegister extends MemRegisterSetVariables
 		try
 		{
 			setError_flag(false);
-			// Create DB Connection
-			//DatabaseAdaptor.setDBConnectFile(CallServlet.openServlet_And_Return_Cnn_String("dbconnect", servlet_url));
 
 			// Cast Member ID
 			MemberID member_id = new MemberID(mem_id);
@@ -195,15 +197,15 @@ public class MemRegister extends MemRegisterSetVariables
 			// Create instance of Credit Card from Member Account
 			CreditCard creditCard = mem_Account.getCreditCard();
 
-			if (creditCard != null) // Chcek if CreditCard object is null 
+			if (creditCard != null) // Chcek if CreditCard object is null
 			{
 				setName_on_card(Check_For_Null(creditCard.getNameOnCC()));
-				
+
 				//Creating object of Card Type and fetching value
 				CreditCardType ccType = creditCard.getCCType();
 				if (ccType == null)
 					setCard_type("0");
-				else 
+				else
 					setCard_type(ccType.toString());
 
 				setCard_number(Check_For_Null(creditCard.getCCNumber()));
@@ -213,7 +215,7 @@ public class MemRegister extends MemRegisterSetVariables
 
 				// Instance of billing address
 				Address address = creditCard.getBillingAddress();
-				if (address != null) // Chcek if Address object is null 
+				if (address != null) // Chcek if Address object is null
 				{
 					setAddress_1(Check_For_Null(address.getAddrStreet1()));
 					//setAddress_2(Check_For_Null(address.getAddrStreet2()));
@@ -226,17 +228,16 @@ public class MemRegister extends MemRegisterSetVariables
 					if (cntId == null)
 						setCountry_id("");
 					else
-						setCountry_id(cntId.toString());	
-					
+						setCountry_id(cntId.toString());
+
 					setPhone(Check_For_Null(address.getPhone()));
-				}		
+				}
 			}
 		}
 		catch(Exception e)
 		{
 			setError_flag(true);
 			Logger.logErr(this, "member_Card_Details", e);
-			//System.out.println("Error in member_Personal() in com.inetvod.webapp.memRegister.java === " + e);
 		}
 	}
 	/*-----------------------------------------------------------------------------------------------------*/
@@ -251,8 +252,6 @@ public class MemRegister extends MemRegisterSetVariables
 		try
 		{
 			setError_flag(false);
-			// Create DB Connection
-			//DatabaseAdaptor.setDBConnectFile(CallServlet.openServlet_And_Return_Cnn_String("dbconnect", servlet_url));
 
 			// Cast Member ID
 			MemberID member_id = new MemberID(mem_id);
@@ -260,44 +259,49 @@ public class MemRegister extends MemRegisterSetVariables
 			// Create instance of Member Account and fetch data into array
 			MemberAccount mem_Account = MemberAccount.getCreate(member_id);
 
-			// Create instance of Credit Card 
-			CreditCard creditCard = new CreditCard();
+			if(StrUtil.hasLen(getName_on_card()) || StrUtil.hasLen(getCard_type()) || StrUtil.hasLen(getCard_number())
+				|| StrUtil.hasLen(getSecurity_code()) || StrUtil.hasLen(getExp_month()) || StrUtil.hasLen(getExp_year())
+				|| StrUtil.hasLen(getAddress_1()) || StrUtil.hasLen(getAddress_2()) || StrUtil.hasLen(getCity())
+				|| StrUtil.hasLen(getState()) || StrUtil.hasLen(getZip()) || StrUtil.hasLen(getCountry_id())
+				|| StrUtil.hasLen(getPhone()))
+			{
+				// Create instance of Credit Card
+				CreditCard creditCard = new CreditCard();
 
-			creditCard.setNameOnCC(getName_on_card());
-			creditCard.setCCNumber(getCard_number());
-			creditCard.setCCSIC(getSecurity_code());
-			creditCard.setExpireDate(Integer.parseInt(getExp_month()), Integer.parseInt(getExp_year()));
+				creditCard.setNameOnCC(getName_on_card());
+				creditCard.setCCType(CreditCardType.convertFromString(getCard_type()));
+				creditCard.setCCNumber(getCard_number());
+				creditCard.setCCSIC(getSecurity_code());
+				creditCard.setExpireDate(Integer.parseInt(getExp_month()), Integer.parseInt(getExp_year()));
 
-			// instance of Credt Card Type 
-			CreditCardType ccType = CreditCardType.convertFromString(getCard_type());
-			creditCard.setCCType(ccType);
+				// Create instance of Address from Member Account
+				Address address = new Address();
 
-			// Create instance of Address from Member Account
-			Address address = new Address();
-			
-			address.setAddrStreet1(getAddress_1());
-			//address.setAddrStreet2(getAddress_2());
-			address.setCity(getCity());
-			address.setState(getState());
-			address.setPostalCode(getZip());
-			address.setPhone(getPhone());
+				address.setAddrStreet1(getAddress_1());
+				address.setAddrStreet2(getAddress_2());
+				address.setCity(getCity());
+				address.setState(getState());
+				address.setPostalCode(getZip());
+				address.setPhone(getPhone());
+				address.setCountry(new CountryID(getCountry_id()));
 
-			// object of country
-			CountryID cntId = new CountryID(getCountry_id());
-			address.setCountry(cntId);
+				// set address to credit card details
+				creditCard.setBillingAddress(address);
 
-			// set address to credit card details
-			creditCard.setBillingAddress(address);
-
-			// set credit card details to member account
-			mem_Account.setCreditCard(creditCard);
-			mem_Account.update();
+				// set credit card details to member account
+				mem_Account.setCreditCard(creditCard);
+				mem_Account.update();
+			}
+			else if(mem_Account.getCreditCard() != null)
+			{
+				mem_Account.setCreditCard(null);
+				mem_Account.update();
+			}
 		}
-		catch(Exception e) 
+		catch(Exception e)
 		{
 			setError_flag(true);
 			Logger.logErr(this, "update_Card_Details", e);
-			//System.out.println("Error in update_Card_Details() in com.inetvod.webapp.memRegister.java === " + e);
 		}
 	}
 	/*-----------------------------------------------------------------------------------------------------*/
@@ -312,13 +316,11 @@ public class MemRegister extends MemRegisterSetVariables
 		try
 		{
 			setError_flag(false);
-			// Create DB Connection
-			//DatabaseAdaptor.setDBConnectFile(CallServlet.openServlet_And_Return_Cnn_String("dbconnect", servlet_url));
 
 			// Cast Member ID
 			MemberID member_id = new MemberID(mem_id);
 
-			// Instance of Logon 
+			// Instance of Logon
 			MemberLogon memLogon = MemberLogon.getCreate(member_id);
 			setEmail_id(memLogon.getEmail());
 			setPlayer_logon("" + memLogon.getLogonID());
@@ -332,13 +334,29 @@ public class MemRegister extends MemRegisterSetVariables
 
 			// Create instance of Address from Member Account
 			Address address = mem_Account.getHomeAddress();
-			if (address != null) // Chcek if Address object is null 
-				setAddress_1(Check_For_Null(address.getAddrStreet1()) + " " + Check_For_Null(address.getAddrStreet2()) + "<br>" + Check_For_Null(address.getCity()) + " " + Check_For_Null(address.getState()) + " " + Check_For_Null(address.getPostalCode()));
+			if (address != null) // Chcek if Address object is null
+			{
+				setAddress_1(Check_For_Null(address.getAddrStreet1()));
+				setAddress_2(Check_For_Null(address.getAddrStreet2()));
+
+				StringBuilder sb = new StringBuilder();
+				sb.append(address.getCity());
+				if(StrUtil.hasLen(address.getState()) || StrUtil.hasLen(address.getPostalCode()))
+				{
+					if(sb.length() != 0)
+						sb.append(", ");
+					sb.append(address.getState());
+					if(StrUtil.hasLen(address.getState()))
+						sb.append(" ");
+					sb.append(address.getPostalCode());
+				}
+				setCity(sb.toString());
+			}
 			else
-				setAddress_1("no address supplied");
+				setAddress_1("not supplied");
 
 			// Create instance of Credit Card from Member Account
-			String card_details = "";
+			String card_details = "not supplied";
 			CreditCard creditCard = mem_Account.getCreditCard();
 
 			if (creditCard != null)
@@ -348,19 +366,15 @@ public class MemRegister extends MemRegisterSetVariables
 				//Creating object of Card Type and fetching value
 				CreditCardType ccType = creditCard.getCCType();
 
-				if (ccType == null)
-					card_details = "no credit card supplied " ;
-				else 
-					card_details = ccType.toString(); 		
+				if (ccType != null)
+					card_details = ccType.toString();
 
 				int str_length = Check_For_Null(creditCard.getCCNumber()).length();
 				if (str_length > 4)
 					card_details = card_details + "  ...." + Check_For_Null(creditCard.getCCNumber()).substring(str_length - 4);
 			}
-			else
-				card_details = "no credit card supplied " ;
 
-			setCard_number(card_details); 
+			setCard_number(card_details);
 
 			//Instance of Member Pref to fetch the data
 			MemberPrefs mem_Prefs = MemberPrefs.getCreate(member_id);
@@ -382,24 +396,28 @@ public class MemRegister extends MemRegisterSetVariables
 			}
 			setParental_details(parent_det);
 
+			RatingList ratingList = RatingList.find();
+			if(mem_Prefs.getIncludeRatingIDList().size() == ratingList.size())
+				setRatingId("All ratings");
+			else
+				setRatingId("Some ratings");
+
 			IncludeAdult include_Adult = mem_Prefs.getIncludeAdult();
 
-			String str_Include_Adult = Check_For_Null("" + include_Adult);
 			String str_Include_Adult_Text = "";
-			if (str_Include_Adult.equals("Never"))
+			if (IncludeAdult.Never.equals(include_Adult))
 				str_Include_Adult_Text = ", adult content never accessible";
-			else if (str_Include_Adult.equals("PromptPassword"))
-					str_Include_Adult_Text = ", adult content accessible on password";
-			else if (str_Include_Adult.equals("Always"))
-					str_Include_Adult_Text = ", adult content always accessible";
+			else if (IncludeAdult.PromptPassword.equals(include_Adult))
+				str_Include_Adult_Text = ", adult content accessible on password";
+			else if (IncludeAdult.Always.equals(include_Adult))
+				str_Include_Adult_Text = ", adult content always accessible";
 
 			setInclude_adult(str_Include_Adult_Text );
 		}
-		catch(Exception e) 
+		catch(Exception e)
 		{
 			setError_flag(true);
 			Logger.logErr(this, "overView_Details", e);
-			//System.out.println("Error in overView_Details() in com.inetvod.webapp.memRegister.java === " + e);
 		}
 	}
 	/*-----------------------------------------------------------------------------------------------------*/
@@ -415,8 +433,6 @@ public class MemRegister extends MemRegisterSetVariables
 		try
 		{
 			setError_flag(false);
-			// Create DB Connection
-			//DatabaseAdaptor.setDBConnectFile(CallServlet.openServlet_And_Return_Cnn_String("dbconnect", servlet_url));
 
 			// Cast Member ID
 			MemberID member_id = new MemberID(mem_id);
@@ -432,13 +448,13 @@ public class MemRegister extends MemRegisterSetVariables
 
 			RatingIDList ratingList = mem_Prefs.getIncludeRatingIDList();
 
-			String arr_List = ""; 
-			for (int i = 0 ;i < ratingList.size(); i++ )
+			String arr_List = "";
+			for(RatingID rating : ratingList)
 			{
-				arr_List = arr_List + "," + ratingList.get(i);
+				arr_List = arr_List + "," + rating;
 			}
 
-			arr_List = arr_List + ",";
+			arr_List += ",";
 			setRatingId(arr_List);
 
 			MemberAccount mem_Account = MemberAccount.getCreate(member_id);
@@ -447,7 +463,7 @@ public class MemRegister extends MemRegisterSetVariables
 			String strOutDt = "";//Check_For_Null(birthDate);
 			if (birthDate != null)
 			{
-				strOutDt = new SimpleDateFormat("MM/dd/yyyy").format(birthDate );
+				strOutDt = new SimpleDateFormat("M/d/yyyy").format(birthDate );
 			}
 /*
 			if(strOutDt.length() > 0)
@@ -459,7 +475,6 @@ public class MemRegister extends MemRegisterSetVariables
 		{
 			setError_flag(true);
 			Logger.logErr(this, "member_Parental_Details", e);
-			//System.out.println("Error in member_Parental_Details() in com.inetvod.webapp.memRegister.java === " + e);
 		}
 	}
 	/*-----------------------------------------------------------------------------------------------------*/
@@ -483,9 +498,8 @@ public class MemRegister extends MemRegisterSetVariables
 
 			if(getBirth_date().length() > 0)
 			{
-				SimpleDateFormat sim = new SimpleDateFormat("MM/dd/yyyy");
-				java.util.Date datum = new java.util.Date();
-				datum = sim.parse(getBirth_date());
+				SimpleDateFormat sim = new SimpleDateFormat("M/d/yyyy");
+				Date datum = sim.parse(getBirth_date());
 
 				mem_Account.setBirthDate(datum);
 			}
@@ -510,20 +524,19 @@ public class MemRegister extends MemRegisterSetVariables
 			// Create intance of RatingIDList
 			RatingIDList ratingIDList = mem_Prefs.getIncludeRatingIDList();
 			ratingIDList.clear();
-			String [] rating = getRating();
-			for (int i = 0; i < rating.length ; i++)
+			String [] ratings = getRating();
+			for(String rating : ratings)
 			{
-				ratingIDList.add(new RatingID(rating[i]));
+				ratingIDList.add(new RatingID(rating));
 			}
 
 			mem_Prefs.update();
 
 		}
-		catch(Exception e) 
+		catch(Exception e)
 		{
 			setError_flag(true);
 			Logger.logErr(this, "update_Parental_Details", e);
-			//System.out.println("Error in update_Parental_Details() in com.inetvod.webapp.memRegister.java === " + e);
 		}
 	}
 	/*-----------------------------------------------------------------------------------------------------*/
@@ -538,8 +551,6 @@ public class MemRegister extends MemRegisterSetVariables
 		try
 		{
 			setError_flag(false);
-			// Create DB Connection
-			//DatabaseAdaptor.setDBConnectFile(CallServlet.openServlet_And_Return_Cnn_String("dbconnect", servlet_url));
 
 			// Cast Member ID
 			MemberID member_id = new MemberID(mem_id);
@@ -558,7 +569,6 @@ public class MemRegister extends MemRegisterSetVariables
 		{
 			setError_flag(true);
 			Logger.logErr(this, "member_Content_Details", e);
-			//System.out.println("Error in member_Content_Details() in com.inetvod.webapp.memRegister.java === " + e);
 		}
 	}
 	/*-----------------------------------------------------------------------------------------------------*/
@@ -573,8 +583,6 @@ public class MemRegister extends MemRegisterSetVariables
 		try
 		{
 			setError_flag(false);
-			// Create DB Connection
-			//DatabaseAdaptor.setDBConnectFile(CallServlet.openServlet_And_Return_Cnn_String("dbconnect", servlet_url));
 
 			// Cast Member ID
 			MemberID member_id = new MemberID(mem_id);
@@ -593,7 +601,6 @@ public class MemRegister extends MemRegisterSetVariables
 		{
 			setError_flag(true);
 			Logger.logErr(this, "member_Content_Update", e);
-			//System.out.println("Error in member_Content_Update() in com.inetvod.webapp.memRegister.java === " + e);
 		}
 	}
 	/*-----------------------------------------------------------------------------------------------------*/
@@ -608,21 +615,18 @@ public class MemRegister extends MemRegisterSetVariables
 		try
 		{
 			setError_flag(false);
-			// Create DB Connection
-			//DatabaseAdaptor.setDBConnectFile(CallServlet.openServlet_And_Return_Cnn_String("dbconnect", servlet_url));
 
 			// Cast Member ID
 			MemberID member_id = new MemberID(mem_id);
 
-			// Instance of Logon 
+			// Instance of Logon
 			MemberLogon memLogon = MemberLogon.getCreate(member_id);
 			setPlayer_logon(Check_For_Null("" + memLogon.getLogonID()));
 		}
-		catch(Exception e) 
+		catch(Exception e)
 		{
 			setError_flag(true);
 			Logger.logErr(this, "Player_Logon_Id", e);
-			//System.out.println("Error in update_Card_Details() in com.inetvod.webapp.memRegister.java === " + e);
 		}
 	}
 	/*-----------------------------------------------------------------------------------------------------*/
@@ -634,7 +638,6 @@ public class MemRegister extends MemRegisterSetVariables
 	/*-----------------------------------------------------------------------------------------------------*/
 	public void Player_Logon_Pin_Update(String mem_id)
 	{
-		String player_Logon_Id = "";
 		try
 		{
 			setError_flag(false);
@@ -642,17 +645,16 @@ public class MemRegister extends MemRegisterSetVariables
 			// Cast Member ID
 			MemberID member_id = new MemberID(mem_id);
 
-			// Instance of Logon 
+			// Instance of Logon
 			MemberLogon memLogon = MemberLogon.getCreate(member_id);
 //			memLogon.setPIN(PasswordService.encrypt(pin));
 			memLogon.setPIN(getPin());
 			memLogon.update();
 		}
-		catch(Exception e) 
+		catch(Exception e)
 		{
 			setError_flag(true);
 			Logger.logErr(this, "Player_Logon_Pin_Update", e);
-			//System.out.println("Error in Player_Logon_Pin_Update() in com.inetvod.webapp.memRegister.java === " + e);
 		}
 	}
 	/*-----------------------------------------------------------------------------------------------------*/
@@ -667,21 +669,18 @@ public class MemRegister extends MemRegisterSetVariables
 		try
 		{
 			setError_flag(false);
-			// Create DB Connection
-			//DatabaseAdaptor.setDBConnectFile(CallServlet.openServlet_And_Return_Cnn_String("dbconnect", servlet_url));
 
 			// Cast Member ID
 			MemberID member_id = new MemberID(mem_id);
 
-			// Instance of Logon 
+			// Instance of Logon
 			MemberLogon memLogon = MemberLogon.getCreate(member_id);
 			setEmail_id(Check_For_Null(memLogon.getEmail()));
 		}
-		catch(Exception e) 
+		catch(Exception e)
 		{
 			setError_flag(true);
 			Logger.logErr(this, "member_Email_Id", e);
-			//System.out.println("Error in member_Email_Id() in com.inetvod.webapp.memRegister.java === " + e);
 		}
 	}
 	/*-----------------------------------------------------------------------------------------------------*/
@@ -693,33 +692,30 @@ public class MemRegister extends MemRegisterSetVariables
 	/*-----------------------------------------------------------------------------------------------------*/
 	public void member_Email_Id_Update(String mem_id)
 	{
-		String player_Logon_Id = "";
 		try
 		{
 			setError_flag(false);
 			setEmail_Exist_Flag(false); // Check for email Id exist or not
 
-			MemberLogon memLogon = null;
-			memLogon = MemberLogon.findByEmail(getEmail_id());
+			MemberLogon memLogon = MemberLogon.findByEmail(getEmail_id());
 
 			if (memLogon == null)
 			{
 				// Cast Member ID
 				MemberID member_id = new MemberID(mem_id);
 
-				// Instance of Logon 
-				memLogon = MemberLogon.getCreate(member_id);
+				// Instance of Logon
+				memLogon = MemberLogon.get(member_id);
 				memLogon.setEmail(getEmail_id());
 				memLogon.update();
 			}
 			else
 				setEmail_Exist_Flag(true);
 		}
-		catch(Exception e) 
+		catch(Exception e)
 		{
 			setError_flag(true);
 			Logger.logErr(this, "member_Email_Id_Update", e);
-			//System.out.println("Error in Player_Logon_Pin_Update() in com.inetvod.webapp.memRegister.java === " + e);
 		}
 	}
 	/*-----------------------------------------------------------------------------------------------------*/
@@ -735,10 +731,8 @@ public class MemRegister extends MemRegisterSetVariables
 		try
 		{
 			setError_flag(false);
-			// Create DB Connection
-			//DatabaseAdaptor.setDBConnectFile(CallServlet.openServlet_And_Return_Cnn_String("dbconnect", servlet_url));
 
-			// Instance of Logon 
+			// Instance of Logon
 			MemberLogon memLogon = MemberLogon.findByEmail(email);
 
 			if (memLogon != null)
@@ -752,11 +746,10 @@ public class MemRegister extends MemRegisterSetVariables
 
 			setQuest_ans(str_Quest_Ans);
 		}
-		catch(Exception e) 
+		catch(Exception e)
 		{
 			setError_flag(true);
 			Logger.logErr(this, "member_Email_Id_Check", e);
-			//System.out.println("Error in member_Email_Id_Check() in com.inetvod.webapp.memRegister.java === " + e);
 		}
 	}
 	/*-----------------------------------------------------------------------------------------------------*/
@@ -771,10 +764,8 @@ public class MemRegister extends MemRegisterSetVariables
 		try
 		{
 			setError_flag(false);
-			// Create DB Connection
-			//DatabaseAdaptor.setDBConnectFile(CallServlet.openServlet_And_Return_Cnn_String("dbconnect", servlet_url));
 
-			// Instance of Logon 
+			// Instance of Logon
 			MemberLogon memLogon = MemberLogon.findByEmail(getEmail_id());
 			if (memLogon != null)
 			{
@@ -782,11 +773,10 @@ public class MemRegister extends MemRegisterSetVariables
 				memLogon.update();
 			}
 		}
-		catch(Exception e) 
+		catch(Exception e)
 		{
 			setError_flag(true);
 			Logger.logErr(this, "member_Password_Reset", e);
-			//System.out.println("Error in member_Email_Id_Check() in com.inetvod.webapp.memRegister.java === " + e);
 		}
 	}
 	/*-----------------------------------------------------------------------------------------------------*/
@@ -802,16 +792,13 @@ public class MemRegister extends MemRegisterSetVariables
 		try
 		{
 			setError_flag(false);
-			// Create DB Connection
-			//DatabaseAdaptor.setDBConnectFile(CallServlet.openServlet_And_Return_Cnn_String("dbconnect", servlet_url));
 
 			// Cast Member ID
 			MemberID member_id = new MemberID(mem_id);
 
-			// Instance of Logon 
-			MemberLogon memLogon = MemberLogon.getCreate(member_id);
-			String str_pass = memLogon.getPassword();
-			if (str_pass.equals(PasswordService.encrypt(exist_Password)))
+			// Instance of Logon
+			MemberLogon memLogon = MemberLogon.get(member_id);
+			if(CompUtil.areEqual(memLogon.getPassword(), PasswordService.encrypt(exist_Password)))
 			{
 				memLogon.setPassword(PasswordService.encrypt(new_Password));
 				memLogon.update();
@@ -819,11 +806,10 @@ public class MemRegister extends MemRegisterSetVariables
 			}
 			setFlag(flag);
 		}
-		catch(Exception e) 
+		catch(Exception e)
 		{
 			setError_flag(true);
 			Logger.logErr(this, "member_Password_Update", e);
-			//System.out.println("Error in member_Password_Update() in com.inetvod.webapp.memRegister.java === " + e);
 		}
 	}
 	/*-----------------------------------------------------------------------------------------------------*/
@@ -838,10 +824,8 @@ public class MemRegister extends MemRegisterSetVariables
 		try
 		{
 			setError_flag(false);
-			// Create DB Connection
-			//DatabaseAdaptor.setDBConnectFile(CallServlet.openServlet_And_Return_Cnn_String("dbconnect", servlet_url));
 
-			// Instance of Logon 
+			// Instance of Logon
 			MemberLogon memLogon = MemberLogon.findByEmailPassword(email, PasswordService.encrypt(pass));
 
 			if(memLogon != null)
@@ -850,11 +834,10 @@ public class MemRegister extends MemRegisterSetVariables
 				setMember_id("" + member_id);
 			}
 		}
-		catch(Exception e) 
+		catch(Exception e)
 		{
 			setError_flag(true);
 			Logger.logErr(this, "member_Logon_Check", e);
-			//System.out.println("Error in member_Email_Id_Check() in com.inetvod.webapp.memRegister.java === " + e);
 		}
 	}
 	/*-----------------------------------------------------------------------------------------------------*/
@@ -868,13 +851,12 @@ public class MemRegister extends MemRegisterSetVariables
 	{
 		try
 		{
-			if(str_Value == null )
+			if(str_Value == null)
 				str_Value = "";
 		}
 		catch(Exception e)
 		{
 			Logger.logErr(this, "Check_For_Null", e);
-			//System.out.println("Error in Check_For_Null() in com.inetvod.webapp.memRegister.java === " + e);
 		}
 		return str_Value;
 	}

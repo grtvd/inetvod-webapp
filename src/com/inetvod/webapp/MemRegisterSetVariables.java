@@ -1,424 +1,419 @@
 /**
  * Copyright © 2006 iNetVOD, Inc. All Rights Reserved.
- * Confidential and Proprietary
- * See Legal.txt for additional notices.
+ * iNetVOD Confidential and Proprietary.  See LEGAL.txt.
  */
-
-/*
- * Class		:		MemRegisterSetVariables 
- * Purpose		:		Set properties 
- */
-
 package com.inetvod.webapp;
 
-public class MemRegisterSetVariables implements java.io.Serializable
+import java.io.Serializable;
+
+public class MemRegisterSetVariables implements Serializable
 {
 	/*******************************************************************************************************/
 	// Set & Get properties -- START
 	/*-----------------------------------------------------------------------------------------------------*/
-	private String page_Redirect;
+	private String fPageRedirect;
 	public void setPage_Redirect(String page_Redirect) {
-		this.page_Redirect = page_Redirect;
+		fPageRedirect = page_Redirect;
 	}
 
 	public String getPage_Redirect() {
-		return page_Redirect;
+		return fPageRedirect;
 	}
 
 	/***************************************************/
-	private String member_id;
+	private String fMemberID;
 	public void setMember_id(String member_id) {
-		this.member_id = member_id;
+		fMemberID = member_id;
 	}
 
 	public String getMember_id() {
-		return member_id ;
+		return fMemberID ;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String email_id;
+	private String fEmail;
 	public void setEmail_id(String email_id) {
-		this.email_id = email_id;
+		fEmail = email_id;
 	}
 
 	public String getEmail_id() {
-		return email_id;
+		return fEmail;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String password_id;
+	private String fPassword;
 	public void setPassword_id(String password_id) {
-		this.password_id = password_id;
+		fPassword = password_id;
 	}
 
 	public String getPassword_id() {
-		return password_id;
+		return fPassword;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String secret_question;
+	private String fSecretQuestion;
 	public void setSecret_question(String secret_question) {
-		this.secret_question = secret_question;
+		fSecretQuestion = secret_question;
 	}
 
 	public String getSecret_question() {
-		return secret_question;
+		return fSecretQuestion;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String secret_answer;
+	private String fSecretAnswer;
 	public void setSecret_answer(String secret_answer) {
-		this.secret_answer = secret_answer;
+		fSecretAnswer = secret_answer;
 	}
 
 	public String getSecret_answer() {
-		return secret_answer;
+		return fSecretAnswer;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String first_name;
+	private String fFirstName;
 	public void setFirst_name(String first_name) {
-		this.first_name = first_name;
+		fFirstName = first_name;
 	}
 
 	public String getFirst_name() {
-		return first_name;
+		return fFirstName;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String last_name;
+	private String fLastMame;
 	public void setLast_name(String last_name) {
-		this.last_name = last_name;
+		fLastMame = last_name;
 	}
 
 	public String getLast_name() {
-		return last_name;
+		return fLastMame;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String address_1;
+	private String fAddress1;
 	public void setAddress_1(String address_1) {
-		this.address_1 = address_1;
+		fAddress1 = address_1;
 	}
 
 	public String getAddress_1() {
-		return address_1;
+		return fAddress1;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String address_2;
+	private String fAddresss;
 	public void setAddress_2(String address_2) {
-		this.address_2 = address_2;
+		fAddresss = address_2;
 	}
 
 	public String getAddress_2() {
-		return address_2;
+		return fAddresss;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String city;
+	private String fCity;
 	public void setCity(String city) {
-		this.city = city;
+		fCity = city;
 	}
 
 	public String getCity() {
-		return city;
+		return fCity;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String state;
+	private String fState;
 	public void setState(String state) {
-		this.state = state;
+		fState = state;
 	}
 
 	public String getState() {
-		return state;
+		return fState;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String zip;
+	private String fZip;
 	public void setZip(String zip) {
-		this.zip = zip;
+		fZip = zip;
 	}
 
 	public String getZip() {
-		return zip;
+		return fZip;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String country_id;
+	private String fCountryID;
 	public void setCountry_id(String country_id) {
-		this.country_id = country_id;
+		fCountryID = country_id;
 	}
 
 	public String getCountry_id() {
-		return country_id;
+		return fCountryID;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String phone;
+	private String fPhone;
 	public void setPhone(String phone) {
-		this.phone = phone;
+		fPhone = phone;
 	}
 
 	public String getPhone() {
-		return phone;
+		return fPhone;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String name_on_card;
+	private String fNameOnCard;
 	public void setName_on_card(String name_on_card) {
-		this.name_on_card = name_on_card;
+		fNameOnCard = name_on_card;
 	}
 
 	public String getName_on_card() {
-		return name_on_card;
+		return fNameOnCard;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String card_type;
+	private String fCardType;
 	public void setCard_type(String card_type) {
-		this.card_type = card_type;
+		fCardType = card_type;
 	}
 
 	public String getCard_type() {
-		return card_type;
+		return fCardType;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String card_number;
+	private String fCardNumber;
 	public void setCard_number(String card_number) {
-		this.card_number = card_number;
+		fCardNumber = card_number;
 	}
 
 	public String getCard_number() {
-		return card_number;
+		return fCardNumber;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String exp_month;
+	private String fExpMonth;
 	public void setExp_month(String exp_month) {
-		this.exp_month = exp_month;
+		fExpMonth = exp_month;
 	}
 
 	public String getExp_month() {
-		return exp_month;
+		return fExpMonth;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String exp_year;
+	private String fExpYear;
 	public void setExp_year(String exp_year) {
-		this.exp_year = exp_year;
+		fExpYear = exp_year;
 	}
 
 	public String getExp_year() {
-		return exp_year;
+		return fExpYear;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String security_code;
+	private String fSecurityCode;
 	public void setSecurity_code(String security_code) {
-		this.security_code = security_code;
+		fSecurityCode = security_code;
 	}
 
 	public String getSecurity_code() {
-		return security_code;
+		return fSecurityCode;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String include_adult;
+	private String fIncludeAdult;
 	public void setInclude_adult(String include_adult) {
-		this.include_adult = include_adult;
+		fIncludeAdult = include_adult;
 	}
 
 	public String getInclude_adult() {
-		return include_adult;
+		return fIncludeAdult;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String adult_pin;
+	private String fAdultPIN;
 	public void setAdult_pin(String adult_pin) {
-		this.adult_pin = adult_pin;
+		fAdultPIN = adult_pin;
 	}
 
 	public String getAdult_pin() {
-		return adult_pin;
+		return fAdultPIN;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String birth_date;
+	private String fBirthDate;
 	public void setBirth_date(String birth_date) {
-		this.birth_date = birth_date;
+		fBirthDate = birth_date;
 	}
 
 	public String getBirth_date() {
-		return birth_date;
+		return fBirthDate;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String [] rating;
+	private String [] fRating;
 	public void setRating(String [] rating) {
-		this.rating = rating;
+		fRating = rating;
 	}
 
 	public String [] getRating() {
-		return rating;
+		return fRating;
 	}
 
 	/***************************************************/
 
 	/***************************************************/
-	private boolean download;
+	private boolean fDownload;
 	public void setDownload(boolean download) {
-		this.download = download;
+		fDownload = download;
 	}
 
 	public boolean getDownload() {
-		return download;
+		return fDownload;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private boolean streaming;
+	private boolean fStreaming;
 	public void setStreaming(boolean streaming) {
-		this.streaming = streaming;
+		fStreaming = streaming;
 	}
 
 	public boolean getStreaming() {
-		return streaming;
+		return fStreaming;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String speed;
+	private String fSpeed;
 	public void setSpeed(String speed) {
-		this.speed = speed;
+		fSpeed = speed;
 	}
 
 	public String getSpeed() {
-		return speed;
+		return fSpeed;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String pin;
+	private String fPIN;
 	public void setPin(String pin) {
-		this.pin = pin;
+		fPIN = pin;
 	}
 
 	public String getPin() {
-		return pin;
+		return fPIN;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String player_logon;
+	private String fPlayerLogon;
 	public void setPlayer_logon(String player_logon) {
-		this.player_logon = player_logon;
+		fPlayerLogon = player_logon;
 	}
 
 	public String getPlayer_logon() {
-		return player_logon;
+		return fPlayerLogon;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String parental_details;
+	private String fParentalDetails;
 	public void setParental_details(String parental_details) {
-		this.parental_details = parental_details;
+		fParentalDetails = parental_details;
 	}
 
 	public String getParental_details() {
-		return parental_details;
+		return fParentalDetails;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String ratingId;
+	private String fRatingID;
 	public void setRatingId(String ratingId) {
-		this.ratingId = ratingId;
+		fRatingID = ratingId;
 	}
 
 	public String getRatingId() {
-		return ratingId;
+		return fRatingID;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String str_date;
+	private String fStrDate;
 	public void setStr_date(String str_date) {
-		this.str_date = str_date;
+		fStrDate = str_date;
 	}
 
 	public String getStr_date() {
-		return str_date;
+		return fStrDate;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private String [] quest_ans;
+	private String [] fQuestAns;
 	public void setQuest_ans(String [] quest_ans) {
-		this.quest_ans = quest_ans;
+		fQuestAns = quest_ans;
 	}
 
 	public String [] getQuest_ans() {
-		return quest_ans;
+		return fQuestAns;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private boolean flag;
+	private boolean fFlag;
 	public void setFlag(boolean flag) {
-		this.flag = flag;
+		fFlag = flag;
 	}
 
 	public boolean getFlag() {
-		return flag;
+		return fFlag;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private boolean error_flag;
+	private boolean fErrorFlag;
 	public void setError_flag(boolean error_flag) {
-		this.error_flag = error_flag;
+		fErrorFlag = error_flag;
 	}
 
 	public boolean getError_flag() {
-		return error_flag;
+		return fErrorFlag;
 	}
 	/***************************************************/
 
 	/***************************************************/
-	private boolean email_Exist_Flag;
+	private boolean fEmai_ExistFlag;
 	public void setEmail_Exist_Flag(boolean email_Exist_Flag) {
-		this.email_Exist_Flag = email_Exist_Flag;
+		fEmai_ExistFlag = email_Exist_Flag;
 	}
 
 	public boolean getEmail_Exist_Flag() {
-		return email_Exist_Flag;
+		return fEmai_ExistFlag;
 	}
 	/***************************************************/
 	/*-----------------------------------------------------------------------------------------------------*/

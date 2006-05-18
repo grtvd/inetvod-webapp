@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
 <Card_Type>
-   <Entry>
-      <Param_Name>Master Card</Param_Name>
-      <Param_Value>MasterCard</Param_Value>
-   </Entry>
-   <Entry>
-      <Param_Name>Visa Card</Param_Name>
-      <Param_Value>Visa</Param_Value>
-   </Entry>
-   <Entry>
-      <Param_Name>Amex Card</Param_Name>
-      <Param_Value>AmericanExpress</Param_Value>
-   </Entry>
+	<Entry>
+		<Param_Name>Master Card</Param_Name>
+		<Param_Value>MasterCard</Param_Value>
+	</Entry>
+	<Entry>
+		<Param_Name>Visa Card</Param_Name>
+		<Param_Value>Visa</Param_Value>
+	</Entry>
+	<Entry>
+		<Param_Name>Amex Card</Param_Name>
+		<Param_Value>AmericanExpress</Param_Value>
+	</Entry>
 </Card_Type>

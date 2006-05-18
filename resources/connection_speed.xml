@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
 <Connection_Speed>
-   <Entry>
-      <Param_Name>300K</Param_Name>
-      <Param_Value>300K</Param_Value>
-   </Entry>
-   <Entry>
-      <Param_Name>700K</Param_Name>
-      <Param_Value>700K</Param_Value>
-   </Entry>
-   <Entry>
-      <Param_Name>1500K</Param_Name>
-      <Param_Value>1500K</Param_Value>
-   </Entry>
-   <Entry>
-      <Param_Name>LAN</Param_Name>
-      <Param_Value>LAN</Param_Value>
-   </Entry>
+	<Entry>
+		<Param_Name>300K</Param_Name>
+		<Param_Value>300K</Param_Value>
+	</Entry>
+	<Entry>
+		<Param_Name>700K</Param_Name>
+		<Param_Value>700K</Param_Value>
+	</Entry>
+	<Entry>
+		<Param_Name>1500K</Param_Name>
+		<Param_Value>1500K</Param_Value>
+	</Entry>
+	<Entry>
+		<Param_Name>LAN</Param_Name>
+		<Param_Value>LAN</Param_Value>
+	</Entry>
 </Connection_Speed>
