@@ -33,8 +33,7 @@ public class WebAppServlet extends HttpServlet
 	{
 		try
 		{
-			//TODO:String confDir = getServletContext().getRealPath("/META-INF");
-			String confDir = getServletContext().getRealPath("/");
+			String confDir = getServletContext().getRealPath("/META-INF");
 
 			// set the XML reader
 			ReadXMLFile.setXmlFilePath(confDir);
