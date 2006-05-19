@@ -33,7 +33,7 @@
 		function RunOnLoad()
 		{
 			//Attache enter event on the browser to be fired and handled
-			addKeyEvent();
+			//addKeyEvent();
 
 			// If Javascript is enabled then display the content of the page
 			document.getElementById("tbl_Register").style.display = "inline"
@@ -73,11 +73,13 @@
 				validated = false;
 				objButton.disabled = false;
 			}
-			//If there is no error then will return true
-			if(validated)
-				document.inet.submit();
 
-			event.returnValue = false;
+			return validated;
+			//If there is no error then will return true
+//			if(validated)
+//				document.inet.submit();
+//
+//			event.returnValue = false;
 		}
 	</script>
 
@@ -93,13 +95,13 @@
 				<jsp:include flush="true" page="../includes/left_navigation.jsp?page=Logon"/>
 			</td>
 			<td valign="top" class="contentWithoutBorder">
-				<form action="mem_reset_password.jsp" method="post" name="inet">
+				<form action="mem_reset_password.jsp" method="post" name="inet" onSubmit="return Call_Validator()">
 					<input type="hidden" name="tbx_Email" value="<%= request.getParameter("tbx_Email")%>"/>
 					<noscript>
 						<h1><font color="#FF0000">Your browser does not support JavaScript! Please enabale Javascript
 							and try again...</font></h1>
 					</noscript>
-					<table border="0" cellpadding="1" cellspacing="0" style="border-collapse: collapse"
+					<table border="0" cellpadding="1" cellspacing="0" style="display:none;"
 						width="520" id="tbl_Register">
 						<tr valign="top">
 							<td colspan="2"><h2>Reset Logon Password</h2></td>
@@ -119,8 +121,8 @@
 							<td colspan="2">&nbsp;</td>
 						</tr>
 						<tr>
-							<td width="33%" align="right"><font size="2">Answer:&nbsp;</font></td>
-							<td align="left">
+							<td width="130" align="right"><font size="2">Answer:&nbsp;</font></td>
+							<td width="390" align="left">
 								<input type="text" id="tbx_Answer" name="tbx_Answer" size="32" maxlength="32"/></td>
 						</tr>
 						<tr>
@@ -137,8 +139,7 @@
 							<td valign="baseline"><input type="button" value="Cancel" name="btn_Cancel"
 								onClick="javascript:location.href='mem_logon.jsp'"/>
 								&nbsp;&nbsp;
-								<input type="button" id="btn_Continue" value="Continue" name="btn_Continue"
-									onClick="Call_Validator()"/></td>
+								<input type="submit" id="btn_Continue" value="Continue" name="btn_Continue"/></td>
 						</tr>
 					</table>
 				</form>
