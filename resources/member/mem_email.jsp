@@ -107,7 +107,7 @@
 						<h1><font color="#FF0000">Your browser does not support JavaScript! Please enabale Javascript
 							and try again...</font></h1>
 					</noscript>
-					<table border="0" cellpadding="1" cellspacing="0" style="border-collapse: collapse"
+					<table border="0" cellpadding="1" cellspacing="0" style="display:none;"
 						width="520" id="tbl_Register">
 						<tr valign="top">
 							<td colspan="2"><h2>Update Email Address</h2></td>
@@ -117,7 +117,7 @@
 						</tr>
 						<tr>
 							<td colspan="2" class="contentWithoutBorder">
-								Your email address will only be used sign on to the iNetVOD web site and for account
+								Your email address will only be used to log on to the iNetVOD web site and for account
 								maintenance communication. Your email address will be held in strict confidence and will
 								not be sold or given to any outside companies without your prior consent:</td>
 						</tr>
@@ -127,8 +127,8 @@
 						</tr>
 						<tr>
 							<td width="35%" align="right" nowrap><font size="2">Current Email Address&nbsp;</font></td>
-							<td width="65%" align="left"><span class="contentClipped" style="width:300;">
-								<font size="2"><strong><%= newMember.getEmail_id() %></strong></font></span></td>
+							<td width="65%" align="left"><div class="contentClipped" style="width:300;">
+								<font size="2"><strong><%= newMember.getEmail_id() %></strong></font></div></td>
 						</tr>
 						<tr>
 							<td colspan="2" align="right">&nbsp;</td>

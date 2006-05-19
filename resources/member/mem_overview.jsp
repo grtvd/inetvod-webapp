@@ -41,7 +41,7 @@
 						<h1><font color="#FF0000">Your browser does not support JavaScript! Please enabale Javascript
 							and try again...</font></h1>
 					</noscript>
-					<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse"
+					<table border="0" cellpadding="0" cellspacing="0" style="display:none;"
 						width="520" id="tbl_Register">
 						<tr valign="top">
 							<td colspan="4"><h2>Account Overview</h2></td>
@@ -52,12 +52,12 @@
 								Logon</a></td>
 						</tr>
 						<tr>
-							<td width="15%" align="right"><font size="2">Email&nbsp;</font></td>
-							<td width="40%" align="left"><font size="2"><a href="mem_email.jsp">
-								<span class="contentClipped" style="width:180;">
-								<%= newMember.getEmail_id() %></span></a></font></td>
-							<td width="15%" align="right"><font size="2">Logon ID&nbsp;</font></td>
-							<td width="30%" align="left"><font size="2"><%= newMember
+							<td width="78" align="right"><font size="2">Email&nbsp;</font></td>
+							<td width="208" align="left"><font size="2"><a href="mem_email.jsp">
+								<div class="contentClipped" style="width:180;">
+								<%= newMember.getEmail_id() %></div></a></font></td>
+							<td width="78" align="right"><font size="2">Logon ID&nbsp;</font></td>
+							<td width="156" align="left"><font size="2"><%= newMember
 								.getPlayer_logon()%></font></td>
 						</tr>
 						<tr>
@@ -78,26 +78,26 @@
 						</tr>
 						<tr>
 							<td align="right"><font size="2">Name&nbsp;</font></td>
-							<td align="left"><span class="contentClipped" style="width:180;"><font size="2"><%= newMember
-								.Check_For_Null(newMember.getFirst_name())%></font></span></td>
+							<td align="left"><div class="contentClipped" style="width:180;"><font size="2"><%= newMember
+								.Check_For_Null(newMember.getFirst_name())%></font></div></td>
 							<td colspan="2" rowspan="2" align="left"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;
 								<%= newMember.getRatingId() %><%= newMember.getInclude_adult() %></font></td>
 						</tr>
 
 						<tr>
 							<td align="right"><font size="2">Address&nbsp;</font></td>
-							<td align="left"><span class="contentClipped" style="width:180;"><font size="2"><%= newMember
-								.Check_For_Null(newMember.getAddress_1()) %></font></span></td>
+							<td align="left"><div class="contentClipped" style="width:180;"><font size="2"><%= newMember
+								.Check_For_Null(newMember.getAddress_1()) %></font></div></td>
 						</tr>
 						<tr>
 							<td></td>
-							<td><span class="contentClipped" style="width:180;"><font size="2"><%= newMember
-								.Check_For_Null(newMember.getAddress_2()) %></font></span></td>
+							<td><div class="contentClipped" style="width:180;"><font size="2"><%= newMember
+								.Check_For_Null(newMember.getAddress_2()) %></font></div></td>
 						</tr>
 						<tr>
 							<td></td>
-							<td><span class="contentClipped" style="width:180;"><font size="2"><%= newMember
-								.Check_For_Null(newMember.getCity()) %></font></span></td>
+							<td><div class="contentClipped" style="width:180;"><font size="2"><%= newMember
+								.Check_For_Null(newMember.getCity()) %></font></div></td>
 						</tr>
 						<tr>
 							<td colspan="2" align="right">&nbsp;</td>

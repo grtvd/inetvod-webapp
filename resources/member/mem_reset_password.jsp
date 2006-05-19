@@ -95,12 +95,12 @@
 			</td>
 			<td valign="top" class="contentWithoutBorder">
 				<form action="mem_reset_password_save.jsp" method="post" name="inet">
-					<input type="hidden" name="hdn_email" value="<%= request.getParameter("hdn_email")%>"/>
+					<input type="hidden" name="hdn_email" value="<%= request.getParameter("tbx_Email")%>"/>
 					<noscript>
 						<h1><font color="#FF0000">Your browser does not support JavaScript! Please enabale Javascript
 							and try again...</font></h1>
 					</noscript>
-					<table border="0" cellpadding="1" cellspacing="0" style="border-collapse: collapse"
+					<table border="0" cellpadding="1" cellspacing="0" style="display:none;"
 						width="520" id="tbl_Register">
 						<tr valign="top">
 							<td colspan="2"><h2>Reset Logon Password</h2></td>
@@ -120,9 +120,11 @@
 								</font></td>
 						</tr>
 						<tr>
-							<td><div id="err_Answer" style="display:none" class="contentRed"></div></td>
+							<td></td>
+							<td><div id="err_Password" style="display:none" class="contentRed"></div></td>
 						</tr>
 						<tr>
+							<td></td>
 							<td><font size="1" face="Verdana">6-16 charcaters (case sensitive)</font></td>
 						</tr>
 						<tr>
@@ -133,6 +135,7 @@
 									maxlength="16"/></font></td>
 						</tr>
 						<tr>
+							<td></td>
 							<td><div id="err_Confirm_Password" style="display:none" class="contentRed"></div></td>
 						</tr>
 						<tr>
@@ -148,8 +151,8 @@
 							<td valign="baseline"><input type="button" value="Cancel" name="btn_Cancel"
 								onClick="javascript:location.href='mem_logon.jsp'"/>
 								&nbsp;&nbsp;
-								<input type="submit" id="btn_Continue" value="Save" name="btn_Continue"
-									onClick="return Call_Validator()"/></td>
+								<input type="button" id="btn_Continue" value="Save" name="btn_Continue"
+									onClick="Call_Validator();"/></td>
 						</tr>
 					</table>
 				</form>

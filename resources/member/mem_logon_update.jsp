@@ -59,9 +59,11 @@
 
 			//Condition to check of any validation fails and will display the error message
 			if(
-				CheckForBlank(document.getElementById("tbx_Pin"), document.getElementById("err_Pin"), "PIN is a required field and must be entered ")
+				CheckForBlank(document.getElementById("tbx_Pin"), document.getElementById("err_Pin"), "PIN is a required field and must be entered")
 					== false ||
-				CheckExactLength(document.getElementById("tbx_Pin"), 6, document.getElementById("err_Pin"), "PIN must be 6 characters exactly")
+				CheckExactLength(document.getElementById("tbx_Pin"), 6, document.getElementById("err_Pin"), "PIN must be 6 digits exactly")
+					== false ||
+				CheckForBlank(document.getElementById("tbx_Confirm_Pin"), document.getElementById("err_Confirm_Pin"), "Confirm PIN is a required field and must be entered")
 					== false ||
 				CompareObjectValues(document.getElementById("tbx_Pin"), document.getElementById("tbx_Confirm_Pin"), document.getElementById("err_Confirm_Pin"), "PIN and Confirm PIN do not match")
 					== false
@@ -96,7 +98,7 @@
 						<h1><font color="#FF0000">Your browser does not support JavaScript! Please enabale Javascript
 							and try again...</font></h1>
 					</noscript>
-					<table border="0" cellpadding="1" cellspacing="0" style="border-collapse: collapse"
+					<table border="0" cellpadding="1" cellspacing="0" style="display:none;"
 						width="520" id="tbl_Register">
 						<tr valign="top">
 							<td colspan="2"><h2>Player Logon</h2></td>
@@ -115,8 +117,8 @@
 							<td colspan="2">&nbsp;</td>
 						</tr>
 						<tr>
-							<td width="35%" align="right" nowrap><font size="2">Your Logon ID&nbsp;</font></td>
-							<td width="65%" align="left"><font size="2"><strong><%= newMember
+							<td width="160" align="right" nowrap><font size="2">Your Logon ID&nbsp;</font></td>
+							<td width="360" align="left"><font size="2"><strong><%= newMember
 								.getPlayer_logon() %></strong></font>
 							</td>
 						</tr>

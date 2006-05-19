@@ -167,7 +167,7 @@ function Hide_All_Error_Messages()
 	var divs = document.getElementsByTagName("div");
 
 	//loop for no of "Div" Tags
-	for(i=0;i<divs.length;i++)
+	for(var i=0;i<divs.length;i++)
 	{
 		// Split the id of Tag
 		obj_id = (divs[i].id).split("_")
@@ -484,17 +484,17 @@ function Select_CheckBox(obj, value)
 
 function setFocus()
 {
-    if (document.forms[0])
+	if(document.forms[0])
 	{
-        for (i = 0; i < document.forms[0].elements.length; i++)
+		for(var i = 0; i < document.forms[0].elements.length; i++)
 		{
-            if (document.forms[0].elements[i].type != "hidden" && document.forms[0].elements[i].disabled != true)
+			if(document.forms[0].elements[i].type == "text" && !document.forms[0].elements[i].disabled)
 			{
-                document.forms[0].elements[i].focus();
-                return;
-            }
-        }
-    }
+				document.forms[0].elements[i].focus();
+				return;
+			}
+		}
+	}
 }
 
 

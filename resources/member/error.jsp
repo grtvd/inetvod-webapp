@@ -40,8 +40,8 @@
 						<h1><font color="#FF0000">Your browser does not support JavaScript! Please enabale Javascript
 							and try again...</font></h1>
 					</noscript>
-					<table border="0" cellpadding="1" cellspacing="0" style="border-collapse: collapse"
-						bordercolor="#111111" width="100%" id="tbl_Register">
+					<table border="0" cellpadding="1" cellspacing="0" style="display:none;"
+						width="100%" id="tbl_Register">
 						<tr valign="top">
 							<td><h2>Error</h2></td>
 						</tr>

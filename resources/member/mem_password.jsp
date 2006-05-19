@@ -94,7 +94,7 @@
 						<h1><font color="#FF0000">Your browser does not support JavaScript! Please enabale Javascript
 							and try again...</font></h1>
 					</noscript>
-					<table border="0" cellpadding="1" cellspacing="0" style="border-collapse: collapse"
+					<table border="0" cellpadding="1" cellspacing="0" style="display:none;"
 						width="520" id="tbl_Register">
 						<tr valign="top">
 							<td colspan="2"><h2>Update Logon Password</h2></td>

@@ -35,7 +35,7 @@
 	if(myCookie == null || myPageCookie == null)
 	{
 %>
-<script type="text/javascript">location.href = "mem_logon.jsp?flag=1"</script>
+<script type="text/javascript">location.href = "mem_logon.jsp"</script>
 <%
 	}
 	else

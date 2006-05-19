@@ -149,7 +149,7 @@ function Call_Validator()
 	<h1><font color="#FF0000">Your browser does not support JavaScript! Please enabale Javascript and try
 		again...</font></h1>
 </noscript>
-<table border="0" cellpadding="1" cellspacing="0" style="border-collapse: collapse" width="520"
+<table border="0" cellpadding="1" cellspacing="0" style="display:none;" width="520"
 	id="tbl_Register">
 <tr valign="top">
 	<td colspan="2"><h2>Personal Information</h2></td>
@@ -162,8 +162,8 @@ function Call_Validator()
 		Please tell us who you are:</td>
 </tr>
 <tr>
-	<td align="right" nowrap><font size="2"><span class="contentRed">*</span>First Name&nbsp;</font></td>
-	<td align="left">
+	<td width="160" align="right" nowrap><font size="2"><span class="contentRed">*</span>First Name&nbsp;</font></td>
+	<td width="360" align="left">
 		<input type="text" id="tbx_Name" name="tbx_Name" size="32" maxlength="32"
 			value="<%= newMember.getFirst_name()%>"/>
 	</td>

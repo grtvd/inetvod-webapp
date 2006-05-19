@@ -7,6 +7,7 @@
 %>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.net.*" %>
+<%@ page import="com.inetvod.common.core.StrUtil"%>
 
 <jsp:useBean id="newMember" class="com.inetvod.webapp.MemRegister" scope="request"/>
 <%
@@ -23,7 +24,7 @@
 	}
 
 
-	if(mem_id.length() == 0 || mem_id.equals(""))
+	if(!StrUtil.hasLen(mem_id))
 	{
 %>
 <script type="text/javascript">location.href = "mem_logon.jsp?flag=0"</script>

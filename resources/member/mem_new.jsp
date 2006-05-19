@@ -117,7 +117,7 @@
 	<h1><font color="#FF0000">Your browser does not support JavaScript! Please enabale Javascript and try
 		again...</font></h1>
 </noscript>
-<table border="0" cellpadding="1" cellspacing="0" style="border-collapse: collapse" width="520"
+<table border="0" cellpadding="1" cellspacing="0" style="display:none;" width="520"
 	id="tbl_Register">
 <tr valign="top">
 	<td colspan="2"><h2>Create a new Membership</h2></td>
@@ -127,9 +127,9 @@
 </tr>
 <tr>
 	<td colspan="2" class="contentWithoutBorder">
-		Please tell us your email address . Your email address will only be used log on to the iNetVOD
-		web site and for account maintenance communication . Your email address will be held in strict
-		confidence and will not be sold or given to any outside companies without your prior consent :</td>
+		Please tell us your email address . Your email address will only be used to log on to the iNetVOD
+		web site and for account maintenance communication. Your email address will be held in strict
+		confidence and will not be sold or given to any outside companies without your prior consent:</td>
 </tr>
 <tr>
 	<td width="33%" align="right"><font size="2"><span class="contentRed">*</span>Email&nbsp;</font></td>

@@ -127,7 +127,7 @@
 						<h1><font color="#FF0000">Your browser does not support JavaScript! Please enabale Javascript
 							and try again...</font></h1>
 					</noscript>
-					<table border="0" cellpadding="1" cellspacing="0" style="border-collapse: collapse"
+					<table border="0" cellpadding="1" cellspacing="0" style="display:none;"
 						width="520" id="tbl_Register">
 						<tr valign="top">
 							<td colspan="2"><h2>Content Formats</h2></td>
@@ -151,10 +151,9 @@
 								<input id="cbx_Content_Download" name="cbx_Content_Download" type="checkbox" value="1"
 									checked/>
 							</font></td>
-							<td align="left"><font size="2">Include downloaded content . Downloaded content will always
-								provide the best picture but
-								will require some upfront time to download part of the show before viewing can
-								begin.</font></td>
+							<td align="left"><font size="2">Include downloaded content. Downloaded content will always
+								provide the best picture but will require some upfront time to download part of the
+								show before viewing can begin.</font></td>
 						</tr>
 						<tr>
 							<td colspan="2" align="right">&nbsp;</td>
@@ -164,9 +163,9 @@
 								<input id="cbx_Content_Streaming" name="cbx_Content_Streaming" type="checkbox" value="1"
 									checked onClick="Check_Streaming_Selected();"/>
 							</font></td>
-							<td align="left"><font size="2">Include streaming content . Streaming content can always be
-								viewed immediately but will
-								not have the same quality picture as downloaded content .</font></td>
+							<td align="left"><font size="2">Include streaming content. Streaming content can always be
+								viewed immediately but will not have the same quality picture as downloaded
+								content .</font></td>
 						</tr>
 						<tr valign="top">
 							<td align="center">&nbsp;</td>
@@ -175,10 +174,9 @@
 						<tr valign="top">
 							<td align="center">&nbsp;</td>
 							<td align="left" class="contentWithoutBorder">Please specify the connect speed of your
-								broadband access . This value will be used to
-								filter and select content that can be viewed over your existing connection . Selecting a
-								speed to high will result in content that won&rsquo;t play or will be of very poor
-								quality.</td>
+								broadband access. This value will be used to filter and select content that can be
+								viewed over your existing connection. Selecting a speed to high will result in content
+								that won&rsquo;t play or will be of very poor quality.</td>
 						</tr>
 
 						<tr>
