@@ -1,3 +1,3 @@
 <%
-	response.sendRedirect("member/mem_logon.jsp");
+	response.sendRedirect("member/mem_overview.jsp");
 %>
