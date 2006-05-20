@@ -6,6 +6,8 @@ package com.inetvod.webapp;
 
 import java.io.Serializable;
 
+import com.inetvod.common.core.StrUtil;
+
 public class MemRegisterSetVariables implements Serializable
 {
 	/*******************************************************************************************************/
@@ -18,6 +20,11 @@ public class MemRegisterSetVariables implements Serializable
 
 	public String getPage_Redirect() {
 		return fPageRedirect;
+	}
+
+	public boolean isLoggedIn()
+	{
+		return StrUtil.hasLen(fMemberID);
 	}
 
 	/***************************************************/

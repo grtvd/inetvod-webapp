@@ -5,13 +5,12 @@
 	 * iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 	 */
 %>
-<jsp:include page="cookie_reset.jsp" flush="true"/>
 <jsp:useBean id="newMember" class="com.inetvod.webapp.MemRegister" scope="request"/>
 <jsp:setProperty name="newMember" property="error_flag" value="false"/>
 
 <html>
 <head>
-	<title>Player Logon page</title>
+	<title>Error</title>
 	<link rel="stylesheet" href="../twc615.css" type="text/css"/>
 	<link href="../omnie.css" rel="stylesheet" type="text/css"/>
 	<style type="text/css">
@@ -40,8 +39,7 @@
 						<h1><font color="#FF0000">Your browser does not support JavaScript! Please enabale Javascript
 							and try again...</font></h1>
 					</noscript>
-					<table border="0" cellpadding="1" cellspacing="0" style="display:none;"
-						width="100%" id="tbl_Register">
+					<table border="0" cellpadding="1" cellspacing="0" width="100%" id="tbl_Register">
 						<tr valign="top">
 							<td><h2>Error</h2></td>
 						</tr>

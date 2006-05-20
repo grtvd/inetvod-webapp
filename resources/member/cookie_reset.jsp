@@ -7,24 +7,9 @@
 %>
 
 <%
-	String cookieName = "MemberId";
-	Cookie cookies [] = request.getCookies();
-	Cookie myCookie = null;
-	if(cookies != null)
-	{
-		for(int i = 0; i < cookies.length; i++)
-		{
-			if(cookies[i].getName().equals(cookieName))
-			{
-				myCookie = cookies[i];
-				break;
-			}
-		}
-	}
-
-	if(myCookie != null)
-	{
-		myCookie.setMaxAge(0);
-		response.addCookie(myCookie);
-	}
+	Cookie cookie_page = new Cookie("Page_Redirect", "");
+	Cookie cookie = new Cookie("MemberId", "");
+	response.addCookie(cookie);
+	response.addCookie(cookie_page);
 %>
+<script type="text/javascript">location.href = "cookie_exist_user.jsp"</script>

@@ -1,3 +1,5 @@
+<jsp:useBean id="newMember" class="com.inetvod.webapp.MemRegister" scope="request"/>
+
 <!--webbot bot="Include" U-Include="include_top3.htm" TAG="BODY" startspan -->
 <div align="center">
 	<table border="0" cellpadding="0" cellspacing="0" width="760" height="70"
@@ -13,7 +15,16 @@
 				alt=""/></td>
 		</tr>
 		<tr>
-			<td valign="middle" class="banner">Member Access</td>
+			<td valign="middle" class="banner"><%
+				if(newMember.isLoggedIn())
+				{
+					%><a href="../member/cookie_reset.jsp">Logoff</a><%
+				}
+				else
+				{
+					%><a href="../member/mem_logon.jsp">Logon</a> / <a href="../member/mem_new.jsp">Register</a><%
+				}
+				%></td>
 		</tr>
 	</table>
 </div>

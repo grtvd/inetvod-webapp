@@ -5,7 +5,6 @@
 	 * iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 	 */
 %>
-<jsp:include page="cookie_reset.jsp" flush="true"/>
 <jsp:useBean id="newMember" class="com.inetvod.webapp.MemRegister" scope="request"/>
 
 <html>

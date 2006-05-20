@@ -1,3 +1,4 @@
+<%@ page import="com.inetvod.common.core.StrUtil"%>
 <%@ page contentType="text/html; charset=iso-8859-1" language="java" %>
 <%
 	/**
@@ -7,41 +8,34 @@
 %>
 
 <%
-	String member_id = "";
-	String page_Redirect = "";
+	String member_id = null;
+	String page_Redirect = null;
 	String cookieName = "MemberId";
 	String cookiePage = "Page_Redirect";
 	Cookie cookies [] = request.getCookies();
-	Cookie myCookie = null;
-	Cookie myPageCookie = null;
 	if(cookies != null)
 	{
 		for(Cookie cookie : cookies)
 		{
 			if(cookie.getName().equals(cookieName))
 			{
-				myCookie = cookie;
+				member_id = cookie.getValue();
 				//break;
 			}
 			if(cookie.getName().equals(cookiePage))
 			{
-				myPageCookie = cookie;
+				page_Redirect = cookie.getValue();
 				//break;
 			}
 		}
 	}
 
 
-	if(myCookie == null || myPageCookie == null)
+	if(!StrUtil.hasLen(member_id) || !StrUtil.hasLen(page_Redirect))
 	{
 %>
 <script type="text/javascript">location.href = "mem_logon.jsp"</script>
 <%
-	}
-	else
-	{
-		page_Redirect = myPageCookie.getValue();
-		member_id = myCookie.getValue();
 	}
 
 //System.out.println("-------------Cookie ----------- "+ member_id);
