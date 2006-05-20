@@ -141,7 +141,7 @@
 <tr valign="top">
 	<td width="160" align="right"><font size="2">Not Rated Content</font></td>
 	<td width="376" align="left">&nbsp;
-		<input id="cbx_Rating" name="cbx_Rating" type="checkbox" value="notrated" checked/></td>
+		<input id="cbx_Rating" name="cbx_Rating" type="checkbox" value="notrated"/></td>
 </tr>
 <tr>
 	<td colspan="2" align="right">&nbsp;
@@ -154,39 +154,39 @@
 			</tr>
 			<tr align="right">
 				<td width="25%"><font size="2" face="Verdana">G </font>
-					<input name="cbx_Rating" type="checkbox" value="g" checked/>
+					<input name="cbx_Rating" type="checkbox" value="g"/>
 					&nbsp;</td>
 				<td><font size="2" face="Verdana">R </font>
 					<input name="cbx_Rating" type="checkbox" value="r"/>
 					&nbsp;</td>
-				<td width="25%"><font size="2" face="Verdana">TV-7 </font>
-					<input name="cbx_Rating" type="checkbox" value="tv7" checked/>
+				<td width="25%"><font size="2" face="Verdana">TV-Y </font>
+					<input name="cbx_Rating" type="checkbox" value="tvy"/>
 					&nbsp;</td>
 				<td><font size="2" face="Verdana">TV-PG </font>
-					<input name="cbx_Rating" type="checkbox" value="tvpg" checked/>
+					<input name="cbx_Rating" type="checkbox" value="tvpg"/>
 					&nbsp;</td>
 			</tr>
 			<tr align="right">
 				<td><font size="2" face="Verdana">PG </font>
-					<input name="cbx_Rating" type="checkbox" value="pg" checked/>
+					<input name="cbx_Rating" type="checkbox" value="pg"/>
 					&nbsp;</td>
 				<td><font size="2" face="Verdana">NC-17 </font>
 					<input name="cbx_Rating" type="checkbox" value="nc17"/>
 					&nbsp;</td>
 				<td><font size="2" face="Verdana">TV-Y7 </font>
-					<input name="cbx_Rating" type="checkbox" value="tvy7" checked/>
+					<input name="cbx_Rating" type="checkbox" value="tvy7"/>
 					&nbsp;</td>
 				<td><font size="2" face="Verdana">TV-14 </font>
-					<input name="cbx_Rating" type="checkbox" value="tv14" checked/>
+					<input name="cbx_Rating" type="checkbox" value="tv14"/>
 					&nbsp;</td>
 			</tr>
 			<tr align="right">
 				<td><font size="2" face="Verdana">PG-13 </font>
-					<input name="cbx_Rating" type="checkbox" value="pg13" checked/>
+					<input name="cbx_Rating" type="checkbox" value="pg13"/>
 					&nbsp;</td>
 				<td>&nbsp;</td>
 				<td><font size="2" face="Verdana">TV-Y7-FV </font>
-					<input name="cbx_Rating" type="checkbox" value="tvy7fv" checked/>
+					<input name="cbx_Rating" type="checkbox" value="tvy7fv"/>
 					&nbsp;</td>
 				<td><font size="2" face="Verdana">TV-MA </font>
 					<input name="cbx_Rating" type="checkbox" value="tvma"/>
@@ -196,7 +196,7 @@
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td><font size="2" face="Verdana">TV-G </font>
-					<input name="cbx_Rating" type="checkbox" value="tvg" checked/>
+					<input name="cbx_Rating" type="checkbox" value="tvg"/>
 					&nbsp;</td>
 				<td>&nbsp;</td>
 			</tr>

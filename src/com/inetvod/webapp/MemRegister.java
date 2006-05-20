@@ -32,45 +32,51 @@ public class MemRegister extends MemRegisterSetVariables
 	/*-----------------------------------------------------------------------------------------------------*/
 	public void new_Member()
 	{
+		Member member = null;
+		MemberLogon memberLogon = null;
+		MemberPrefs memberPrefs = null;
+
 		try
 		{
 			setError_flag(false);
 			setEmail_Exist_Flag(false); // Check for email Id exist or not
 
-			MemberLogon memLogon = MemberLogon.findByEmail(getEmail_id());
-
-			if (memLogon == null)
+			if (MemberLogon.findByEmail(getEmail_id()) != null)
 			{
-
-				// Create Member ID
-				Member member = Member.newInstance();
-				member.update();
-
-				// Get member Id
-				MemberID mem_id = member.getMemberID();
-
-				// Create instance of Member Logon details and pass Member ID
-				memLogon = MemberLogon.newInstance(mem_id);
-				memLogon.setEmail(getEmail_id());
-
-				memLogon.setPassword(PasswordService.encrypt(getPassword_id()));
-				//memLogon.setPassword(getPassword_id());
-				memLogon.setSecretQuestion(getSecret_question());
-				memLogon.setSecretAnswer(PasswordService.encrypt(getSecret_answer()));
-				memLogon.setTermsAcceptedVersion("1.0.0");
-				memLogon.setTermsAcceptedOn(new Date());
-				memLogon.update();
-
-				setMember_id(mem_id.toString());
-			}
-			else
 				setEmail_Exist_Flag(true);
+				return;
+			}
 
+			// Create Member ID
+			member = Member.newInstance();
+			member.update();
 
+			// Get member Id
+			MemberID memberID = member.getMemberID();
+
+			// Create instance of Member Logon details and pass Member ID
+			memberLogon = MemberLogon.newInstance(memberID);
+			memberLogon.setEmail(getEmail_id());
+
+			memberLogon.setPassword(PasswordService.encrypt(getPassword_id()));
+			memberLogon.setSecretQuestion(getSecret_question());
+			memberLogon.setSecretAnswer(getSecret_answer());
+			memberLogon.setTermsAcceptedVersion("1.0.0");
+			memberLogon.setTermsAcceptedOn(new Date());
+			memberLogon.update();
+
+			// Create MemberPrefs
+			memberPrefs = MemberPrefs.newInstance(memberID);
+			memberPrefs.update();
+
+			setMember_id(memberID.toString());
 		}
 		catch(Exception e)
 		{
 			setError_flag(true);
+			try { if(memberPrefs != null) memberPrefs.delete(); } catch(Exception e2) { }
+			try { if(memberLogon != null) memberLogon.delete(); } catch(Exception e2) { }
+			try { if(member != null) member.delete(); } catch(Exception e2) { }
 			Logger.logErr(this, "new_Member", e);
 		}
 	}
@@ -85,6 +91,12 @@ public class MemRegister extends MemRegisterSetVariables
 	{
 		try
 		{
+			if(!StrUtil.hasLen(mem_id))
+			{
+				setError_flag(true);
+				return;
+			}
+
 			setError_flag(false);
 
 			// Cast Member ID
@@ -131,6 +143,12 @@ public class MemRegister extends MemRegisterSetVariables
 	{
 		try
 		{
+			if(!StrUtil.hasLen(mem_id))
+			{
+				setError_flag(true);
+				return;
+			}
+
 			setError_flag(false);
 
 			// Cast Member ID
@@ -186,6 +204,12 @@ public class MemRegister extends MemRegisterSetVariables
 	{
 		try
 		{
+			if(!StrUtil.hasLen(mem_id))
+			{
+				setError_flag(true);
+				return;
+			}
+
 			setError_flag(false);
 
 			// Cast Member ID
@@ -251,6 +275,12 @@ public class MemRegister extends MemRegisterSetVariables
 	{
 		try
 		{
+			if(!StrUtil.hasLen(mem_id))
+			{
+				setError_flag(true);
+				return;
+			}
+
 			setError_flag(false);
 
 			// Cast Member ID
@@ -315,10 +345,20 @@ public class MemRegister extends MemRegisterSetVariables
 	{
 		try
 		{
+			if(!StrUtil.hasLen(mem_id))
+			{
+				setError_flag(true);
+				return;
+			}
+
 			setError_flag(false);
 
 			// Cast Member ID
 			MemberID member_id = new MemberID(mem_id);
+
+			// Create instance of Member and fetch data into array
+			Member member = Member.get(member_id);
+			setFirst_name(Check_For_Null(member.getFirstName()) + " " + Check_For_Null(member.getLastName()));
 
 			// Instance of Logon
 			MemberLogon memLogon = MemberLogon.getCreate(member_id);
@@ -327,10 +367,6 @@ public class MemRegister extends MemRegisterSetVariables
 
 			// Create instance of Member Account and fetch data into array
 			MemberAccount mem_Account = MemberAccount.getCreate(member_id);
-
-			// Create instance of Member and fetch data into array
-			Member member = Member.get(member_id);
-			setFirst_name(Check_For_Null(member.getFirstName()) + " " + Check_For_Null(member.getLastName()));
 
 			// Create instance of Address from Member Account
 			Address address = mem_Account.getHomeAddress();
@@ -425,9 +461,14 @@ public class MemRegister extends MemRegisterSetVariables
 	/*-----------------------------------------------------------------------------------------------------*/
 	public void member_Parental_Details(String mem_id)
 	{
-
 		try
 		{
+			if(!StrUtil.hasLen(mem_id))
+			{
+				setError_flag(true);
+				return;
+			}
+
 			setError_flag(false);
 
 			// Cast Member ID
@@ -484,6 +525,12 @@ public class MemRegister extends MemRegisterSetVariables
 	{
 		try
 		{
+			if(!StrUtil.hasLen(mem_id))
+			{
+				setError_flag(true);
+				return;
+			}
+
 			setError_flag(false);
 
 			// Cast Member ID
@@ -546,6 +593,12 @@ public class MemRegister extends MemRegisterSetVariables
 	{
 		try
 		{
+			if(!StrUtil.hasLen(mem_id))
+			{
+				setError_flag(true);
+				return;
+			}
+
 			setError_flag(false);
 
 			// Cast Member ID
@@ -578,6 +631,12 @@ public class MemRegister extends MemRegisterSetVariables
 	{
 		try
 		{
+			if(!StrUtil.hasLen(mem_id))
+			{
+				setError_flag(true);
+				return;
+			}
+
 			setError_flag(false);
 
 			// Cast Member ID
@@ -610,6 +669,12 @@ public class MemRegister extends MemRegisterSetVariables
 	{
 		try
 		{
+			if(!StrUtil.hasLen(mem_id))
+			{
+				setError_flag(true);
+				return;
+			}
+
 			setError_flag(false);
 
 			// Cast Member ID
@@ -636,6 +701,12 @@ public class MemRegister extends MemRegisterSetVariables
 	{
 		try
 		{
+			if(!StrUtil.hasLen(mem_id))
+			{
+				setError_flag(true);
+				return;
+			}
+
 			setError_flag(false);
 
 			// Cast Member ID
@@ -664,6 +735,12 @@ public class MemRegister extends MemRegisterSetVariables
 	{
 		try
 		{
+			if(!StrUtil.hasLen(mem_id))
+			{
+				setError_flag(true);
+				return;
+			}
+
 			setError_flag(false);
 
 			// Cast Member ID
@@ -690,6 +767,12 @@ public class MemRegister extends MemRegisterSetVariables
 	{
 		try
 		{
+			if(!StrUtil.hasLen(mem_id))
+			{
+				setError_flag(true);
+				return;
+			}
+
 			setError_flag(false);
 			setEmail_Exist_Flag(false); // Check for email Id exist or not
 
@@ -787,6 +870,12 @@ public class MemRegister extends MemRegisterSetVariables
 		boolean flag = false;
 		try
 		{
+			if(!StrUtil.hasLen(mem_id))
+			{
+				setError_flag(true);
+				return;
+			}
+
 			setError_flag(false);
 
 			// Cast Member ID
