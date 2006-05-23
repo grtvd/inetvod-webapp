@@ -228,8 +228,7 @@
 <tr>
 	<td align="right" valign="top"><font size="2">Adult PIN:&nbsp;</font></td>
 	<td align="left"><font size="1" face="Verdana">
-		<input type="password" id="tbx_Adult_Pin" name="tbx_Adult_Pin"
-			value="<%= newMember.Check_For_Null(newMember.getPin()) %>" size="6" maxlength="6" disabled
+		<input type="password" id="tbx_Adult_Pin" name="tbx_Adult_Pin" size="6" maxlength="6" disabled
 			onKeyPress="IntIEKeyCap()"/></font></td>
 </tr>
 <tr>

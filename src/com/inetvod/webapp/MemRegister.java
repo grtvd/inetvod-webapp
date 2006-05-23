@@ -481,8 +481,6 @@ public class MemRegister extends MemRegisterSetVariables
 
 			setInclude_adult("" + include_Adult);
 
-			setPin(mem_Prefs.getAdultPIN());
-
 			RatingIDList ratingList = mem_Prefs.getIncludeRatingIDList();
 
 			String arr_List = "";
@@ -556,13 +554,12 @@ public class MemRegister extends MemRegisterSetVariables
 
 			mem_Prefs.setIncludeAdult(IncludeAdult.convertFromString(getInclude_adult()));
 
-			if(getAdult_pin().length() > 0)
+			if(StrUtil.hasLen(getAdult_pin()))
 			{
-				//mem_Prefs.setAdultPIN(PasswordService.encrypt(getAdult_pin()));
-				mem_Prefs.setAdultPIN(getAdult_pin());
+				mem_Prefs.setAdultPIN(PasswordService.encrypt(getAdult_pin()));
 			}
 			else
-				mem_Prefs.setAdultPIN("");
+				mem_Prefs.setAdultPIN(null);
 
 			// Create intance of RatingIDList
 			RatingIDList ratingIDList = mem_Prefs.getIncludeRatingIDList();
@@ -714,8 +711,7 @@ public class MemRegister extends MemRegisterSetVariables
 
 			// Instance of Logon
 			MemberLogon memLogon = MemberLogon.getCreate(member_id);
-//			memLogon.setPIN(PasswordService.encrypt(pin));
-			memLogon.setPIN(getPin());
+			memLogon.setPIN(PasswordService.encrypt(getPin()));
 			memLogon.update();
 		}
 		catch(Exception e)
