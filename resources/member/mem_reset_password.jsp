@@ -24,7 +24,7 @@
 	String queryString = "&tbx_Email=" + request.getParameter("tbx_Email");
 	queryString = queryString + "&tbx_Answer=" + request.getParameter("tbx_Answer");
 
-	if(!str_Quest_Ans[1].equals(PasswordService.encrypt(str_Answer)))
+	if(str_Quest_Ans[1].compareToIgnoreCase(str_Answer) != 0)
 		response.sendRedirect("mem_reset_question.jsp?flag=2" + queryString);
 %>
 <html>

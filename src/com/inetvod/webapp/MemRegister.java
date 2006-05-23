@@ -816,11 +816,8 @@ public class MemRegister extends MemRegisterSetVariables
 
 			if (memLogon != null)
 			{
-				if(email.equals(Check_For_Null(memLogon.getEmail())))
-				{
-					str_Quest_Ans[0] = memLogon.getSecretQuestion();
-					str_Quest_Ans[1] = memLogon.getSecretAnswer();
-				}
+				str_Quest_Ans[0] = memLogon.getSecretQuestion();
+				str_Quest_Ans[1] = memLogon.getSecretAnswer();
 			}
 
 			setQuest_ans(str_Quest_Ans);
