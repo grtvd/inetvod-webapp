@@ -488,7 +488,8 @@ function setFocus()
 	{
 		for(var i = 0; i < document.forms[0].elements.length; i++)
 		{
-			if(document.forms[0].elements[i].type == "text" && !document.forms[0].elements[i].disabled)
+			if(((document.forms[0].elements[i].type == "text") || (document.forms[0].elements[i].type == "password"))
+				&& !document.forms[0].elements[i].disabled)
 			{
 				document.forms[0].elements[i].focus();
 				return;
