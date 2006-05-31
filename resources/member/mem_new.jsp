@@ -135,7 +135,7 @@
 </tr>
 <tr>
 	<td colspan="2" class="contentWithoutBorder">
-		Please tell us your email address . Your email address will only be used to log on to the iNetVOD
+		Please tell us your email address. Your email address will only be used to log on to the iNetVOD
 		web site and for account maintenance communication. Your email address will be held in strict
 		confidence and will not be sold or given to any outside companies without your prior consent:</td>
 </tr>
@@ -170,7 +170,7 @@
 </tr>
 <tr>
 	<td colspan="2" align="left" class="contentWithoutBorder">Please choose a password. Your password is stored in our
-		database in an encrypted format . No one will have the ability to view your password.</td>
+		database in an encrypted format. No one will have the ability to view your password.</td>
 </tr>
 <tr>
 	<td align="right"><font size="2"><span class="contentRed">*</span>Password&nbsp;</font></td>
@@ -247,8 +247,9 @@
 <tr>
 	<td align="right"><span class="contentRed">*</span><input type="checkbox" id="cbx_Policy" name="cbx_Policy"
 		value="1"/>&nbsp;</td>
-	<td align="left"><font size="2">I have read and agree to iNetVOD&rsquo;s <a href="#">Terms
-		of Service</a> and <a href="#">Privacy Policy</a>.</font></td>
+	<td align="left"><font size="2">I have read and agree to iNetVOD&rsquo;s <a target="_blank"
+		href="http://www.inetvod.com/termsofservice.htm">Terms of Service</a> and <a target="_blank"
+		href="http://www.inetvod.com/privacypolicy.htm">Privacy Policy</a>.</font></td>
 </tr>
 <tr>
 	<td></td>
