@@ -588,7 +588,8 @@ public class MemRegister extends MemRegisterSetVariables
 
 			if(StrUtil.hasLen(getAdult_pin()))
 			{
-				mem_Prefs.setAdultPIN(PasswordService.encrypt(getAdult_pin()));
+				//TODO: mem_Prefs.setAdultPIN(PasswordService.encrypt(getAdult_pin()));
+				mem_Prefs.setAdultPIN(getAdult_pin());
 			}
 			else
 				mem_Prefs.setAdultPIN(null);
@@ -743,7 +744,8 @@ public class MemRegister extends MemRegisterSetVariables
 
 			// Instance of Logon
 			MemberLogon memLogon = MemberLogon.getCreate(member_id);
-			memLogon.setPIN(PasswordService.encrypt(getPin()));
+			//TODO: memLogon.setPIN(PasswordService.encrypt(getPin()));
+			memLogon.setPIN(getPin());
 			memLogon.update();
 		}
 		catch(Exception e)
