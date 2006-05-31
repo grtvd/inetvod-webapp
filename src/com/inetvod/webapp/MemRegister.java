@@ -7,6 +7,8 @@ package com.inetvod.webapp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.inetvod.common.core.CountryID;
 import com.inetvod.common.core.Logger;
 import com.inetvod.common.core.StrUtil;
@@ -135,6 +137,36 @@ public class MemRegister extends MemRegisterSetVariables
 	/*-----------------------------------------------------------------------------------------------------*/
 	// Members Personal Information  -- END
 	/*******************************************************************************************************/
+
+	public void setValueFromQuery(HttpServletRequest request, String queryField, String dataField)
+	{
+		String value = request.getParameter(queryField);
+		if(StrUtil.hasLen(value))
+		{
+			if(FIRST_NAME_FLD.equals(dataField))
+				setFirst_name(value);
+			else if(LAST_NAME_FLD.equals(dataField))
+				setLast_name(value);
+			else if(ADDRESS_1_FLD.equals(dataField))
+				setAddress_1(value);
+			else if(ADDRESS_2_FLD.equals(dataField))
+				setAddress_2(value);
+			else if(CITY_FLD.equals(dataField))
+				setCity(value);
+			else if(STATE_FLD.equals(dataField))
+				setState(value);
+			else if(ZIP_FLD.equals(dataField))
+				setZip(value);
+			else if(COUNTRY_FLD.equals(dataField))
+				setCountry_id(value);
+			else if(EMAIL_FLD.equals(dataField))
+				setEmail_id(value);
+			else if(SECRET_QUESTION_FLD.equals(dataField))
+				setSecret_question(value);
+			else if(SECRET_ANSWER_FLD.equals(dataField))
+				setSecret_answer(value);
+		}
+	}
 
 	/*******************************************************************************************************/
 	// Update Personal Information -- START

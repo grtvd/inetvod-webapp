@@ -1,3 +1,4 @@
+<%@ page import="java.net.URLEncoder"%>
 <%@ page contentType="text/html; charset=iso-8859-1" language="java" %>
 <%
 	/**
@@ -21,14 +22,14 @@
 	newMember.update_Personal_Info(newMember.getMember_id());
 	if(newMember.getError_flag())
 	{
-		String queryString = "&tbx_Name=" + request.getParameter("tbx_Name");
-		queryString = queryString + "&tbx_Last_Name=" + request.getParameter("tbx_Last_Name");
-		queryString = queryString + "&tbx_Add_1=" + request.getParameter("tbx_Add_1");
-		queryString = queryString + "&tbx_Add_2=" + request.getParameter("tbx_Add_2");
-		queryString = queryString + "&tbx_City=" + request.getParameter("tbx_City");
-		queryString = queryString + "&tbx_State=" + request.getParameter("tbx_State");
-		queryString = queryString + "&tbx_Zip=" + request.getParameter("tbx_Zip");
-		queryString = queryString + "&cmb_Country=" + request.getParameter("cmb_Country");
+		String queryString = "&tbx_Name=" + URLEncoder.encode(request.getParameter("tbx_Name"), "UTF-8");
+		queryString = queryString + "&tbx_Last_Name=" + URLEncoder.encode(request.getParameter("tbx_Last_Name"), "UTF-8");
+		queryString = queryString + "&tbx_Add_1=" + URLEncoder.encode(request.getParameter("tbx_Add_1"), "UTF-8");
+		queryString = queryString + "&tbx_Add_2=" + URLEncoder.encode(request.getParameter("tbx_Add_2"), "UTF-8");
+		queryString = queryString + "&tbx_City=" + URLEncoder.encode(request.getParameter("tbx_City"), "UTF-8");
+		queryString = queryString + "&tbx_State=" + URLEncoder.encode(request.getParameter("tbx_State"), "UTF-8");
+		queryString = queryString + "&tbx_Zip=" + URLEncoder.encode(request.getParameter("tbx_Zip"), "UTF-8");
+		queryString = queryString + "&cmb_Country=" + URLEncoder.encode(request.getParameter("cmb_Country"), "UTF-8");
 %>
 <!--script type="text/javascript">location.href="error.jsp"</script-->
 <script type="text/javascript">location.href = "mem_personal.jsp?flag=2<%= queryString%>"</script>

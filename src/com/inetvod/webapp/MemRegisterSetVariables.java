@@ -10,6 +10,18 @@ import com.inetvod.common.core.StrUtil;
 
 public class MemRegisterSetVariables implements Serializable
 {
+	public static final String FIRST_NAME_FLD = "first_name";
+	public static final String LAST_NAME_FLD = "last_name";
+	public static final String ADDRESS_1_FLD = "address_1";
+	public static final String ADDRESS_2_FLD = "address_2";
+	public static final String CITY_FLD = "city";
+	public static final String STATE_FLD = "state";
+	public static final String ZIP_FLD = "zip";
+	public static final String COUNTRY_FLD = "country_id";
+	public static final String EMAIL_FLD = "email_id";
+	public static final String SECRET_QUESTION_FLD = "secret_question";
+	public static final String SECRET_ANSWER_FLD = "secret_answer";
+
 	/*******************************************************************************************************/
 	// Set & Get properties -- START
 	/*-----------------------------------------------------------------------------------------------------*/
@@ -45,7 +57,7 @@ public class MemRegisterSetVariables implements Serializable
 	}
 
 	public String getEmail_id() {
-		return fEmail;
+		return StrUtil.noNull(fEmail);
 	}
 	/***************************************************/
 
@@ -67,7 +79,7 @@ public class MemRegisterSetVariables implements Serializable
 	}
 
 	public String getSecret_question() {
-		return fSecretQuestion;
+		return StrUtil.noNull(fSecretQuestion);
 	}
 	/***************************************************/
 
@@ -78,7 +90,7 @@ public class MemRegisterSetVariables implements Serializable
 	}
 
 	public String getSecret_answer() {
-		return fSecretAnswer;
+		return StrUtil.noNull(fSecretAnswer);
 	}
 	/***************************************************/
 

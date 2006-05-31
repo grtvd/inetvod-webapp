@@ -1,4 +1,5 @@
 <%@ page import="com.inetvod.webapp.ReadXMLFile" %>
+<%@ page import="com.inetvod.webapp.MemRegister"%>
 <%@ page contentType="text/html; charset=windows-1252" language="java" %>
 <%
 	/**
@@ -16,6 +17,17 @@
 %>
 <script type="text/javascript">location.href = "error.jsp"</script>
 <%
+	}
+	else if("2".equals(request.getParameter("flag")))
+	{
+		newMember.setValueFromQuery(request, "tbx_Name", MemRegister.FIRST_NAME_FLD);
+		newMember.setValueFromQuery(request, "tbx_Last_Name", MemRegister.LAST_NAME_FLD);
+		newMember.setValueFromQuery(request, "tbx_Add_1", MemRegister.ADDRESS_1_FLD);
+		newMember.setValueFromQuery(request, "tbx_Add_2", MemRegister.ADDRESS_2_FLD);
+		newMember.setValueFromQuery(request, "tbx_City", MemRegister.CITY_FLD);
+		newMember.setValueFromQuery(request, "tbx_State", MemRegister.STATE_FLD);
+		newMember.setValueFromQuery(request, "tbx_Zip", MemRegister.ZIP_FLD);
+		newMember.setValueFromQuery(request, "cmb_Country", MemRegister.COUNTRY_FLD);
 	}
 %>
 <html>
@@ -39,14 +51,10 @@ function RunOnLoad()
 	var url = document.location.href.split("?")
 	var flag = -1
 	if(url.length > 1)
-		flag =
-<%= request.getParameter("flag") %>
+		flag = <%= request.getParameter("flag") %>
 
 	if(flag == 2)
-	{
-		Show_Last_Form_Values(url[1]);
 		ShowGeneralError();
-	}
 
 	//Set focus on the First field of the page
 	setFocus();

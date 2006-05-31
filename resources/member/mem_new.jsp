@@ -1,4 +1,5 @@
 <%@ page import="com.inetvod.webapp.ReadXMLFile"%>
+<%@ page import="com.inetvod.webapp.MemRegister"%>
 <%@ page contentType="text/html; charset=iso-8859-1" language="java" %>
 <%
 	/**
@@ -9,6 +10,13 @@
 <jsp:useBean id="newMember" class="com.inetvod.webapp.MemRegister" scope="request"/>
 <%
 	String [][] questList = ReadXMLFile.readXML(ReadXMLFile.SecretQuestion);
+
+	if(("2".equals(request.getParameter("flag"))) || ("3".equals(request.getParameter("flag"))))
+	{
+		newMember.setValueFromQuery(request, "tbx_Email", MemRegister.EMAIL_FLD);
+		newMember.setValueFromQuery(request, "cmb_Question", MemRegister.SECRET_QUESTION_FLD);
+		newMember.setValueFromQuery(request, "tbx_Answer", MemRegister.SECRET_ANSWER_FLD);
+	}
 %>
 
 <html>
@@ -36,10 +44,10 @@
 			else if(flag == 2)
 				ShowGeneralError();
 			else if(flag == 3)
-			{
-				Show_Last_Form_Values(url[1]);
 				ShowErrorMsgByID("err_Captcha", "Security Code dosen't match. Please try again...");
-			}
+
+			if((flag == 2) || (flag == 3))
+				Select_Combo(document.getElementById("cmb_Question"), "<%= newMember.getSecret_question()%>");
 
 			//Set focus on the First field of the page
 			setFocus();
@@ -134,7 +142,8 @@
 <tr>
 	<td width="33%" align="right"><font size="2"><span class="contentRed">*</span>Email&nbsp;</font></td>
 	<td align="left">
-		<input type="text" id="tbx_Email" name="tbx_Email" size="40" maxlength="64"/></td>
+		<input type="text" id="tbx_Email" name="tbx_Email" size="40" maxlength="64"
+			value="<%= newMember.getEmail_id()%>"/></td>
 </tr>
 <tr>
 	<td></td>
@@ -147,7 +156,8 @@
 <tr>
 	<td align="right"><font size="2"><span class="contentRed">*</span>Confirm Email&nbsp;</font></td>
 	<td align="left"><font size="2" face="Verdana">
-		<input type="text" id="tbx_Confirm_Email" name="tbx_Confirm_Email" size="40" maxlength="64"/>
+		<input type="text" id="tbx_Confirm_Email" name="tbx_Confirm_Email" size="40" maxlength="64"
+			value="<%= newMember.getEmail_id()%>"/>
 		</font></td>
 </tr>
 <tr>
@@ -218,7 +228,8 @@
 <tr>
 	<td align="right"><font size="2"><span class="contentRed">*</span>Secret Answer&nbsp;</font></td>
 	<td align="left"><font size="2" face="Verdana">
-		<input type="text" id="tbx_Answer" name="tbx_Answer" size="32" maxlength="32"/>
+		<input type="text" id="tbx_Answer" name="tbx_Answer" size="32" maxlength="32"
+			value="<%= newMember.getSecret_answer()%>"/>
 		</font></td>
 </tr>
 <tr>

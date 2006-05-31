@@ -1,3 +1,4 @@
+<%@ page import="java.net.URLEncoder"%>
 <%@ page contentType="text/html; charset=iso-8859-1" language="java" %>
 <%
 	/**
@@ -20,10 +21,9 @@
 
 	if(!captcha_flag)
 	{
-		String queryString = "&tbx_Email=" + request.getParameter("tbx_Email");
-		queryString = queryString + "&tbx_Confirm_Email=" + request.getParameter("tbx_Email");
-		queryString = queryString + "&cmb_Question=" + request.getParameter("cmb_Question");
-		queryString = queryString + "&tbx_Answer=" + request.getParameter("tbx_Answer");
+		String queryString = "&tbx_Email=" + URLEncoder.encode(request.getParameter("tbx_Email"), "UTF-8");
+		queryString = queryString + "&cmb_Question=" + URLEncoder.encode(request.getParameter("cmb_Question"), "UTF-8");
+		queryString = queryString + "&tbx_Answer=" + URLEncoder.encode(request.getParameter("tbx_Answer"), "UTF-8");
 
 %>
 <!--script type="text/javascript">location.href="error.jsp"</script-->
@@ -46,9 +46,9 @@
 	newMember.new_Member();
 	if(newMember.getError_flag())
 	{
-		String queryString = "&tbx_Email=" + request.getParameter("tbx_Email");
-		queryString = queryString + "&cmb_Question=" + request.getParameter("cmb_Question");
-		queryString = queryString + "&tbx_Answer=" + request.getParameter("tbx_Answer");
+		String queryString = "&tbx_Email=" + URLEncoder.encode(request.getParameter("tbx_Email"), "UTF-8");
+		queryString = queryString + "&cmb_Question=" + URLEncoder.encode(request.getParameter("cmb_Question"), "UTF-8");
+		queryString = queryString + "&tbx_Answer=" + URLEncoder.encode(request.getParameter("tbx_Answer"), "UTF-8");
 
 %>
 <!--script type="text/javascript">location.href="error.jsp"</script-->
