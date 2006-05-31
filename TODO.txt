@@ -1,0 +1,16 @@
+NEED TERMS OF SERVICE AND PRIVACY POLICY
+
+Update error handling to URL encode fields passed in query string
+- Completed: mem_personal, mem_new
+- TODO: mem_card, mem_content, mem_perental, mem_reset_email, mem_reset_question, mem_email
+- Also, remove calls to javascript Show_Last_Form_Values()
+
+Restore encrytion for PIN, Adult PIN, once .NET encryption is in place.
+
+Replace Check_For_Null with StrUtil.noNull.
+
+mem_reset_password_save.jsp, member_Password_Reset(): should pass "answer" to page and should only change password if have both email and secret answer.
+
+Clean-up code using g/setQuest_ans.  Use g/setSecret_question, g/setSecret_answer.
+
+In Logon PIN and Adult PIN, enter '...' in UI to test for 'not changed'.
