@@ -11,21 +11,22 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
 import com.inetvod.common.core.Logger;
+import com.inetvod.common.cryto.CryptoKeyStore;
+import com.inetvod.common.dbdata.Category;
 import com.inetvod.common.dbdata.DatabaseAdaptor;
+import com.inetvod.common.dbdata.Member;
+import com.inetvod.common.dbdata.MemberAccount;
+import com.inetvod.common.dbdata.MemberLogon;
+import com.inetvod.common.dbdata.MemberPrefs;
+import com.inetvod.common.dbdata.MemberProvider;
+import com.inetvod.common.dbdata.MemberSession;
 import com.inetvod.common.dbdata.Provider;
 import com.inetvod.common.dbdata.ProviderConnection;
-import com.inetvod.common.dbdata.Category;
 import com.inetvod.common.dbdata.Rating;
-import com.inetvod.common.dbdata.Member;
-import com.inetvod.common.dbdata.MemberLogon;
-import com.inetvod.common.dbdata.MemberAccount;
-import com.inetvod.common.dbdata.MemberPrefs;
-import com.inetvod.common.dbdata.MemberSession;
-import com.inetvod.common.dbdata.MemberProvider;
-import com.inetvod.common.dbdata.Show;
-import com.inetvod.common.dbdata.ShowProvider;
-import com.inetvod.common.dbdata.ShowCategory;
 import com.inetvod.common.dbdata.RentedShow;
+import com.inetvod.common.dbdata.Show;
+import com.inetvod.common.dbdata.ShowCategory;
+import com.inetvod.common.dbdata.ShowProvider;
 
 public class WebAppServlet extends HttpServlet
 {
@@ -44,6 +45,9 @@ public class WebAppServlet extends HttpServlet
 
 			// setup db connection
 			DatabaseAdaptor.setDBConnectFile(getServletContext().getInitParameter("dbconnect"));
+
+			// init the CrytoKeyStore
+			CryptoKeyStore.load(getServletContext().getInitParameter("cryptokeystore"));
 
 			// prime UUID, first hit is big
 			UUID.randomUUID();
