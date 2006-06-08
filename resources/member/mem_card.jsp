@@ -180,7 +180,7 @@
 <tr>
 	<td align="right" nowrap><font size="2">Name on Card&nbsp;</font></td>
 	<td align="left">
-		<input type="text" id="tbx_Card_Name" name="tbx_Card_Name" size="40" maxlength="64"
+		<input type="text" id="tbx_Card_Name" name="tbx_Card_Name" size="40" maxlength="40"
 			value="<%= newMember.Check_For_Null(newMember.getName_on_card()) %>"/>
 </tr>
 <tr>
@@ -211,7 +211,7 @@
 <tr>
 	<td align="right" nowrap><font size="2">Card Number&nbsp;</font></td>
 	<td align="left"><font size="2" face="Verdana">
-		<input type="text" id="tbx_Card_Number" name="tbx_Card_Number" size="32" maxlength="32"
+		<input type="text" id="tbx_Card_Number" name="tbx_Card_Number" size="32" maxlength="20"
 			value="<%= newMember.Check_For_Null(newMember.getCard_number())%>" onKeyPress="IntIEKeyCap()"/>
 	</font></td>
 </tr>

@@ -6,6 +6,7 @@
     <exclude-output />
     <exploded url="file://$MODULE_DIR$/exploded" />
     <exclude-exploded />
+    <content url="file://$MODULE_DIR$/../../shared/SQL" />
     <content url="file://$MODULE_DIR$/../../shared/java">
       <sourceFolder url="file://$MODULE_DIR$/../../shared/java" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/../../shared/java/com/inetvod/common/web" />
