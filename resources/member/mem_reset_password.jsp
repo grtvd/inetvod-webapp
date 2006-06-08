@@ -5,7 +5,6 @@
 	 * iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 	 */
 %>
-<%@ page import="com.inetvod.webapp.PasswordService" %>
 <jsp:useBean id="newMember" class="com.inetvod.webapp.MemRegister" scope="request"/>
 
 <%

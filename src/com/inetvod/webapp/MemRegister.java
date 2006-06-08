@@ -9,10 +9,11 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.inetvod.common.core.CompUtil;
 import com.inetvod.common.core.CountryID;
 import com.inetvod.common.core.Logger;
 import com.inetvod.common.core.StrUtil;
-import com.inetvod.common.core.CompUtil;
+import com.inetvod.common.cryto.CryptoDigest;
 import com.inetvod.common.data.Address;
 import com.inetvod.common.data.ConnectionSpeed;
 import com.inetvod.common.data.CreditCard;
@@ -60,7 +61,7 @@ public class MemRegister extends MemRegisterSetVariables
 			memberLogon = MemberLogon.newInstance(memberID);
 			memberLogon.setEmail(getEmail_id());
 
-			memberLogon.setPassword(PasswordService.encrypt(getPassword_id()));
+			memberLogon.setPassword(CryptoDigest.encrypt(getPassword_id()));
 			memberLogon.setSecretQuestion(getSecret_question());
 			memberLogon.setSecretAnswer(getSecret_answer());
 			memberLogon.setTermsAcceptedVersion("1.0.0");
@@ -875,7 +876,7 @@ public class MemRegister extends MemRegisterSetVariables
 			MemberLogon memLogon = MemberLogon.findByEmail(getEmail_id());
 			if (memLogon != null)
 			{
-				memLogon.setPassword(PasswordService.encrypt(getPassword_id()));
+				memLogon.setPassword(CryptoDigest.encrypt(getPassword_id()));
 				memLogon.update();
 			}
 		}
@@ -910,9 +911,9 @@ public class MemRegister extends MemRegisterSetVariables
 
 			// Instance of Logon
 			MemberLogon memLogon = MemberLogon.get(member_id);
-			if(CompUtil.areEqual(memLogon.getPassword(), PasswordService.encrypt(exist_Password)))
+			if(CompUtil.areEqual(memLogon.getPassword(), CryptoDigest.encrypt(exist_Password)))
 			{
-				memLogon.setPassword(PasswordService.encrypt(new_Password));
+				memLogon.setPassword(CryptoDigest.encrypt(new_Password));
 				memLogon.update();
 				flag = true;
 			}
@@ -938,7 +939,7 @@ public class MemRegister extends MemRegisterSetVariables
 			setError_flag(false);
 
 			// Instance of Logon
-			MemberLogon memLogon = MemberLogon.findByEmailPassword(email, PasswordService.encrypt(pass));
+			MemberLogon memLogon = MemberLogon.findByEmailPassword(email, CryptoDigest.encrypt(pass));
 
 			if(memLogon != null)
 			{
