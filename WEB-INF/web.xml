@@ -49,8 +49,8 @@
 		<init-param>
 			<param-name>cap.obscurificator</param-name>
 			<!--<param-value>nl.captcha.obscurity.imp.ShadowGimpyImp</param-value>-->
-			<param-value>nl.captcha.obscurity.imp.WaterRiple</param-value>
-			<!--<param-value>nl.captcha.sandbox.TestGimpyImp</param-value>-->
+			<!--<param-value>nl.captcha.obscurity.imp.WaterRiple</param-value>-->
+			<param-value>nl.captcha.sandbox.FishEyeGimpyImp</param-value>
 		</init-param>
 
 		<init-param>
@@ -92,7 +92,7 @@
 
 		<init-param>
 			<param-name>cap.font.color</param-name>
-			<param-value>166,31,255</param-value>
+			<param-value>black</param-value>
 		</init-param>
 
 		<init-param>
@@ -104,12 +104,12 @@
 
 		<init-param>
 			<param-name>cap.background.c.to</param-name>
-			<param-value>255,255,255</param-value>
+			<param-value>white</param-value>
 		</init-param>
 
 		<init-param>
 			<param-name>cap.background.c.from</param-name>
-			<param-value>75,75,255</param-value>
+			<param-value>lightGray</param-value>
 		</init-param>
 
 
@@ -120,7 +120,7 @@
 
 		<init-param>
 			<param-name>cap.noise.c</param-name>
-			<param-value>166,31,255</param-value>
+			<param-value>black</param-value>
 		</init-param>
 
 	</servlet>
