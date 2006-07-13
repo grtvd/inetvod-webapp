@@ -11,7 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
 import com.inetvod.common.core.Logger;
-import com.inetvod.common.cryto.CryptoKeyStore;
+import com.inetvod.common.crypto.CryptoKeyStore;
 import com.inetvod.common.dbdata.Category;
 import com.inetvod.common.dbdata.DatabaseAdaptor;
 import com.inetvod.common.dbdata.Member;
@@ -46,7 +46,7 @@ public class WebAppServlet extends HttpServlet
 			// setup db connection
 			DatabaseAdaptor.setDBConnectFile(getServletContext().getInitParameter("dbconnect"));
 
-			// init the CrytoKeyStore
+			// init the CryptoKeyStore
 			CryptoKeyStore.load(getServletContext().getInitParameter("cryptokeystore"));
 
 			// prime UUID, first hit is big

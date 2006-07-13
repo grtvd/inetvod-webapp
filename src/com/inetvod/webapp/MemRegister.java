@@ -13,7 +13,7 @@ import com.inetvod.common.core.CompUtil;
 import com.inetvod.common.core.CountryID;
 import com.inetvod.common.core.Logger;
 import com.inetvod.common.core.StrUtil;
-import com.inetvod.common.cryto.CryptoDigest;
+import com.inetvod.common.crypto.CryptoDigest;
 import com.inetvod.common.data.Address;
 import com.inetvod.common.data.ConnectionSpeed;
 import com.inetvod.common.data.CreditCard;
