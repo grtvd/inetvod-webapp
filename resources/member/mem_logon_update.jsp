@@ -146,7 +146,7 @@
 						</tr>
 						<tr>
 							<td></td>
-							<td><font size="1">6 digits, number only</font></td>
+							<td><font size="1">6 digits, numbers only</font></td>
 						</tr>
 						<tr>
 							<td align="right" nowrap><font size="2"><span class="contentRed">*</span>Confirm PIN&nbsp;</font></td>
