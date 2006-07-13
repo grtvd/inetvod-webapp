@@ -26,4 +26,4 @@
 .linkHeading a:link    { color: #000; text-decoration: none; font-weight: bold; }
 .linkHeading a:active  { color: #CCC; text-decoration: none; font-weight: bold;  }
 .linkHeading a:visited { color: #000; text-decoration: none; font-weight: bold;  }
-.linkHeading a:hover   { color: #23607D; font-weight: bold;  }
+.linkHeading a:hover   { background: #CCC; color: #23607D; font-weight: bold;  }
