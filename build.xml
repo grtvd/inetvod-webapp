@@ -1,0 +1,10 @@
+<project default="main.js">
+	<target name="main.js">
+		<concat destfile="resources/main.js" append="no" force="yes">
+			<filelist dir="scripts/core">
+				<file name="Common.js" />
+				<file name="Cookie.js" />
+			</filelist>
+		</concat>
+	</target>
+</project>

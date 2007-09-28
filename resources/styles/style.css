@@ -1,0 +1,87 @@
+body
+{
+	background-color: white;
+	font-weight: bold;
+	font-size: 10pt;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: black;
+}
+.mainbody
+{
+	background-color: #002651;
+	font-weight: bold;
+	font-size: 10pt;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #DAF9FC;
+}
+.lhm_normal
+{
+	font-weight: bold;
+	font-size: 10pt;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #002651;
+}
+a.lhm_normal:link
+{
+	color: #000;
+}
+a.lhm_normal:active
+{
+	color: #CCC;
+}
+a.lhm_normal:visited
+{
+	color: #000;
+}
+a.lhm_normal:hover
+{
+	background: #CCC;
+}
+td.lhm_normal:hover
+{
+	background: #CCC;
+}
+td.lhm_hilite
+{
+	background-color: #002651;
+	font-weight: bold;
+	font-size: 10pt;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: white;
+}
+a.lhm_hilite
+{
+	font-weight: bold;
+	font-size: 10pt;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: white;
+}
+a.lhm_hilite:link
+{
+	color: white;
+}
+a.lhm_hilite:active
+{
+	color: #CCC;
+}
+a.lhm_hilite:visited
+{
+	color: white;
+}
+a.lhm_hilite:hover
+{
+	background: #CCC;
+}
+td.lhm_hilite:hover
+{
+	background: #CCC;
+}
+
+.ads
+{
+	background-color: white;
+	font-weight: normal;
+	font-size: 8pt;
+	font-family : sans-serif;
+	color: black;
+}
