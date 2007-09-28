@@ -427,3 +427,19 @@ function arrayRemoveByCmpr(arr, itemComparer)
 
 /******************************************************************************/
 /******************************************************************************/
+
+function stopEventPropagation(evt)
+{
+	if(!isObject(evt) && isObject(event))
+		evt = event;
+	if(isObject(evt))
+	{
+		if(isFunction(evt.stopPropagation))
+			evt.stopPropagation();
+		else if(isBoolean(evt.cancelBubble))
+			evt.cancelBubble = true;
+	}
+}
+
+/******************************************************************************/
+/******************************************************************************/

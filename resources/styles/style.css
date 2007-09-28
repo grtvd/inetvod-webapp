@@ -9,17 +9,13 @@ body
 .mainbody
 {
 	background-color: #002651;
-	font-weight: bold;
-	font-size: 10pt;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
 	color: #DAF9FC;
 }
 .lhm_normal
 {
-	font-weight: bold;
-	font-size: 10pt;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
 	color: #002651;
+	cursor: hand;
+	cursor: pointer;
 }
 a.lhm_normal:link
 {
@@ -33,27 +29,19 @@ a.lhm_normal:visited
 {
 	color: #000;
 }
-a.lhm_normal:hover
-{
-	background: #CCC;
-}
-td.lhm_normal:hover
+.lhm_normal:hover
 {
 	background: #CCC;
 }
 td.lhm_hilite
 {
 	background-color: #002651;
-	font-weight: bold;
-	font-size: 10pt;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
 	color: white;
+	cursor: hand;
+	cursor: pointer;
 }
 a.lhm_hilite
 {
-	font-weight: bold;
-	font-size: 10pt;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
 	color: white;
 }
 a.lhm_hilite:link
@@ -68,11 +56,7 @@ a.lhm_hilite:visited
 {
 	color: white;
 }
-a.lhm_hilite:hover
-{
-	background: #CCC;
-}
-td.lhm_hilite:hover
+.lhm_hilite:hover
 {
 	background: #CCC;
 }
