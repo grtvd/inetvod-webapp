@@ -5,6 +5,7 @@
  * iNetVOD Confidential and Proprietary.  See LEGAL.txt.
  */
 %>
+<%@ page import="com.inetvod.webapp.PageMenuMap" %>
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -16,11 +17,11 @@
 		var gCurMenuCookie = "curMenu";
 		function runOnLoad()
 		{
-			var curMenu = getCookie(gCurMenuCookie);
+			var curMenu = '<%=PageMenuMap.mapMenuFromPage(request.getServletPath())%>';
+			if(!testStrHasLen(curMenu))
+				curMenu = getCookie(gCurMenuCookie);
 			if(testStrHasLen(curMenu))
-			{
 				hilightMenu(curMenu + "_");
-			}
 		}
 		function hilightMenu(rowID)
 		{
