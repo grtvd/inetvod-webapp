@@ -64,7 +64,7 @@
 				<table cellpadding="5" cellspacing="0" border="0" width="100%">
 					<tbody>
 						<tr><td id="NowPlaying_Row" class="lhm_normal" onclick="onMenuRowClick(event, this);"><a id="NowPlaying_Link" class="lhm_normal" href="nowPlaying.jsp" onclick="onMenuClick(event, this); return true;">My Shows</a></td></tr>
-						<tr><td id="Featured_Row" class="lhm_normal" onclick="onMenuRowClick(event, this);"><a id="Featured_Link" class="lhm_normal" href="searchResults.jsp" onclick="onMenuClick(event, this); return true;">Featured</a></td></tr>
+						<tr><td id="Featured_Row" class="lhm_normal" onclick="onMenuRowClick(event, this);"><a id="Featured_Link" class="lhm_normal" href="searchResults.jsp?categoryid=featured" onclick="onMenuClick(event, this); return true;">Featured</a></td></tr>
 						<tr><td id="SearchByCategory_Row" class="lhm_normal" onclick="onMenuRowClick(event, this);"><a id="SearchByCategory_Link" class="lhm_normal" href="categorySearch.jsp" onclick="onMenuClick(event, this); return true;">Search By Category</a></td></tr>
 						<tr><td id="SearchByProvider_Row" class="lhm_normal" onclick="onMenuRowClick(event, this);"><a id="SearchByProvider_Link" class="lhm_normal" href="providerSearch.jsp" onclick="onMenuClick(event, this); return true;">Search By Provider</a></td></tr>
 						<tr><td id="SearchByName_Row" class="lhm_normal" onclick="onMenuRowClick(event, this);"><a id="SearchByName_Link" class="lhm_normal" href="search.jsp" onclick="onMenuClick(event, this); return true;">Search By Title</a></td></tr>

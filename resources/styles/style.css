@@ -13,6 +13,10 @@ body
 	border-width: 5px;
 	border-style: solid;
 }
+.error
+{
+	color: red;
+}
 .lhm_normal
 {
 	color: #002651;
