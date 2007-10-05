@@ -135,8 +135,8 @@ a.listCtrItemLink:visited
 	font-size: 10pt;
 	text-align: left;
 	/*overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;*/
+	text-overflow: ellipsis;*/
+	white-space: nowrap;
 	/*border: 1px solid blue;*/
 }
 

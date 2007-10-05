@@ -20,6 +20,7 @@ import com.inetvod.common.data.ShowID;
 import com.inetvod.playerClient.PlayerRequestor;
 import com.inetvod.playerClient.request.SignonResp;
 import com.inetvod.playerClient.request.StatusCode;
+import com.inetvod.playerClient.rqdata.RentedShowSearchList;
 import com.inetvod.playerClient.rqdata.ShowDetail;
 import com.inetvod.playerClient.rqdata.ShowSearchList;
 
@@ -177,8 +178,7 @@ public class Session
 	{
 		PlayerRequestor playerRequestor = getPlayerRequestor();
 
-		playerRequestor.pingServer();
-		if(StatusCode.sc_Success.equals(playerRequestor.getStatusCode()))
+		if(playerRequestor.pingServer())
 		{
 			//TODO this.CanPingServer = true;
 			return true;
@@ -233,5 +233,19 @@ public class Session
 	public ShowDetail showDetail(ShowID showID)
 	{
 		return getPlayerRequestor().showDetail(showID);
+	}
+
+	public RentedShowSearchList rentedShowList()
+	{
+		PlayerRequestor playerRequestor = getPlayerRequestor();
+
+		RentedShowSearchList rentedShowSearchList = playerRequestor.rentedShowList();
+		if(rentedShowSearchList != null)
+		{
+			return rentedShowSearchList;
+		}
+
+		showRequestError(playerRequestor.getStatusMessage());
+		return null;
 	}
 }
