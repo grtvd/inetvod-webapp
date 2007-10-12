@@ -1,0 +1,251 @@
+body
+{
+	background-image: url(../player/images/background.gif);
+	background-repeat: no-repeat;
+	background-color: #002651;
+	color: #DAF9FC;
+	font-weight: bold;
+	font-size: 10pt;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	cursor: default;
+}
+.mainbody
+{
+	border-color: #7CC0E2;
+	border-width: 5px;
+	border-style: solid;
+}
+.popupframe
+{
+	background-color: #002651;
+	border-color: #7CC0E2;
+	border-width: 2px;
+	border-style: solid;
+}
+.popupbody
+{
+	/*background-color: inherit;*/
+	border-color: #7CC0E2;
+	border-width: 3px;
+	border-style: solid;
+}
+.error
+{
+	color: red;
+}
+/*.textCtr*/
+/*{*/
+	/*font-weight: normal;*/
+/*}*/
+/*.textSmallCtr*/
+/*{*/
+	/*font-weight: normal;*/
+	/*font-size: 8pt;*/
+	/*color: #DAF9FC;*/
+	/*overflow: hidden;*/
+	/*text-overflow: ellipsis;*/
+	/*white-space: nowrap;*/
+/*}*/
+.textLbl
+{
+	/*font-weight: normal;*/
+	text-align: right;
+	/*overflow: hidden;*/
+	/*text-overflow: ellipsis;*/
+	white-space: nowrap;
+}
+.textSmallLbl
+{
+	font-weight: normal;
+	font-size: 9pt;
+	text-align: right;
+	/*overflow: hidden;*/
+	/*text-overflow: ellipsis;*/
+	white-space: nowrap;
+}
+.buttonCtr_normal
+{
+	color: #DAF9FC;
+	/*color: #002651;*/
+	text-decoration: none;
+	cursor: hand;
+	cursor: pointer;
+	padding: 5px;
+}
+td.buttonCtr_normal
+{
+	background: #0291CE;
+}
+span.buttonCtr_normal
+{
+	background: #0291CE;
+	padding-left: 10px;
+	padding-right: 10px;
+	height:15px;
+}
+div.buttonCtr_normal
+{
+	background: #0291CE;
+	padding: 10px;
+}
+a.buttonCtr_normal:link
+{
+	/*color: #000;*/
+}
+a.buttonCtr_normal:active
+{
+	/*color: #CCC;*/
+}
+a.buttonCtr_normal:visited
+{
+	/*color: #000;*/
+}
+.buttonCtr_normal:hover
+{
+	background: #7CC0E2;
+	/*background: #CCC;*/
+}
+.buttonCtr_hilite
+{
+	background: #7CC0E2;
+	/*background-color: #002651;*/
+	color: #DAF9FC;
+	/*color: white;*/
+	text-decoration: none;
+	padding: 5px;
+	cursor: hand;
+	cursor: pointer;
+}
+a.buttonCtr_hilite
+{
+	/*color: white;*/
+	padding: 5px;
+}
+a.buttonCtr_hilite:link
+{
+	/*color: white;*/
+}
+a.buttonCtr_hilite:active
+{
+	/*color: #CCC;*/
+}
+a.buttonCtr_hilite:visited
+{
+	/*color: white;*/
+	color: #DAF9FC;
+}
+.buttonCtr_hilite:hover
+{
+	/*background: #CCC;*/
+}
+
+.listCtrHeader
+{
+	padding-left: 10px;
+	padding-right: 5px;
+	font-size: 12pt;
+	color: #0293CF;
+	text-align: left;
+	/*overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;*/
+	/*border: 1px solid blue;*/
+}
+.listCtrSmallHeader
+{
+	padding-left: 10px;
+	padding-right: 5px;
+	font-weight: normal;
+	color: #0293CF;
+	text-align: left;
+	/*overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;*/
+	/*border: 1px solid blue;*/
+}
+
+.listCtrRow
+{
+	color: #DAF9FC;
+	/*border: 1px solid blue;*/
+}
+.listCtrRow:hover
+{
+	background: #7CC0E2;
+	/*color: red;*/
+}
+
+.listCtrItem
+{
+	padding-left: 10px;
+	padding-right: 5px;
+	font-size: 10pt;
+	text-align: left;
+	vertical-align: top;
+	text-decoration: none;
+	/*overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;*/
+	/*border: 1px solid blue;*/
+}
+a.listCtrItem
+{
+	padding-left: 0px;
+	padding-right: 0px;
+}
+a.listCtrItem:visited
+{
+	color: #DAF9FC;
+}
+.listCtrSmallItem
+{
+	padding-left: 10px;
+	padding-right: 5px;
+	font-weight: normal;
+	font-size: 9pt;
+	text-align: left;
+	vertical-align: top;
+	/*overflow: hidden;
+	text-overflow: ellipsis;*/
+	white-space: nowrap;
+	/*border: 1px solid blue;*/
+}
+.listCtrSmallWrapItem
+{
+	padding-left: 10px;
+	padding-right: 5px;
+	font-weight: normal;
+	font-size: 9pt;
+	text-align: left;
+	vertical-align: top;
+	/*overflow: hidden;
+	text-overflow: ellipsis;*/
+	/*white-space: nowrap;*/
+	/*border: 1px solid blue;*/
+}
+
+.editCtr
+{
+}
+td.editCtr
+{
+	text-align: left;
+}
+
+.checkCtr
+{
+}
+td.checkCtr
+{
+	text-align: left;
+}
+
+.ads
+{
+	/*background-color: white;*/
+	font-weight: normal;
+	font-size: 7pt;
+	font-family : serif;
+	/*color: black;*/
+	color: white;
+}
