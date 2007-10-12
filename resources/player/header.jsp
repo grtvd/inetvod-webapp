@@ -56,21 +56,39 @@
 	</script>
 </head>
 <body onload="runOnLoad();">
-	<table cellpadding="0" cellspacing="0" border="0"><tr><td valign="bottom"><h1><i>Storm</i></h1></td><td valign="bottom"><h6>media player</h6></td></tr></table>
+	<table border="0" cellpadding="0" cellspacing="0" width="100%">
+		<tr><td><img src="../player/images/logo.gif" alt="Storm Media Player"/></td>
+			<td align="right" valign="top">
+				<table border="0" cellpadding="0" cellspacing="0">
+					<tr>
+						<td class="buttonCtr_normal">Login</td>
+						<td class="textSmallLbl">&nbsp;|&nbsp;</td>
+						<td class="buttonCtr_normal">Register</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr><td height="10"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
+	</table>
 
 	<table border="0" cellpadding="0" cellspacing="0" width="100%">
 		<tr>
 			<td align="left" valign="top" width="170">
-				<table cellpadding="5" cellspacing="0" border="0" width="100%">
+				<table cellpadding="0" cellspacing="0" border="0" width="100%">
 					<tbody>
-						<tr><td id="NowPlaying_Row" class="lhm_normal" onclick="onMenuRowClick(event, this);"><a id="NowPlaying_Link" class="lhm_normal" href="nowPlaying.jsp" onclick="onMenuClick(event, this); return true;">My Shows</a></td></tr>
-						<tr><td id="Featured_Row" class="lhm_normal" onclick="onMenuRowClick(event, this);"><a id="Featured_Link" class="lhm_normal" href="searchResults.jsp?categoryid=featured" onclick="onMenuClick(event, this); return true;">Featured</a></td></tr>
-						<tr><td id="SearchByCategory_Row" class="lhm_normal" onclick="onMenuRowClick(event, this);"><a id="SearchByCategory_Link" class="lhm_normal" href="categorySearch.jsp" onclick="onMenuClick(event, this); return true;">Search By Category</a></td></tr>
-						<tr><td id="SearchByProvider_Row" class="lhm_normal" onclick="onMenuRowClick(event, this);"><a id="SearchByProvider_Link" class="lhm_normal" href="providerSearch.jsp" onclick="onMenuClick(event, this); return true;">Search By Provider</a></td></tr>
-						<tr><td id="SearchByName_Row" class="lhm_normal" onclick="onMenuRowClick(event, this);"><a id="SearchByName_Link" class="lhm_normal" href="search.jsp" onclick="onMenuClick(event, this); return true;">Search By Title</a></td></tr>
-						<tr><td id="Preferences_Row" class="lhm_normal" onclick="onMenuRowClick(event, this);"><a id="Preferences_Link" class="lhm_normal" href="preferences.jsp" onclick="onMenuClick(event, this); return true;">Preferences</a></td></tr>
+						<tr><td id="NowPlaying_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a id="NowPlaying_Link" class="buttonCtr_normal" href="nowPlaying.jsp" onclick="onMenuClick(event, this); return true;">My Shows</a></td></tr>
+						<tr><td height="2"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
+						<tr><td id="Featured_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a id="Featured_Link" class="buttonCtr_normal" href="searchResults.jsp?categoryid=featured" onclick="onMenuClick(event, this); return true;">Featured</a></td></tr>
+						<tr><td height="2"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
+						<tr><td id="SearchByCategory_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a id="SearchByCategory_Link" class="buttonCtr_normal" href="categorySearch.jsp" onclick="onMenuClick(event, this); return true;">Search By Category</a></td></tr>
+						<tr><td height="2"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
+						<tr><td id="SearchByProvider_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a id="SearchByProvider_Link" class="buttonCtr_normal" href="providerSearch.jsp" onclick="onMenuClick(event, this); return true;">Search By Provider</a></td></tr>
+						<tr><td height="2"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
+						<tr><td id="SearchByName_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a id="SearchByName_Link" class="buttonCtr_normal" href="search.jsp" onclick="onMenuClick(event, this); return true;">Search By Title</a></td></tr>
+						<tr><td height="2"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
+						<tr><td id="Preferences_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a id="Preferences_Link" class="buttonCtr_normal" href="preferences.jsp" onclick="onMenuClick(event, this); return true;">Preferences</a></td></tr>
 					</tbody>
 				</table>
 
 			</td>
-			<td valign="top" class="mainbody">
+			<td valign="top" class="mainbody" height="400">

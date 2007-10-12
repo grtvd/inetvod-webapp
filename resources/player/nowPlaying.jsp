@@ -41,7 +41,17 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 				{
 				%>
 					<tr class="listCtrRow"
-						><td class="listCtrItem"><%=rentedShowSearch.getNameWithEpisode()%></td
+						><td
+							><table cellpadding="0" cellspacing="0" border="0">
+								<tr
+									><td rowspan="2" style="padding-left:5px;"><img src="images/no_picture.gif" border=0 width=48 height=48 alt=""/></td
+									><td class="listCtrItem"><a class="listCtrItem" href="nowPlaying.jsp"><%=rentedShowSearch.getName()%></a></td
+								></tr>
+								<tr
+									><td class="listCtrSmallWrapItem"><%=rentedShowSearch.getEpisodeName() != null ? rentedShowSearch.getEpisodeName() : ""%></td
+								></tr>
+							</table
+						></td
 						><td class="listCtrSmallItem"><%=rentedShowSearch.buildAvailableUtilStr()%></td
 					></tr>
 				<%

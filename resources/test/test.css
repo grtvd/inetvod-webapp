@@ -24,7 +24,6 @@ body
 }
 .popupbody
 {
-	/*background-color: inherit;*/
 	border-color: #7CC0E2;
 	border-width: 3px;
 	border-style: solid;
@@ -48,10 +47,7 @@ body
 /*}*/
 .textLbl
 {
-	/*font-weight: normal;*/
 	text-align: right;
-	/*overflow: hidden;*/
-	/*text-overflow: ellipsis;*/
 	white-space: nowrap;
 }
 .textSmallLbl
@@ -59,14 +55,11 @@ body
 	font-weight: normal;
 	font-size: 9pt;
 	text-align: right;
-	/*overflow: hidden;*/
-	/*text-overflow: ellipsis;*/
 	white-space: nowrap;
 }
 .buttonCtr_normal
 {
 	color: #DAF9FC;
-	/*color: #002651;*/
 	text-decoration: none;
 	cursor: hand;
 	cursor: pointer;
@@ -76,41 +69,14 @@ td.buttonCtr_normal
 {
 	background: #0291CE;
 }
-span.buttonCtr_normal
-{
-	background: #0291CE;
-	padding-left: 10px;
-	padding-right: 10px;
-	height:15px;
-}
-div.buttonCtr_normal
-{
-	background: #0291CE;
-	padding: 10px;
-}
-a.buttonCtr_normal:link
-{
-	/*color: #000;*/
-}
-a.buttonCtr_normal:active
-{
-	/*color: #CCC;*/
-}
-a.buttonCtr_normal:visited
-{
-	/*color: #000;*/
-}
 .buttonCtr_normal:hover
 {
 	background: #7CC0E2;
-	/*background: #CCC;*/
 }
 .buttonCtr_hilite
 {
 	background: #7CC0E2;
-	/*background-color: #002651;*/
 	color: #DAF9FC;
-	/*color: white;*/
 	text-decoration: none;
 	padding: 5px;
 	cursor: hand;
@@ -118,25 +84,11 @@ a.buttonCtr_normal:visited
 }
 a.buttonCtr_hilite
 {
-	/*color: white;*/
 	padding: 5px;
-}
-a.buttonCtr_hilite:link
-{
-	/*color: white;*/
-}
-a.buttonCtr_hilite:active
-{
-	/*color: #CCC;*/
 }
 a.buttonCtr_hilite:visited
 {
-	/*color: white;*/
 	color: #DAF9FC;
-}
-.buttonCtr_hilite:hover
-{
-	/*background: #CCC;*/
 }
 
 .listCtrHeader
@@ -146,9 +98,6 @@ a.buttonCtr_hilite:visited
 	font-size: 12pt;
 	color: #0293CF;
 	text-align: left;
-	/*overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;*/
 	/*border: 1px solid blue;*/
 }
 .listCtrSmallHeader
@@ -158,9 +107,6 @@ a.buttonCtr_hilite:visited
 	font-weight: normal;
 	color: #0293CF;
 	text-align: left;
-	/*overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;*/
 	/*border: 1px solid blue;*/
 }
 
@@ -172,26 +118,24 @@ a.buttonCtr_hilite:visited
 .listCtrRow:hover
 {
 	background: #7CC0E2;
-	/*color: red;*/
 }
 
 .listCtrItem
 {
+	color: #DAF9FC;
 	padding-left: 10px;
 	padding-right: 5px;
 	font-size: 10pt;
 	text-align: left;
 	vertical-align: top;
 	text-decoration: none;
-	/*overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;*/
 	/*border: 1px solid blue;*/
 }
 a.listCtrItem
 {
 	padding-left: 0px;
 	padding-right: 0px;
+	/*border: 1px solid blue;*/
 }
 a.listCtrItem:visited
 {
@@ -205,8 +149,6 @@ a.listCtrItem:visited
 	font-size: 9pt;
 	text-align: left;
 	vertical-align: top;
-	/*overflow: hidden;
-	text-overflow: ellipsis;*/
 	white-space: nowrap;
 	/*border: 1px solid blue;*/
 }
@@ -218,9 +160,6 @@ a.listCtrItem:visited
 	font-size: 9pt;
 	text-align: left;
 	vertical-align: top;
-	/*overflow: hidden;
-	text-overflow: ellipsis;*/
-	/*white-space: nowrap;*/
 	/*border: 1px solid blue;*/
 }
 
@@ -242,10 +181,8 @@ td.checkCtr
 
 .ads
 {
-	/*background-color: white;*/
 	font-weight: normal;
 	font-size: 7pt;
 	font-family : serif;
-	/*color: black;*/
 	color: white;
 }
