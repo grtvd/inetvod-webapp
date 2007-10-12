@@ -51,6 +51,13 @@ public class Session
 
 	/* Getters and Setters */
 	public Map<String, String[]> getParameterMap() { return fParameterMap; }
+	public String getParameter(String name)
+	{
+		String[] values = fParameterMap.get(name);
+		if((values == null) || (values.length < 1) || !StrUtil.hasLen(values[0]))
+			return null;
+		return values[0];
+	}
 
 	public boolean hasError() { return fHasError; }
 	public void setError(String message)
