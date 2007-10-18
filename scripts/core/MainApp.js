@@ -28,13 +28,6 @@ var gMainApp = null;
 /******************************************************************************/
 /******************************************************************************/
 
-function IsMCEEnabled()
-{
-	return true
-}
-
-/******************************************************************************/
-
 function onRemoteEvent(keyCode)
 {
 	// for the numerics on the Remote, MCE returns both "keypress" and "onremote" events, causing double chars.
@@ -407,14 +400,15 @@ function MainApp()
 /******************************************************************************/
 /******************************************************************************/
 
-function MainAppOnKeyDown()
+function MainAppOnKeyDown(evt)
 {
-	if((event.keyCode == 8)
-			|| (event.keyCode == 9)
-			|| (event.keyCode == 13)
-			|| ((event.keyCode >= 33) && (event.keyCode <= 34))
-			|| ((event.keyCode >= 37) && (event.keyCode <= 40)))
-		return MainAppOnRemoteEvent(event.keyCode);
+	var keyCode = evt ? evt.keyCode : event.keyCode;
+	if((keyCode == 8)
+			|| (keyCode == 9)
+			|| (keyCode == 13)
+			|| ((keyCode >= 33) && (keyCode <= 34))
+			|| ((keyCode >= 37) && (keyCode <= 40)))
+		return MainAppOnRemoteEvent(keyCode);
 	return true;
 }
 
@@ -427,12 +421,13 @@ function MainAppOnKeyUp()
 
 /******************************************************************************/
 
-function MainAppOnKeyPress()
+function MainAppOnKeyPress(evt)
 {
-	if((event.keyCode != 8)
-			&& (event.keyCode != 9)
-			&& (event.keyCode != 13))
-		return MainAppOnRemoteEvent(event.keyCode);
+	var keyCode = evt ? evt.keyCode : event.keyCode;
+	if((keyCode != 8)
+			&& (keyCode != 9)
+			&& (keyCode != 13))
+		return MainAppOnRemoteEvent(keyCode);
 	return true;
 }
 
@@ -494,12 +489,13 @@ function MainAppIdle()
 
 /******************************************************************************/
 
-function MainAppOnMouseClick(obj)
+function MainAppOnMouseClick(evt)
 {
 	try
 	{
 		if(!WaitScreen_isOpen())
 		{
+			var obj = evt ? evt.target : event.srcElement;
 			obj = findObjectWithID(obj);
 			if(obj != null)
 				MainApp.getThe().mouseClick(obj.id);
@@ -513,10 +509,11 @@ function MainAppOnMouseClick(obj)
 
 /******************************************************************************/
 
-function MainAppOnMouseOver(obj)
+function MainAppOnMouseOver(evt)
 {
 	try
 	{
+		var obj = evt ? evt.target : event.srcElement;
 		obj = findObjectWithID(obj);
 		if(obj != null)
 			MainApp.getThe().mouseMove(obj.id);
@@ -529,10 +526,11 @@ function MainAppOnMouseOver(obj)
 
 /******************************************************************************/
 
-function MainAppOnFocus(obj)
+function MainAppOnFocus(evt)
 {
 	try
 	{
+		var obj = evt ? evt.target : event.srcElement;
 		obj = findObjectWithID(obj);
 		if(obj != null)
 			MainApp.getThe().focusEvent(obj.id);
@@ -545,10 +543,11 @@ function MainAppOnFocus(obj)
 
 /******************************************************************************/
 
-function MainAppOnBlur(obj)
+function MainAppOnBlur(evt)
 {
 	try
 	{
+		var obj = evt ? evt.target : event.srcElement;
 		obj = findObjectWithID(obj);
 		if(obj != null)
 			MainApp.getThe().blurEvent(obj.id);
