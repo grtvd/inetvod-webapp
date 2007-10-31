@@ -31,9 +31,9 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 		<table width="100%" cellspacing="0" cellpadding="3">
 			<thead>
 				<tr
-					><td class="listCtrHeader">Show</td
-					><td class="listCtrSmallHeader">Date</td
-					><td class="listCtrSmallHeader">Price</td
+					><td class="listHeader">Show</td
+					><td class="listSmallHeader">Date</td
+					><td class="listSmallHeader">Price</td
 				></tr>
 			</thead>
 			<tbody>
@@ -41,20 +41,20 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 				for(ShowSearch showSearch : showSearchList)
 				{
 				%>
-					<tr class="listCtrRow"
+					<tr class="listRow"
 						><td
 							><table cellpadding="0" cellspacing="0" border="0">
 								<tr
 									><td rowspan="2" style="padding-left:5px;"><img src="images/no_picture.gif" border=0 width=48 height=48 alt=""/></td
-									><td class="listCtrItem"><a class="listCtrItem" href="nowPlaying.jsp"><%=showSearch.getName()%></a></td
+									><td class="listItem"><a class="listItem" href="nowPlaying.jsp"><%=showSearch.getName()%></a></td
 								></tr>
 								<tr
-									><td class="listCtrSmallWrapItem"><%=showSearch.getEpisodeName() != null ? showSearch.getEpisodeName() : ""%></td
+									><td class="listSmallWrapItem"><%=showSearch.getEpisodeName() != null ? showSearch.getEpisodeName() : ""%></td
 								></tr>
 							</table
 						></td
-						><td class="listCtrSmallItem"><%=showSearch.buildReleasedStr()%></td
-						><td class="listCtrSmallItem"><%=showSearch.buildCostStr()%></td
+						><td class="listSmallItem"><%=showSearch.buildReleasedStr()%></td
+						><td class="listSmallItem"><%=showSearch.buildCostStr()%></td
 					></tr>
 				<%
 				}

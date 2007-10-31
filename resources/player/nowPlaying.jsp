@@ -31,8 +31,8 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 		<table width="100%" cellspacing="0" cellpadding="3">
 			<thead>
 				<tr
-					><td class="listCtrHeader">Show</td
-					><td class="listCtrSmallHeader">Until</td
+					><td class="listHeader">Show</td
+					><td class="listSmallHeader">Until</td
 				></tr>
 			</thead>
 			<tbody>
@@ -40,19 +40,19 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 				for(RentedShowSearch rentedShowSearch : rentedShowSearchList)
 				{
 				%>
-					<tr class="listCtrRow"
+					<tr class="listRow"
 						><td
 							><table cellpadding="0" cellspacing="0" border="0">
 								<tr
 									><td rowspan="2" style="padding-left:5px;"><img src="images/no_picture.gif" border=0 width=48 height=48 alt=""/></td
-									><td class="listCtrItem"><a class="listCtrItem" href="nowPlaying.jsp"><%=rentedShowSearch.getName()%></a></td
+									><td class="listItem"><a class="listItem" href="nowPlaying.jsp"><%=rentedShowSearch.getName()%></a></td
 								></tr>
 								<tr
-									><td class="listCtrSmallWrapItem"><%=rentedShowSearch.getEpisodeName() != null ? rentedShowSearch.getEpisodeName() : ""%></td
+									><td class="listSmallWrapItem"><%=rentedShowSearch.getEpisodeName() != null ? rentedShowSearch.getEpisodeName() : ""%></td
 								></tr>
 							</table
 						></td
-						><td class="listCtrSmallItem"><%=rentedShowSearch.buildAvailableUtilStr()%></td
+						><td class="listSmallItem"><%=rentedShowSearch.buildAvailableUtilStr()%></td
 					></tr>
 				<%
 				}
