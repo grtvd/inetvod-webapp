@@ -45,11 +45,15 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 						><td
 							><table cellpadding="0" cellspacing="0" border="0">
 								<tr
-									><td rowspan="2" style="padding-left:5px;"><img src="images/no_picture.gif" border=0 width=48 height=48 alt=""/></td
-									><td class="listItem"><a class="listItem" href="nowPlaying.jsp"><%=showSearch.getName()%></a></td
+									><td rowspan="2" style="padding-left:5px;"><img src="images/no_picture.gif"
+										border=0 width=48 height=48 alt=""/></td
+									><td class="listItem"><a class="listItem"
+										onclick="StartupSearchDetail('<%=showSearch.getShowID()%>');"
+										><%=showSearch.getName()%></a></td
 								></tr>
 								<tr
-									><td class="listSmallWrapItem"><%=showSearch.getEpisodeName() != null ? showSearch.getEpisodeName() : ""%></td
+									><td class="listSmallWrapItem"><%=showSearch.getEpisodeName() != null
+										? showSearch.getEpisodeName() : ""%></td
 								></tr>
 							</table
 						></td

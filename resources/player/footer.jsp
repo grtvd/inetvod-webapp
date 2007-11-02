@@ -43,5 +43,8 @@
 			</td>
 		</tr>
 	</table>
+
+<jsp:include flush="true" page="screens.html"/>
+
 </body>
 </html>

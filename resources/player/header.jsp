@@ -17,6 +17,7 @@
 		var gCurMenuCookie = "curMenu";
 		function runOnLoad()
 		{
+			MainApp.getThe().init();
 			var curMenu = '<%=PageMenuMap.mapMenuFromPage(request.getServletPath())%>';
 			if(!testStrHasLen(curMenu))
 				curMenu = getCookie(gCurMenuCookie);
