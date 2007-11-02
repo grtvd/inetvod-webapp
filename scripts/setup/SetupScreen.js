@@ -35,7 +35,7 @@ function SetupScreen()
 	this.ScreenTitle = "setup";
 	this.ScreenTitleImage = "titleSetup.gif";
 
-	this.fContainerControl = new ContainerControl(this.ScreenID, 130, 170);
+	this.fContainerControl = new ContainerControl(this.ScreenID, 80, 100);
 
 	this.fStepControlID = AskSignedUpControl.ControlID;
 	this.fSetupData = new SetupData();
@@ -73,11 +73,11 @@ function SetupScreen()
 	}
 
 	oContainerControl.show(true);
-	oContainerControl.setFocus(true);
 	this.newControl(oContainerControl);
 	this.fStepControlID = oContainerControl.ControlID;
 	this.fCurStep = step;
 	oContainerControl.loadData(this.fSetupData);
+	this.setFocus(true);
 }
 
 /******************************************************************************/
@@ -99,17 +99,17 @@ function SetupScreen()
 
 /******************************************************************************/
 
-/*boolean*/ SetupScreen.prototype.key = function(/*int*/ key)
+/*boolean*/ SetupScreen.prototype.key = function(/*int*/ key, /*Event*/ evt)
 {
-	if((key == ek_Back) || (key == ek_Backspace))
+	if((key == ek_Back) || (key == ek_Escape))
 	{
-		if(this.fContainerControl.key(key))
+		if(this.fContainerControl.key(key, evt))
 			return true;
 
 		if(this.fCurStep == ss_AskSignedUpStep)
 		{
-			StartScreen.newInstance();
 			this.close();
+			MainApp.getThe().closePopup();
 			return true;
 		}
 		else if(this.fCurStep == ss_NeedLogonIDStep)
@@ -128,7 +128,7 @@ function SetupScreen()
 		}
 	}
 
-	return Screen.prototype.key.call(this, key);
+	return Screen.prototype.key.call(this, key, evt);
 }
 
 /******************************************************************************/
@@ -198,12 +198,7 @@ function SetupScreen()
 	{
 		this.close();
 
-		if(!oSession.saveDataSettings())
-		{
-			showMsg("An error occured while saving your settings.");
-			SetupScreen.newInstance();
-			return;
-		}
+		oSession.saveDataSettings();
 
 		oSession.loadSystemData(StartupInitial_afterLoadSystemData);
 	}

@@ -21,7 +21,7 @@ function tryit(m)
 function showMsg(msg)
 {
 
-	if(window.external.MediaCenter)
+	if(window.external && window.external.MediaCenter)
 		window.external.MediaCenter.Dialog(msg, "", 1, 5, false);
 	else
 		alert(msg);
@@ -54,7 +54,7 @@ function showError(loc, e)
 	if(!gShowErrors)
 		return;
 
-	if(window.external.MediaCenter)
+	if(window.external && window.external.MediaCenter)
 		window.external.MediaCenter.Dialog(msg, "Error", 1, 5, false);
 	else
 		alert(msg);
@@ -380,6 +380,78 @@ function arrayRemoveByCmpr(arr, itemComparer)
 }
 
 /******************************************************************************/
+/******************************************************************************/
+
+/*Event*/ function getEvent(/*Event*/ evt)
+{
+	if(isObject(evt))
+		return evt;
+	return event;
+}
+
+/******************************************************************************/
+
+/*Object*/ function getEventSource(/*Event*/ evt)
+{
+	if(isObject(evt))
+	{
+		if(isObject(evt.target))
+			return evt.target;
+		if(isObject(evt.srcElement))
+			return evt.srcElement;
+	}
+
+	return null;
+}
+
+/******************************************************************************/
+
+/*int*/ function getEventKeyCode(/*Event*/ evt)
+{
+	if(isObject(evt))
+	{
+		if(evt.keyCode)
+			return evt.keyCode;
+		if(evt.which)
+			return evt.which;
+	}
+
+	return 0;
+}
+
+/******************************************************************************/
+
+//TODO IE ONLY
+///*void*/ function setEventKeyCode(/*Event*/ evt, /*int*/ newKeyCode)
+//{
+//	if(isObject(evt))
+//	{
+//		if(evt.keyCode)
+//			evt.keyCode = newKeyCode;
+//		else if(evt.which)
+//			evt.which = newKeyCode;
+//	}
+//}
+
+/******************************************************************************/
+
+function isEventKeyCodeNavigation(/*int*/ key)
+{
+	return (key == ek_Backspace)
+		|| (key == ek_Tab)
+		|| (key == ek_Escape)
+		|| (key == ek_Select)
+		|| (key == ek_Back)
+		|| (key == ek_NextValue)
+		|| (key == ek_PrevValue)
+		|| (key == ek_UpButton)
+		|| (key == ek_DownButton)
+		|| (key == ek_LeftButton)
+		|| (key == ek_RightButton)
+		|| (key == ek_PageUp)
+		|| (key == ek_PageUp);
+}
+
 /******************************************************************************/
 
 function stopEventPropagation(evt)

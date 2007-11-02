@@ -139,9 +139,6 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 		tempStr = dateTimeToString(this.fRentedShow.AvailableUntil, dtf_M_D_H_MM_AM);
 	oControl.setText(tempStr);
 	this.newControl(oControl);
-
-	if(ViewPortControl.isOpen())
-		this.newControl(new ViewPortControl(ViewPortControl.ControlID, this.ScreenID));
 }
 
 /******************************************************************************/
@@ -162,17 +159,30 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 			var oControl = this.findControl(RentedShowDetailScreen.StatusIconID);
 
 			if(this.fDownloadStatus == DownloadStatus_InProgress)
-				oControl.setSource("images/ballYellow32.gif");
+				oControl.setSource("images/ballYellow24.gif");
 			else if(this.fDownloadStatus == DownloadStatus_Completed)
-				oControl.setSource("images/ballGreen32.gif");
+				oControl.setSource("images/ballGreen24.gif");
 			else //if(this.fDownloadStatus == DownloadStatus_NotStarted)
-				oControl.setSource("images/ballRed32.gif");
+				oControl.setSource("images/ballRed24.gif");
 			//else
 			//	oControl.setSource("images/ballOrange32.gif");
 		}
 	}
 
 	Screen.prototype.idle.call(this);
+}
+
+/******************************************************************************/
+
+/*boolean*/ RentedShowDetailScreen.prototype.key = function(/*int*/ key, /*Event*/ evt)
+{
+	if((key == ek_Back) || (key == ek_Escape))
+	{
+		MainApp.getThe().closePopup();
+		return;
+	}
+
+	return Screen.prototype.key.call(this, key, evt);
 }
 
 /******************************************************************************/
@@ -220,27 +230,17 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 	if(statusCode != sc_Success)
 		return;
 
-	if(!ViewPortControl.canOpen())
-	{
-		showMsg("This player does not play audio or video content.");
-		return;
-	}
+	alert("TODO: play media");
+/*
+	showMsg("This player does not play audio or video content.");
 
 	var oSession = MainApp.getThe().getSession();
-
-	var oControl = this.findControl(ViewPortControl.ControlID);
-	if(oControl == null)
-	{
-		oControl = new ViewPortControl(ViewPortControl.ControlID, this.ScreenID);
-		this.newControl(oControl);
-	}
-
-	this.fContainerControl.focusControl(ViewPortControl.ControlID, true);
 	var localURL = oSession.getDownloadRentedShowPath(this.fRentedShow.RentedShowID);
 	if(testStrHasLen(localURL))
 		oControl.playMedia(localURL);
 	else
 		oControl.playMedia(license.ShowURL);
+*/
 }
 
 /******************************************************************************/
@@ -251,10 +251,11 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 	if(statusCode == sc_Success)
 	{
 		this.close();
+		MainApp.getThe().closePopup();
 
-		var oNowPlayingScreen = MainApp.getThe().findScreen(NowPlayingScreen.ScreenID);
-		if(oNowPlayingScreen != null)
-			oNowPlayingScreen.removeRentedShow(this.fRentedShow.RentedShowID);
+		//		var oNowPlayingScreen = MainApp.getThe().findScreen(NowPlayingScreen.ScreenID);
+//		if(oNowPlayingScreen != null)
+//			oNowPlayingScreen.removeRentedShow(this.fRentedShow.RentedShowID);
 	}
 }
 

@@ -53,6 +53,18 @@ function Control()
 
 /******************************************************************************/
 
+/*void*/ Control.prototype.focusEvent = function(/*string*/ controlID)
+{
+}
+
+/******************************************************************************/
+
+/*void*/ Control.prototype.blurEvent = function(/*string*/ controlID)
+{
+}
+
+/******************************************************************************/
+
 /*boolean*/ Control.prototype.hasControl = function(/*string*/ controlID)
 {
 	return this.ControlID == controlID;
@@ -60,7 +72,7 @@ function Control()
 
 /******************************************************************************/
 
-/*boolean*/ Control.prototype.key = function(/*int*/ key)
+/*boolean*/ Control.prototype.key = function(/*int*/ key, /*Event*/ evt)
 {
 	return false;
 }

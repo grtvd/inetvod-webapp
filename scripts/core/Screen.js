@@ -85,12 +85,12 @@ function Screen()
 
 /******************************************************************************/
 
-/*boolean*/ Screen.prototype.key = function(/*int*/ keyCode)
+/*boolean*/ Screen.prototype.key = function(/*int*/ keyCode, /*Event*/ evt)
 {
-	if(this.fContainerControl.key(keyCode))
+	if(this.fContainerControl.key(keyCode, evt))
 		return true;
 
-	if((keyCode == ek_Back) || (keyCode == ek_Backspace))
+	if((keyCode == ek_Back) || (keyCode == ek_Escape))
 	{
 		this.close();
 		return true;
@@ -139,7 +139,7 @@ function Screen()
 /*void*/ Screen.prototype.onButton = function(/*string*/ controlID)
 {
 	// default action is to proceed to the next field
-	this.key(ek_DownButton);
+	this.key(ek_DownButton, null);
 }
 
 /******************************************************************************/

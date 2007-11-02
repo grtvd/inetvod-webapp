@@ -29,8 +29,8 @@ function ContainerControl(/*int*/ controlID, /*int*/ left, /*int*/ top)
 
 /*void*/ ContainerControl.prototype.moveTo = function(/*int*/ left, /*int*/ top)
 {
-	this.fUIObj.style.left = this.fLeft + left;
-	this.fUIObj.style.top = this.fTop + top;
+	this.fUIObj.style.left = (this.fLeft + left) + "px";
+	this.fUIObj.style.top = (this.fTop + top) + "px";
 }
 
 /******************************************************************************/
@@ -196,7 +196,7 @@ function ContainerControl(/*int*/ controlID, /*int*/ left, /*int*/ top)
 	{
 		if(oControl.canFocus())		// check canFocus in case control became disabled
 		{
-			oControl.setFocus(set);
+			//oControl.setFocus(set);
 			return;
 		}
 		this.fFocusedControlPos = -1;	// clear focused control
@@ -269,7 +269,7 @@ function ContainerControl(/*int*/ controlID, /*int*/ left, /*int*/ top)
 
 /******************************************************************************/
 
-/*boolean*/ ContainerControl.prototype.key = function(/*int*/ keyCode)
+/*boolean*/ ContainerControl.prototype.key = function(/*int*/ keyCode, /*Event*/ evt)
 {
 	var oCurControl = null;
 	var focusedPos = this.fFocusedControlPos;
@@ -278,7 +278,7 @@ function ContainerControl(/*int*/ controlID, /*int*/ left, /*int*/ top)
 	if(focusedPos != -1)
 	{
 		oCurControl = this.fControlArray[focusedPos];
-		if(oCurControl.key(keyCode))
+		if(oCurControl.key(keyCode, evt))
 			return true;
 
 		var nextControlID = this.onNavigate(oCurControl.ControlID, keyCode);
@@ -288,7 +288,7 @@ function ContainerControl(/*int*/ controlID, /*int*/ left, /*int*/ top)
 
 	if(nextfocusPos == -1)
 	{
-		if((keyCode == ek_DownButton) || (keyCode == ek_Tab))
+		if((keyCode == ek_DownButton) || ((keyCode == ek_Tab) && !evt.shiftKey))
 		{
 			for(var i = focusedPos + 1; i < this.fControlArray.length; i++)
 				if(this.fControlArray[i].canFocus())
@@ -298,7 +298,7 @@ function ContainerControl(/*int*/ controlID, /*int*/ left, /*int*/ top)
 				}
 		}
 
-		if(keyCode == ek_UpButton)
+		if((keyCode == ek_UpButton) || ((keyCode == ek_Tab) && evt.shiftKey))
 		{
 			for(var i = focusedPos - 1; i >= 0; i--)
 				if(this.fControlArray[i].canFocus())
@@ -358,21 +358,21 @@ function ContainerControl(/*int*/ controlID, /*int*/ left, /*int*/ top)
 
 		if (oControl.hasControl(controlID))
 		{
-			if(oControl.canFocus())
-			{
-				var oFocusedControl = this.findFocusedControl();
-
-				if(!oControl.hasFocus() || (oFocusedControl == null)
-					|| (oFocusedControl.ControlID != oControl.ControlID))
-				{
-					if((oFocusedControl != null)
-							&& (oFocusedControl.ControlID != oControl.ControlID))
-						oFocusedControl.setFocus(false);
-
-					this.fFocusedControlPos = i;
-					oControl.setFocus(true);
-				}
-			}
+//			if(oControl.canFocus())
+//			{
+//				var oFocusedControl = this.findFocusedControl();
+//
+//				if(!oControl.hasFocus() || (oFocusedControl == null)
+//					|| (oFocusedControl.ControlID != oControl.ControlID))
+//				{
+//					if((oFocusedControl != null)
+//							&& (oFocusedControl.ControlID != oControl.ControlID))
+//						oFocusedControl.setFocus(false);
+//
+//					this.fFocusedControlPos = i;
+//					oControl.setFocus(true);
+//				}
+//			}
 			oControl.mouseMove(/*bool buttonDown,*/ controlID)
 
 			return;
@@ -386,7 +386,10 @@ function ContainerControl(/*int*/ controlID, /*int*/ left, /*int*/ top)
 {
 	var oControl = this.findControl(controlID);
 	if((oControl != null) && oControl.canFocus())
-		this.setFocus(true, controlID);
+	{
+		this.fFocusedControlPos = this.findControlPos(oControl.ControlID);
+		oControl.focusEvent(controlID);
+	}
 }
 
 /******************************************************************************/
@@ -394,8 +397,8 @@ function ContainerControl(/*int*/ controlID, /*int*/ left, /*int*/ top)
 /*void*/ ContainerControl.prototype.blurEvent = function(/*string*/ controlID)
 {
 	var oControl = this.findControl(controlID);
-	if((oControl != null) && oControl.canFocus())
-		this.setFocus(false, controlID);
+	if(oControl != null)
+		oControl.blurEvent(controlID);
 }
 
 /******************************************************************************/

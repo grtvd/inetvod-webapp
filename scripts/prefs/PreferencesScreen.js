@@ -32,7 +32,6 @@ function PreferencesScreen()
 	this.ScreenTitleImage = "titlePrefs.gif";
 
 	this.fContainerControl = new ContainerControl(this.ScreenID, 122, 182);
-	this.fContainerControl.onNavigate = PreferencesScreen.onNavigate;
 
 	oControl = new TextControl(PreferencesScreen.AccessAdultValueID, this.ScreenID);
 	this.newControl(oControl);
@@ -41,9 +40,6 @@ function PreferencesScreen()
 	this.newControl(oControl);
 
 	this.newControl(new ButtonControl(PreferencesScreen.ResetFactoryButtonID, this.ScreenID));
-
-	if(ViewPortControl.isOpen())
-		this.newControl(new ViewPortControl(ViewPortControl.ControlID, this.ScreenID));
 
 	this.updateAdultAccess();
 }
@@ -79,17 +75,6 @@ function PreferencesScreen()
 
 	oControl = this.getControl(PreferencesScreen.AccessAdultButtonID);
 	oControl.setEnabled(!oSession.CanAccessAdult && (oSession.IncludeAdult == ina_PromptPassword));
-}
-
-/******************************************************************************/
-
-/*string*/ PreferencesScreen.onNavigate = function(/*string*/ fromControl, /*int*/ key)
-{
-	if(fromControl == PreferencesScreen.AccessAdultButtonID)
-		if(key == ek_LeftButton)
-			return ViewPortControl.ControlID;
-
-	return null;
 }
 
 /******************************************************************************/

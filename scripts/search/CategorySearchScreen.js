@@ -30,7 +30,6 @@ function CategorySearchScreen()
 	oRowItemList.push(new ListControlRowItem("Category", 438));
 
 	this.fContainerControl = new ContainerControl(this.ScreenID, 100, 150);
-	this.fContainerControl.onNavigate = CategorySearchScreen.onNavigate;
 
 	// load the Categories
 	var oSession = MainApp.getThe().getSession();
@@ -42,9 +41,6 @@ function CategorySearchScreen()
 
 	this.newControl(new TextListControl(CategorySearchScreen.CategoriesID, this.ScreenID, 8,
 		oRowItemList, itemList));
-
-	if(ViewPortControl.isOpen())
-		this.newControl(new ViewPortControl(ViewPortControl.ControlID, this.ScreenID));
 }
 
 /******************************************************************************/
@@ -68,17 +64,6 @@ function CategorySearchScreen()
 {
 	if(statusCode == sc_Success)
 		SearchResultsScreen.newInstance(showSearchList);
-}
-
-/******************************************************************************/
-
-/*string*/ CategorySearchScreen.onNavigate = function(/*string*/ fromControl, /*int*/ key)
-{
-	if(key == ek_LeftButton)
-		if(fromControl == CategorySearchScreen.CategoriesID)
-			return ViewPortControl.ControlID;
-
-	return null;
 }
 
 /******************************************************************************/

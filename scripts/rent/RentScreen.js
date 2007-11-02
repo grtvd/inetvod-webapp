@@ -38,7 +38,7 @@ function RentScreen(/*ShowDetail*/ oShowDetail)
 	this.ScreenTitle = "rent";
 	this.ScreenTitleImage = "titleRent.gif";
 
-	this.fContainerControl = new ContainerControl(this.ScreenID, 130, 170);
+	this.fContainerControl = new ContainerControl(this.ScreenID, 80, 100);
 
 	this.fStepControlID = null;
 	this.fRentData = new RentData(oShowDetail);
@@ -124,11 +124,11 @@ function RentScreen(/*ShowDetail*/ oShowDetail)
 
 /******************************************************************************/
 
-/*boolean*/ RentScreen.prototype.key = function(/*int*/ key)
+/*boolean*/ RentScreen.prototype.key = function(/*int*/ key, /*Event*/ evt)
 {
-	if((key == ek_Back) || (key == ek_Backspace))
+	if((key == ek_Back) || (key == ek_Escape))
 	{
-		if(this.fContainerControl.key(key))
+		if(this.fContainerControl.key(key, evt))
 			return true;
 
 		if(this.fCurStep == ss_PickRentalStep)
@@ -184,7 +184,7 @@ function RentScreen(/*ShowDetail*/ oShowDetail)
 		}
 	}
 
-	return Screen.prototype.key.call(this, key);
+	return Screen.prototype.key.call(this, key, evt);
 }
 
 /******************************************************************************/

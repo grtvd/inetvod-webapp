@@ -45,9 +45,6 @@ function SearchScreen()
 	this.newControl(new ButtonControl(SearchScreen.RatingID, this.ScreenID));
 
 	this.fSearchData = new SearchData();
-
-	if(ViewPortControl.isOpen())
-		this.newControl(new ViewPortControl(ViewPortControl.ControlID, this.ScreenID));
 }
 
 /******************************************************************************/
@@ -105,11 +102,6 @@ function SearchScreen()
 	{
 		if(fromControl == SearchScreen.SearchID)
 			return SearchScreen.ShowNameID;
-		if((fromControl == SearchScreen.ShowNameID)
-				|| (fromControl == SearchScreen.ProviderID)
-				|| (fromControl == SearchScreen.CategoryID)
-				|| (fromControl == SearchScreen.RatingID))
-			return ViewPortControl.ControlID;
 	}
 
 	if(key == ek_RightButton)

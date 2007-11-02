@@ -39,8 +39,7 @@ function ListControlRow(/*string*/ controlID, /*int*/ rowIndex,
 		this.focusRowItem(i, set);
 
 	if(set)
-		if(document.activeElement.id != this.fUIObj.id)
-			this.fUIObj.focus();
+		this.fUIObj.focus();
 }
 
 /******************************************************************************/

@@ -13,7 +13,6 @@ PickRentalControl.ProviderListID = "Rent001_PickRentalControl_ProviderList";
 PickRentalControl.newInstance = function()
 {
 	var containerControl = new PickRentalControl(PickRentalControl.ControlID, 0, 0);
-	containerControl.onNavigate = PickRentalControl.onNavigate;
 
 	var oRowItemList = new Array();
 	oRowItemList.push(new ListControlRowItem("Provider", 350));
@@ -23,9 +22,6 @@ PickRentalControl.newInstance = function()
 	containerControl.newControl(new TextControl(PickRentalControl.AvailTextID, RentScreen.ScreenID));
 	containerControl.newControl(new ShowProviderListControl(PickRentalControl.ProviderListID,
 		RentScreen.ScreenID, 3, oRowItemList, null));
-
-	if(ViewPortControl.isOpen())
-		containerControl.newControl(new ViewPortControl(ViewPortControl.ControlID, RentScreen.ScreenID));
 
 	return containerControl;
 }
@@ -71,17 +67,6 @@ function PickRentalControl(/*int*/ controlID, /*int*/ left, /*int*/ top)
 	oRentData.setRental(showProviderItem.Provider, showProviderItem.ShowCost);
 
 	return true;
-}
-
-/******************************************************************************/
-
-/*string*/ PickRentalControl.onNavigate = function(/*string*/ fromControl, /*int*/ key)
-{
-	if(key == ek_LeftButton)
-		if(fromControl == PickRentalControl.ProviderListID)
-			return ViewPortControl.ControlID;
-
-	return null;
 }
 
 /******************************************************************************/

@@ -6,6 +6,7 @@
 /* Event Keys */
 var ek_Backspace = 8;
 var ek_Tab = 9;
+var ek_Escape = 27;
 var ek_Select = 256;
 var ek_Back = 257;
 var ek_NextValue = 258;
@@ -35,15 +36,14 @@ function onRemoteEvent(keyCode)
 	if((keyCode >= 48) && (keyCode <= 57))
 		return true;
 
-	return !MainAppOnRemoteEvent(keyCode);
+	return !MainAppOnRemoteEvent(keyCode, event);
 }
 
 /******************************************************************************/
 
 function onScaleEvent(vScale)
 {
-	if(!window.external.MediaCenter)
-		document.getElementById("ScaleText").innerHTML = vScale;
+	document.getElementById("ScaleText").innerHTML = vScale;
 	if(isString(document.body.style.zoom))
 		document.body.style.zoom = vScale;
 }
@@ -53,24 +53,6 @@ function onScaleEvent(vScale)
 function DoScale()
 {
 	MainApp.getThe().onScale();
-}
-
-/******************************************************************************/
-
-function DoShowSVP(show)
-{
-	var oDiv = document.getElementById("SVP");
-	var oLink = document.getElementById("ShowSVPLink");
-	var oBlockTop = document.getElementById("MCEBlock_Top");
-	var oBlockBottom = document.getElementById("MCEBlock_Bottom");
-
-	if(show == undefined)
-		show = oDiv.style.display == "none";
-
-	setStyleDisplay(oDiv, show);
-	oLink.innerHTML = show ? "Hide SVP" : "Show SVP";
-	setStyleDisplay(oBlockTop, show);
-	setStyleDisplay(oBlockBottom, show);
 }
 
 /******************************************************************************/
@@ -89,12 +71,14 @@ function MainApp()
 {
 	this.fInit = false;
 	this.fScreenList = new Array();
-	this.fSession = Session.newInstance();
+	this.fSession = null;
 	this.fMainTable = null;
+	this.fMainPopup = null;
 	this.fScreenTitle = null;
 	this.fScreenTitleImageDiv = null;
 	this.fScreenTitleImage = null;
 	this.fFirstMouseMove = false;
+	this.fStartScreen = null;
 }
 
 /******************************************************************************/
@@ -104,7 +88,6 @@ function MainApp()
 {
 	this.closeAllScreens();
 	this.fSession = Session.newInstance();
-	StartScreen.newInstance();
 }
 
 /******************************************************************************/
@@ -121,27 +104,53 @@ function MainApp()
 	document.onkeypress = MainAppOnKeyPress;
 	window.onresize = MainAppOnResize;
 
-	if(window.external.MediaCenter)
-		window.external.MediaCenter.BGColor = "#002651";
-	document.body.scroll = "no";
-	document.body.focus();
+	//document.body.scroll = "no";
+	//document.body.focus();
 
 	this.fMainTable = document.getElementById("MainTable");
+	this.fMainPopup = document.getElementById("MainPopup");
 	this.fScreenTitle = document.getElementById("ScreenTitle");
 	this.fScreenTitleImageDiv = document.getElementById("ScreenTitleImageDiv");
 	this.fScreenTitleImage = document.getElementById("ScreenTitleImage");
 
-	if(!window.external.MediaCenter)
+	enableErrors(false);
+	window.setTimeout("MainAppIdle()", 500);
+	this.reset();
+}
+
+/******************************************************************************/
+
+/*void*/ MainApp.prototype.openPopup = function()
+{
+	setStyleDisplay(this.fMainPopup, true);
+}
+
+/******************************************************************************/
+
+/*void*/ MainApp.prototype.closePopup = function()
+{
+	this.reset();
+	setStyleDisplay(this.fMainPopup, false);
+}
+
+/******************************************************************************/
+
+/*void*/ MainApp.prototype.setStartScreen = function(/*string*/ screenID)
+{
+	this.fStartScreen = screenID;
+}
+
+/******************************************************************************/
+
+/*void*/ MainApp.prototype.openStartScreen = function()
+{
+	if(testStrHasLen(this.fStartScreen))
 	{
-		DoShowSVP(false);
-		setStyleDisplay(document.getElementById("ShowSVPDiv"), true);
-		DoScale();
-		setStyleDisplay(document.getElementById("ScaleDiv"), true);
+		eval(this.fStartScreen);
+		return;
 	}
 
-	enableErrors(!window.external.MediaCenter);
-	window.setTimeout("MainAppIdle()", 500);
-	StartScreen.newInstance();
+	this.closePopup();
 }
 
 /******************************************************************************/
@@ -164,7 +173,7 @@ function MainApp()
 	if(oCurScreen != null)
 	{
 		oCurScreen.show(false);
-		oCurScreen.setFocus(false);
+//		oCurScreen.setFocus(false);
 	}
 
 	return oScreen;
@@ -287,25 +296,25 @@ function MainApp()
 
 /******************************************************************************/
 
-/*void*/ MainApp.prototype.key = function(/*int*/ keyCode)
+/*void*/ MainApp.prototype.key = function(/*int*/ keyCode, /*Event*/ evt)
 {
 	if(this.fScreenList.length > 0)
 	{
 		var oScreen = this.fScreenList[this.fScreenList.length - 1];
-		var handled = oScreen.key(keyCode);
+		var handled = oScreen.key(keyCode, evt);
 
 		// if going back and all screens have been closed, return control to browser
 		if((keyCode == ek_Back) && (this.fScreenList.length == 0))
 			return false;
-		if((keyCode == ek_Backspace) && (this.fScreenList.length == 0))
+		if((keyCode == ek_Escape) && (this.fScreenList.length == 0))
 			return false;
 
 		//IE converts a Backspace into the <Back> button, if we have an open screen, don't pass event to IE
-		if((keyCode == ek_Backspace) && (this.fScreenList.length > 0))
-			handled = true;
+//		if((keyCode == ek_Backspace) && (this.fScreenList.length > 0))
+//			handled = true;
 		//IE don't let IE/MCE handle Tab key
-		if(keyCode == ek_Tab)
-			handled = true;
+//		if(keyCode == ek_Tab)
+//			handled = true;
 
 		if(!handled)
 			;	//TODO: beep sound
@@ -402,13 +411,14 @@ function MainApp()
 
 function MainAppOnKeyDown(evt)
 {
-	var keyCode = evt ? evt.keyCode : event.keyCode;
+	evt = getEvent(evt);
+	var keyCode = getEventKeyCode(evt);
 	if((keyCode == 8)
 			|| (keyCode == 9)
 			|| (keyCode == 13)
 			|| ((keyCode >= 33) && (keyCode <= 34))
 			|| ((keyCode >= 37) && (keyCode <= 40)))
-		return MainAppOnRemoteEvent(keyCode);
+		return MainAppOnRemoteEvent(keyCode, evt);
 	return true;
 }
 
@@ -423,22 +433,26 @@ function MainAppOnKeyUp()
 
 function MainAppOnKeyPress(evt)
 {
-	var keyCode = evt ? evt.keyCode : event.keyCode;
+	evt = getEvent(evt);
+	var keyCode = getEventKeyCode(evt);
 	if((keyCode != 8)
 			&& (keyCode != 9)
-			&& (keyCode != 13))
-		return MainAppOnRemoteEvent(keyCode);
+			&& (keyCode != 13)
+			&& !((keyCode >= 33) && (keyCode <= 34))
+			&& !((keyCode >= 37) && (keyCode <= 40))
+			&& !((keyCode >= 63232) && (keyCode <= 63235)))
+		return MainAppOnRemoteEvent(keyCode, evt);
 	return true;
 }
 
 /******************************************************************************/
 
-function MainAppOnRemoteEvent(keyCode)
+function MainAppOnRemoteEvent(keyCode, evt)
 {
 	try
 	{
 		if(!WaitScreen_isOpen())
-			return !MainApp.getThe().key(MainAppMapKey(keyCode));
+			return !MainApp.getThe().key(MainAppMapKey(keyCode), evt);
 	}
 	catch(e)
 	{
@@ -460,13 +474,13 @@ function MainAppMapKey(key)
 		key = ek_PageUp;
 	else if(key == 34)
 		key = ek_PageDown;
-	else if(key == 37)
+	else if((key == 37) || (key == 63234))
 		key = ek_LeftButton;
-	else if(key == 38)
+	else if((key == 38) || (key == 63232))
 		key = ek_UpButton;
-	else if(key == 39)
+	else if((key == 39) || (key == 63235))
 		key = ek_RightButton;
-	else if(key == 40)
+	else if((key == 40) || (key == 63233))
 		key = ek_DownButton;
 
 	return key;
@@ -495,7 +509,8 @@ function MainAppOnMouseClick(evt)
 	{
 		if(!WaitScreen_isOpen())
 		{
-			var obj = evt ? evt.target : event.srcElement;
+			evt = getEvent(evt);
+			var obj = getEventSource(evt);
 			obj = findObjectWithID(obj);
 			if(obj != null)
 				MainApp.getThe().mouseClick(obj.id);
@@ -513,7 +528,8 @@ function MainAppOnMouseOver(evt)
 {
 	try
 	{
-		var obj = evt ? evt.target : event.srcElement;
+		evt = getEvent(evt);
+		var obj = getEventSource(evt);
 		obj = findObjectWithID(obj);
 		if(obj != null)
 			MainApp.getThe().mouseMove(obj.id);
@@ -530,7 +546,8 @@ function MainAppOnFocus(evt)
 {
 	try
 	{
-		var obj = evt ? evt.target : event.srcElement;
+		evt = getEvent(evt);
+		var obj = getEventSource(evt);
 		obj = findObjectWithID(obj);
 		if(obj != null)
 			MainApp.getThe().focusEvent(obj.id);
@@ -547,7 +564,8 @@ function MainAppOnBlur(evt)
 {
 	try
 	{
-		var obj = evt ? evt.target : event.srcElement;
+		evt = getEvent(evt);
+		var obj = getEventSource(evt);
 		obj = findObjectWithID(obj);
 		if(obj != null)
 			MainApp.getThe().blurEvent(obj.id);

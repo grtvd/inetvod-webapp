@@ -116,7 +116,7 @@ function HTTPRequestor()
 
 	var xmlHttp = this.createXMLHttp();
 	xmlHttp.open("GET", session.getCryptoAPIURL() + request, false);
-	xmlHttp.send();
+	xmlHttp.send(null);
 
 	return xmlHttp.responseText;
 }

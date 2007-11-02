@@ -38,7 +38,6 @@ function ProviderSelectScreen(/*SearchDataPtr*/ oSearchData)
 	oRowItemList.push(new ListControlRowItem("Provider", 438));
 
 	this.fContainerControl = new ContainerControl(this.ScreenID, 100, 150);
-	this.fContainerControl.onNavigate = ProviderSelectScreen.onNavigate;
 
 	this.fSearchData = oSearchData;
 
@@ -53,9 +52,6 @@ function ProviderSelectScreen(/*SearchDataPtr*/ oSearchData)
 
 	this.newControl(new TextListControl(ProviderSelectScreen.ProvidersID, this.ScreenID, 8,
 		oRowItemList, itemList));
-
-	if(ViewPortControl.isOpen())
-		this.newControl(new ViewPortControl(ViewPortControl.ControlID, this.ScreenID));
 }
 
 /******************************************************************************/
@@ -71,17 +67,6 @@ function ProviderSelectScreen(/*SearchDataPtr*/ oSearchData)
 	oButtonControl.setText(oSession.getProviderName(this.fSearchData.ProviderID));
 
 	this.close();
-}
-
-/******************************************************************************/
-
-/*string*/ ProviderSelectScreen.onNavigate = function(/*string*/ fromControl, /*int*/ key)
-{
-	if(key == ek_LeftButton)
-		if(fromControl == ProviderSelectScreen.ProvidersID)
-			return ViewPortControl.ControlID;
-
-	return null;
 }
 
 /******************************************************************************/

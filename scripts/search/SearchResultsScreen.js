@@ -73,9 +73,6 @@ function SearchResultsScreen(/*Array*/ showSearchList)
 	if(showSearchList.length == 0)
 		this.newControl(oControl);
 	oControl.show(showSearchList.length == 0);
-
-	if(ViewPortControl.isOpen())
-		this.newControl(new ViewPortControl(ViewPortControl.ControlID, this.ScreenID));
 }
 
 /******************************************************************************/
@@ -161,8 +158,6 @@ function SearchResultsScreen(/*Array*/ showSearchList)
 	{
 		if(key == ek_LeftButton)
 			return SearchResultsScreen.SortByNameID;
-		if(key == ek_DownButton)
-			return ViewPortControl.ControlID;
 	}
 
 	if(fromControl == SearchResultsScreen.SortByNameID)
@@ -177,16 +172,6 @@ function SearchResultsScreen(/*Array*/ showSearchList)
 	{
 		if(key == ek_RightButton)
 			return SearchResultsScreen.ShowListID;
-		if(key == ek_DownButton)
-			return ViewPortControl.ControlID;
-	}
-
-	if(fromControl == ViewPortControl.ControlID)
-	{
-		if(key == ek_RightButton)
-			return SearchResultsScreen.ShowListID;
-		if(key == ek_UpButton)
-			return SearchResultsScreen.SortByPriceID;
 	}
 
 	return null;

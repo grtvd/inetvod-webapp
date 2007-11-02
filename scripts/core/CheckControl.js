@@ -15,12 +15,11 @@ function CheckControl(/*string*/ controlID, /*string*/ screenID)
 	this.fUIObj = document.getElementById(controlID);
 	if(this.fUIObj == null)
 		throw "CheckControl::ctor(controlID): Can't find UI object, ID(" + controlID + ")";
-	this.fUIObj.onmouseover = MainAppOnMouseOver;
-	this.fUIObj.onclick = MainAppOnMouseClick;
+//	this.fUIObj.onmouseover = MainAppOnMouseOver;
+//	this.fUIObj.onclick = MainAppOnMouseClick;
 	this.fUIObj.onfocus = MainAppOnFocus;
 	this.fUIObj.onblur = MainAppOnBlur;
 	this.fFocused = false;
-	this.fChecked = false;
 
 	this.setFocus(false);
 }
@@ -29,65 +28,39 @@ function CheckControl(/*string*/ controlID, /*string*/ screenID)
 
 /*boolean*/ CheckControl.prototype.getChecked = function()
 {
-	return this.fChecked;
+	return this.fUIObj.checked;
 }
 
 /******************************************************************************/
 
 /*void*/ CheckControl.prototype.setChecked = function(/*boolean*/ checked)
 {
-	this.fChecked = (checked ? true : false);
-	this.drawCheck();
-}
-
-/******************************************************************************/
-
-/*void*/ CheckControl.prototype.drawCheck = function()
-{
-	checkClassName(this.fUIObj, (this.fChecked
-		? (this.fFocused ? 'hilitechk' : 'normalchk')
-		: (this.fFocused ? 'hilite' : 'normal')));
+	this.fUIObj.checked = (checked ? true : false);
 }
 
 /******************************************************************************/
 
 /*void*/ CheckControl.prototype.setFocus = function(/*boolean*/ set)
 {
-	var wasFocused = this.fFocused;
-	this.fFocused = set;
-	this.drawCheck();
-
 	if(set)
-	{
-		if(document.activeElement.id != this.fUIObj.id)
-			this.fUIObj.focus();
-
-		if(!wasFocused)
-			this.getScreen().onFocus(this.ControlID);
-	}
+		this.fUIObj.focus();
 }
 
 /******************************************************************************/
 
-/*boolean*/ CheckControl.prototype.key = function(/*int*/ key)
+/*void*/ CheckControl.prototype.focusEvent = function(/*string*/ controlID)
 {
-	if(key == ek_Select)
-	{
-		this.fChecked = !this.fChecked;
-		this.drawCheck();
-
-		return true;
-	}
-
-	return Control.prototype.key.call(this, key);
+	var wasFocused = this.fFocused;
+	this.fFocused = true;
+	if(!wasFocused)
+		this.getScreen().onFocus(this.ControlID);
 }
 
 /******************************************************************************/
 
-/*void*/ CheckControl.prototype.mouseClick = function(/*string*/ controlID)
+/*void*/ CheckControl.prototype.blurEvent = function(/*string*/ controlID)
 {
-	this.fChecked = !this.fChecked;
-	this.drawCheck();
+	this.fFocused = false;
 }
 
 /******************************************************************************/

@@ -57,7 +57,7 @@ function Session()
 	this.fPlayer = Player.newInstance();
 
 	this.fPlayer.ManufacturerID = "inetvod";
-	this.fPlayer.ModelNo = "mce";
+	this.fPlayer.ModelNo = "webapp";
 	this.fPlayer.SerialNo = "9876543210";
 	this.fPlayer.Version = "0.0.0001";
 }
@@ -83,6 +83,8 @@ function Session()
 	return this.fIsUserLoggedOn;
 }
 
+/******************************************************************************/
+
 /*boolean*/ Session.prototype.haveUserID = function()
 {
 	return testStrHasLen(this.fUserID);
@@ -102,6 +104,15 @@ function Session()
 	this.fIsUserLoggedOn = false;
 	this.fUserID = null;
 	this.fUserPassword = null;
+	this.fSessionData = null;
+	this.fSessionExpires = null;
+}
+
+/******************************************************************************/
+
+/*boolean*/ Session.prototype.haveSessionData = function()
+{
+	return testStrHasLen(this.fSessionData);
 }
 
 /******************************************************************************/
@@ -232,6 +243,19 @@ function Session()
 			this.fRememberPassword = false;
 	}
 
+	this.fSessionData = null;
+	this.fSessionExpires = null;
+	var expiresStr = getCookie("sessexp");
+	if(testStrHasLen(expiresStr))
+	{
+		var expiresAt = new Date(Date.parse(expiresStr));
+		if((new Date()).getTime() < expiresAt)
+		{
+			this.fSessionData = getCookie("sess");
+			this.fSessionExpires = expiresAt;
+		}
+	}
+
 	return testStrHasLen(this.fUserID);
 }
 
@@ -255,6 +279,11 @@ function Session()
 		setCookie("password", this.fUserPassword, !this.fRememberPassword);
 		setCookie("remember", this.fRememberPassword ? "true" : "false", true);
 	}
+
+	deleteCookie("sess");
+	deleteCookie("sessexp");
+	setCookie("sess", this.fSessionData, true);
+	setCookie("sessexp", this.fSessionExpires.toString(), true);
 
 	return true;
 }
@@ -296,6 +325,7 @@ function Session()
 		}
 		catch(e)
 		{
+			showError("Session.callbackCaller", e);
 		}
 	}
 	else if(isFunction(this.CallerCallback))
@@ -306,6 +336,7 @@ function Session()
 		}
 		catch(e)
 		{
+			showError("Session.callbackCaller", e);
 		}
 	}
 }

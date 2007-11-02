@@ -30,16 +30,10 @@ function AskAdultPINScreen()
 	this.ScreenTitleImage = "titleEnterpin.gif";
 
 	this.fContainerControl = new ContainerControl(this.ScreenID, 200, 200);
-	this.fContainerControl.onNavigate = AskAdultPINScreen.onNavigate;
-
-	oControl = new EditControl(AskAdultPINScreen.PINID, this.ScreenID, 6);
+	oControl = new EditControl(AskAdultPINScreen.PINID, this.ScreenID, 6, 6);
 	this.newControl(oControl);
 	oControl.Type = ect_Numeric;
-	oControl.MaxLength = 6;
-	oControl.AutoButton = true;
-
-	if(ViewPortControl.isOpen())
-		this.newControl(new ViewPortControl(ViewPortControl.ControlID, this.ScreenID));
+//TODO?	oControl.AutoButton = true;
 }
 
 /******************************************************************************/
@@ -71,17 +65,6 @@ function AskAdultPINScreen()
 		MainApp.getThe().getScreen(PreferencesScreen.ScreenID).updateAdultAccess();
 		this.close();
 	}
-}
-
-/******************************************************************************/
-
-/*string*/ AskAdultPINScreen.onNavigate = function(/*string*/ fromControl, /*int*/ key)
-{
-	if(fromControl == AskAdultPINScreen.PINID)
-		if(key == ek_LeftButton)
-			return ViewPortControl.ControlID;
-
-	return null;
 }
 
 /******************************************************************************/

@@ -27,11 +27,8 @@ function NotInstalledScreen()
 	this.ScreenTitleImage = "titleSetup.gif";
 
 	this.fContainerControl = new ContainerControl(this.ScreenID, 130, 200);
-	this.fContainerControl.onNavigate = NotInstalledScreen.onNavigate;
 
 	this.newControl(new ButtonControl(NotInstalledScreen.ContinueID, this.ScreenID));
-	if(ViewPortControl.isOpen())
-		this.newControl(new ViewPortControl(ViewPortControl.ControlID, this.ScreenID));
 }
 
 /******************************************************************************/
@@ -45,17 +42,6 @@ function NotInstalledScreen()
 	}
 	else
 		showMsg("iNetVOD has not yet been installed.");
-}
-
-/******************************************************************************/
-
-/*string*/ NotInstalledScreen.onNavigate = function(/*string*/ fromControl, /*int*/ key)
-{
-	if(fromControl == NotInstalledScreen.ContinueID)
-		if(key == ek_LeftButton)
-			return ViewPortControl.ControlID;
-
-	return null;
 }
 
 /******************************************************************************/

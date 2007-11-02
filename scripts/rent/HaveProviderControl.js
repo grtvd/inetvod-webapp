@@ -15,24 +15,19 @@ HaveProviderControl.ContinueID = "Rent001_HaveProviderControl_Continue";
 HaveProviderControl.newInstance = function()
 {
 	var containerControl = new HaveProviderControl(HaveProviderControl.ControlID, 0, 0);
-	containerControl.onNavigate = HaveProviderControl.onNavigate;
 
 	var oControl;
 
 	containerControl.newControl(new TextControl(HaveProviderControl.DescriptionID, RentScreen.ScreenID));
 
-	oControl = new EditControl(HaveProviderControl.UserID, RentScreen.ScreenID, 9)
+	oControl = new EditControl(HaveProviderControl.UserID, RentScreen.ScreenID, 9, 64)
 	containerControl.newControl(oControl);
 	oControl.Type = ect_AlphaNumeric;
-	oControl.MaxLength = 64;
-	oControl = new EditControl(HaveProviderControl.PasswordID, RentScreen.ScreenID, 6);
+	oControl = new EditControl(HaveProviderControl.PasswordID, RentScreen.ScreenID, 6, 16);
 	oControl.Type = ect_AlphaNumeric;
-	oControl.MaxLength = 16;
 	containerControl.newControl(oControl);
 
 	containerControl.newControl(new ButtonControl(HaveProviderControl.ContinueID, RentScreen.ScreenID));
-	if(ViewPortControl.isOpen())
-		containerControl.newControl(new ViewPortControl(ViewPortControl.ControlID, RentScreen.ScreenID));
 
 	return containerControl
 }
@@ -90,25 +85,6 @@ function HaveProviderControl(/*int*/ controlID, /*int*/ left, /*int*/ top)
 	oRentData.Password = data;
 
 	return true;
-}
-
-/******************************************************************************/
-
-/*string*/ HaveProviderControl.onNavigate = function(/*string*/ fromControl, /*int*/ key)
-{
-	if(fromControl == ViewPortControl.ControlID)
-		if(key == ek_RightButton)
-			return HaveProviderControl.ContinueID;
-
-	if((fromControl == HaveProviderControl.UserID)
-		|| (fromControl == HaveProviderControl.PasswordID)
-		|| (fromControl == HaveProviderControl.ContinueID))
-	{
-		if(key == ek_LeftButton)
-			return ViewPortControl.ControlID;
-	}
-
-	return null;
 }
 
 /******************************************************************************/

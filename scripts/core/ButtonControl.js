@@ -19,9 +19,13 @@ function ButtonControl(/*string*/ controlID, /*string*/ screenID)
 	this.fUIObj.onclick = MainAppOnMouseClick;
 	this.fUIObj.onfocus = MainAppOnFocus;
 	this.fUIObj.onblur = MainAppOnBlur;
+	this.fUIObjFrame = document.getElementById(controlID + "_Frame");
+
+	checkClassName(this.fUIObj, 'normal');
+	if(this.fUIObjFrame != null)
+		checkClassName(this.fUIObjFrame, 'normal');
 
 	this.fFocused = false;
-
 	this.setFocus(false);
 }
 
@@ -38,28 +42,44 @@ function ButtonControl(/*string*/ controlID, /*string*/ screenID)
 {
 	this.fEnabled = enable;
 	checkClassName(this.fUIObj, this.fEnabled ? (this.fFocused ? 'hilite' : 'normal') : 'disabled');
+	if(this.fUIObjFrame != null)
+		checkClassName(this.fUIObjFrame, this.fEnabled ? (this.fFocused ? 'hilite' : 'normal') : 'disabled');
 }
 
 /******************************************************************************/
 
 /*void*/ ButtonControl.prototype.setFocus = function(/*boolean*/ set)
 {
-	var wasFocused = this.fFocused;
-	checkClassName(this.fUIObj, set ? 'hilite' : 'normal');
-	this.fFocused = set;
 	if(set)
-	{
-		if(document.activeElement.id != this.fUIObj.id)
-			this.fUIObj.focus();
-
-		if(!wasFocused)
-			this.getScreen().onFocus(this.ControlID);
-	}
+		this.fUIObj.focus();
 }
 
 /******************************************************************************/
 
-/*boolean*/ ButtonControl.prototype.key = function(/*int*/ key)
+/*void*/ ButtonControl.prototype.focusEvent = function(/*string*/ controlID)
+{
+	var wasFocused = this.fFocused;
+	checkClassName(this.fUIObj, 'hilite');
+	if(this.fUIObjFrame != null)
+		checkClassName(this.fUIObjFrame, 'hilite');
+	this.fFocused = true;
+	if(!wasFocused)
+		this.getScreen().onFocus(this.ControlID);
+}
+
+/******************************************************************************/
+
+/*void*/ ButtonControl.prototype.blurEvent = function(/*string*/ controlID)
+{
+	checkClassName(this.fUIObj, 'normal');
+	if(this.fUIObjFrame != null)
+		checkClassName(this.fUIObjFrame, 'normal');
+	this.fFocused = false;
+}
+
+/******************************************************************************/
+
+/*boolean*/ ButtonControl.prototype.key = function(/*int*/ key, /*Event*/ evt)
 {
 	if(key == ek_Select)
 	{
@@ -67,7 +87,7 @@ function ButtonControl(/*string*/ controlID, /*string*/ screenID)
 		return true;
 	}
 
-	return Control.prototype.key.call(this, key);
+	return Control.prototype.key.call(this, key, evt);
 }
 
 /******************************************************************************/

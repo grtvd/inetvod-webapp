@@ -364,7 +364,7 @@ function ListControl(/*string*/ controlID, /*string*/ screenID, /*int*/ numRows,
 
 /******************************************************************************/
 
-/*boolean*/ ListControl.prototype.key = function(/*int*/ key)
+/*boolean*/ ListControl.prototype.key = function(/*int*/ key, /*Event*/ evt)
 {
 	if(key == ek_Select)
 	{
@@ -475,14 +475,14 @@ function ListControl(/*string*/ controlID, /*string*/ screenID, /*int*/ numRows,
 	if(controlID == this.fUIUpIconObj.id)
 	{
 		if(this.isUpIconEnabled())
-			this.key(ek_PageUp);
+			this.key(ek_PageUp, null /*TODO*/);
 		return;
 	}
 
 	if(controlID == this.fUIDownIconObj.id)
 	{
 		if(this.isDownIconEnabled())
-			this.key(ek_PageDown);
+			this.key(ek_PageDown, null /*TODO*/);
 		return;
 	}
 

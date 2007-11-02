@@ -3,16 +3,14 @@
 /******************************************************************************/
 /******************************************************************************/
 
-function StartupInitialCheck()
+function StartupInitialCheck(/*string*/ startScreen)
 {
-	var oSession = MainApp.getThe().getSession();
+	var oMainApp = MainApp.getThe();
+	var oSession = oMainApp.getSession();
 
-	/* has the app been installed locally? */
-	if(!oSession.checkInstall())
-	{
-		NotInstalledScreen.newInstance();
-		return;
-	}
+	oMainApp.reset();
+	oMainApp.openPopup();
+	oMainApp.setStartScreen(startScreen);
 
 	/* connect to the server */
 	if(!oSession.CanPingServer)
@@ -30,7 +28,7 @@ function StartupInitialCheck()
 {
 	if(statusCode != sc_Success)
 	{
-		StartScreen.newInstance();
+		MainApp.getThe().closePopup();
 		return;
 	}
 
@@ -39,6 +37,12 @@ function StartupInitialCheck()
 	if(!oSession.loadDataSettings())
 	{
 		SetupScreen.newInstance();
+		return;
+	}
+
+	if(oSession.haveSessionData())
+	{
+		oSession.loadSystemData(StartupInitial_afterLoadSystemData);
 		return;
 	}
 
@@ -60,6 +64,8 @@ function StartupInitialCheck()
 
 	if(statusCode == sc_Success)
 	{
+		oSession.saveDataSettings();
+
 		oSession.loadSystemData(StartupInitial_afterLoadSystemData);
 	}
 	else if(statusCode == sc_InvalidUserIDPassword)
@@ -77,13 +83,51 @@ function StartupInitialCheck()
 
 	if(statusCode == sc_Success)
 	{
-		WelcomeScreen.newInstance();
+		MainApp.getThe().openStartScreen();
 	}
 	else
 	{
 		oSession.clearLogonInfo();
-		StartScreen.newInstance();
+		MainApp.getThe().closePopup();
 	}
+}
+
+/******************************************************************************/
+/******************************************************************************/
+
+/*void*/ function StartupSearchDetail(/*ShowID*/ showID)
+{
+	StartupInitialCheck("MainApp.getThe().getSession().showDetail(StartupSearchDetail_afterShowDetail, '" + showID + "');");
+}
+
+/******************************************************************************/
+
+/*void*/ function StartupSearchDetail_afterShowDetail(/*ShowDetail*/ showDetail,
+	/*StatusCode*/ statusCode, /*string*/ statusMessage)
+{
+	if(statusCode == sc_Success)
+		SearchDetailScreen.newInstance(showDetail);
+	else
+		MainApp.getThe().closePopup();
+}
+
+/******************************************************************************/
+/******************************************************************************/
+
+/*void*/ function StartupRentedShowDetail(/*RentedShowID*/ rentedShowID)
+{
+	StartupInitialCheck("MainApp.getThe().getSession().rentedShow(StartupRentedShowDetail_afterRentedShow, '" + rentedShowID + "');");
+}
+
+/******************************************************************************/
+
+/*void*/ function StartupRentedShowDetail_afterRentedShow(/*RentedShow*/ rentedShow,
+	/*StatusCode*/ statusCode, /*string*/ statusMessage)
+{
+	if(statusCode == sc_Success)
+		RentedShowDetailScreen.newInstance(rentedShow);
+	else
+		MainApp.getThe().closePopup();
 }
 
 /******************************************************************************/

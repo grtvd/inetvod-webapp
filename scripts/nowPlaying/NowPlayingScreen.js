@@ -81,9 +81,6 @@ function NowPlayingScreen(/*Array*/ rentedShowSearchList)
 	if(rentedShowSearchList.length == 0)
 		this.newControl(oControl);
 	oControl.show(rentedShowSearchList.length == 0);
-
-	if(ViewPortControl.isOpen())
-		this.newControl(new ViewPortControl(ViewPortControl.ControlID, this.ScreenID));
 }
 
 /******************************************************************************/
@@ -188,8 +185,6 @@ function NowPlayingScreen(/*Array*/ rentedShowSearchList)
 	{
 		if(key == ek_LeftButton)
 			return NowPlayingScreen.SortByNameID;
-		if(key == ek_DownButton)
-			return ViewPortControl.ControlID;
 	}
 
 	if(fromControl == NowPlayingScreen.SortByNameID)
@@ -200,16 +195,6 @@ function NowPlayingScreen(/*Array*/ rentedShowSearchList)
 	{
 		if(key == ek_RightButton)
 			return NowPlayingScreen.ShowListID;
-		if(key == ek_DownButton)
-			return ViewPortControl.ControlID;
-	}
-
-	if(fromControl == ViewPortControl.ControlID)
-	{
-		if(key == ek_RightButton)
-			return NowPlayingScreen.ShowListID;
-		if(key == ek_UpButton)
-			return NowPlayingScreen.SortByUntilID;
 	}
 
 	return null;

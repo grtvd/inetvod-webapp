@@ -31,28 +31,23 @@ function AskPINScreen()
 	this.ScreenTitleImage = "titleEnterpin.gif";
 
 	this.fContainerControl = new ContainerControl(this.ScreenID, 200, 200);
-	this.fContainerControl.onNavigate = AskPINScreen.onNavigate;
 
-	oControl = new EditControl(AskPINScreen.PINID, this.ScreenID, 6);
+	oControl = new EditControl(AskPINScreen.PINID, this.ScreenID, 6, 6);
 	this.newControl(oControl);
-	oControl.MaxLength = 6;
-	oControl.AutoButton = true;
+//TODO?	oControl.AutoButton = true;
 	this.newControl(new ButtonControl(AskPINScreen.ContinueID, this.ScreenID));
-
-	if(ViewPortControl.isOpen())
-		this.newControl(new ViewPortControl(ViewPortControl.ControlID, this.ScreenID));
 }
 
 /******************************************************************************/
 
-/*boolean*/ AskPINScreen.prototype.key = function(/*int*/ key)
+/*boolean*/ AskPINScreen.prototype.key = function(/*int*/ key, /*Event*/ evt)
 {
-	var handled = Screen.prototype.key.call(this, key);
+	var handled = Screen.prototype.key.call(this, key, evt);
 
-	if((key == ek_Back) || (key == ek_Backspace))
+	if((key == ek_Back) || (key == ek_Escape))
 	{
 		if(!this.isOpen())
-			StartScreen.newInstance();
+			MainApp.getThe().closePopup();
 	}
 
 	return handled;
@@ -94,17 +89,6 @@ function AskPINScreen()
 
 		oSession.loadSystemData(StartupInitial_afterLoadSystemData);
 	}
-}
-
-/******************************************************************************/
-
-/*string*/ AskPINScreen.onNavigate = function(/*string*/ fromControl, /*int*/ key)
-{
-	if(key == ek_LeftButton)
-		if((fromControl == AskPINScreen.PINID) || (fromControl == AskPINScreen.ContinueID))
-			return ViewPortControl.ControlID;
-
-	return null;
 }
 
 /******************************************************************************/

@@ -26,12 +26,8 @@ function StartScreen()
 	this.ScreenTitle = "welcome";
 	this.ScreenTitleImage = "titleWelcome.gif";
 
-	this.fContainerControl = new ContainerControl(this.ScreenID, 130, 200);
-	this.fContainerControl.onNavigate = StartScreen.onNavigate;
-
+	this.fContainerControl = new ContainerControl(this.ScreenID, 80, 120);
 	this.newControl(new ButtonControl(StartScreen.StartID, this.ScreenID));
-	if(ViewPortControl.isOpen())
-		this.newControl(new ViewPortControl(ViewPortControl.ControlID, this.ScreenID));
 }
 
 /******************************************************************************/
@@ -40,17 +36,6 @@ function StartScreen()
 {
 	this.close();
 	StartupInitialCheck();
-}
-
-/******************************************************************************/
-
-/*string*/ StartScreen.onNavigate = function(/*string*/ fromControl, /*int*/ key)
-{
-	if(fromControl == StartScreen.StartID)
-		if(key == ek_LeftButton)
-			return ViewPortControl.ControlID;
-
-	return null;
 }
 
 /******************************************************************************/

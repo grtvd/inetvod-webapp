@@ -120,9 +120,19 @@ function SearchDetailScreen(/*RentedShow*/ showDetail)
 	else
 		oControl.setText("");
 	this.newControl(oControl);
+}
 
-	if(ViewPortControl.isOpen())
-		this.newControl(new ViewPortControl(ViewPortControl.ControlID, this.ScreenID));
+/******************************************************************************/
+
+/*boolean*/ SearchDetailScreen.prototype.key = function(/*int*/ key, /*Event*/ evt)
+{
+	if((key == ek_Back) || (key == ek_Escape))
+	{
+		MainApp.getThe().closePopup();
+		return;
+	}
+
+	return Screen.prototype.key.call(this, key, evt);
 }
 
 /******************************************************************************/

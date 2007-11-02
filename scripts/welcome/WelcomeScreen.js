@@ -31,15 +31,27 @@ function WelcomeScreen()
 	this.ScreenTitle = "welcome";
 	this.ScreenTitleImage = "titleWelcome.gif";
 
-	this.fContainerControl = new ContainerControl(this.ScreenID, 122, 182);
+	this.fContainerControl = new ContainerControl(this.ScreenID, 75, 110);
 	this.newControl(new ButtonControl(WelcomeScreen.NowPlayingID, this.ScreenID));
 	this.newControl(new ButtonControl(WelcomeScreen.FeaturedID, this.ScreenID));
 	this.newControl(new ButtonControl(WelcomeScreen.SearchByCategoryID, this.ScreenID));
 	this.newControl(new ButtonControl(WelcomeScreen.SearchByNameID, this.ScreenID));
 	this.newControl(new ButtonControl(WelcomeScreen.PreferencesID, this.ScreenID));
 	this.newControl(new TextControl(WelcomeScreen.HelpID, this.ScreenID));
-	if(ViewPortControl.isOpen())
-		this.newControl(new ViewPortControl(ViewPortControl.ControlID, this.ScreenID));
+}
+
+/******************************************************************************/
+
+/*boolean*/ WelcomeScreen.prototype.key = function(/*int*/ key, /*Event*/ evt)
+{
+	if((key == ek_Back) || (key == ek_Escape))
+	{
+		this.close();
+		MainApp.getThe().closePopup();
+		return;
+	}
+
+	return Screen.prototype.key.call(this, key, evt);
 }
 
 /******************************************************************************/

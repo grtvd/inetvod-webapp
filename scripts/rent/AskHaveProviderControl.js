@@ -15,14 +15,11 @@ AskHaveProviderControl.NeedMembershipID = "Rent001_AskHaveProviderControl_NeedMe
 AskHaveProviderControl.newInstance = function()
 {
 	var containerControl = new AskHaveProviderControl(AskHaveProviderControl.ControlID, 0, 0);
-	containerControl.onNavigate = AskHaveProviderControl.onNavigate;
 
 	containerControl.newControl(new TextControl(AskHaveProviderControl.WelcomeTextID, RentScreen.ScreenID));
 	containerControl.newControl(new TextControl(AskHaveProviderControl.MembershipTextID, RentScreen.ScreenID));
 	containerControl.newControl(new ButtonControl(AskHaveProviderControl.HaveMembershipID, RentScreen.ScreenID));
 	containerControl.newControl(new ButtonControl(AskHaveProviderControl.NeedMembershipID, RentScreen.ScreenID));
-	if(ViewPortControl.isOpen())
-		containerControl.newControl(new ViewPortControl(ViewPortControl.ControlID, RentScreen.ScreenID));
 
 	return containerControl
 }
@@ -60,24 +57,6 @@ function AskHaveProviderControl(/*int*/ controlID, /*int*/ left, /*int*/ top)
 	oControl.setText(tempStr);
 
 	return true;
-}
-
-/******************************************************************************/
-
-/*string*/ AskHaveProviderControl.onNavigate = function(/*string*/ fromControl, /*int*/ key)
-{
-	if(fromControl == ViewPortControl.ControlID)
-		if(key == ek_RightButton)
-			return AskHaveProviderControl.NeedMembershipID;
-
-	if((fromControl == AskHaveProviderControl.HaveMembershipID)
-		|| (fromControl == AskHaveProviderControl.NeedMembershipID))
-	{
-		if(key == ek_LeftButton)
-			return ViewPortControl.ControlID;
-	}
-
-	return null;
 }
 
 /******************************************************************************/
