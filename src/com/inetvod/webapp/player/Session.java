@@ -7,12 +7,15 @@ package com.inetvod.webapp.player;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.inetvod.common.core.DateUtil;
 import com.inetvod.common.core.Logger;
 import com.inetvod.common.core.StrUtil;
 import com.inetvod.common.data.CategoryID;
@@ -29,13 +32,15 @@ import com.inetvod.playerClient.rqdata.ShowSearchList;
 public class Session
 {
 	/* Constants */
-	public static final String fNetworkURL  = "http://" + "localhost" + "/inetvod/playerapi/xml"; //TODO host
+	public static final String fNetworkURL  = "http://localhost/inetvod/playerapi/xml"; //TODO host?
 	private static final String UserIDCookie = "user";
 	private static final String UserPasswordCookie = "password";
 	private static final String RememberPasswordCookie = "remember";
 	private static final String SessionDataCookie = "sess";
+	private static final String SessionExpiresDataCookie = "sessexp";
 	private static final int TenYearsSecs = 315360000;
 	private static final String CookieEncoding = "UTF-8";
+	private static final String GuestUserID = "guest";
 
 	/* Fields */
 	HttpServletRequest fRequest;
@@ -45,6 +50,7 @@ public class Session
 	private String fUserPassword;
 	private boolean fRememberPassword;
 	private String fSessionData;
+	private Date fSessionExpires;
 	HashMap<String, String> fCookieMap;
 	private Map<String, String[]> fParameterMap;
 
@@ -89,7 +95,7 @@ public class Session
 			loadDataSettings();
 			checkSignon();
 		}
-		catch(UnsupportedEncodingException e)
+		catch(Exception e)
 		{
 			Logger.logWarn(this, "load", e);
 			setError(null);
@@ -112,7 +118,7 @@ public class Session
 	private void saveCookie(String name, String value, boolean sessionOnly, Integer expireSecs, String path,
 		String domain, boolean secure) throws UnsupportedEncodingException
 	{
-		Cookie cookie = new Cookie(name, URLEncoder.encode(value, CookieEncoding));
+		Cookie cookie = new Cookie(name, StrUtil.hasLen(value) ? URLEncoder.encode(value, CookieEncoding) : null);
 
 		if(!sessionOnly)
 			cookie.setMaxAge((expireSecs == null) ? TenYearsSecs : expireSecs);
@@ -136,17 +142,48 @@ public class Session
 		fParameterMap = fRequest.getParameterMap();
 	}
 
-	private void loadDataSettings()
+	private void loadDataSettings() throws ParseException
 	{
 		fUserID = fCookieMap.get(UserIDCookie);
 		fUserPassword = fCookieMap.get(UserPasswordCookie);
 		fRememberPassword = "true".equals(fCookieMap.get(RememberPasswordCookie));
-		fSessionData = fCookieMap.get(SessionDataCookie);
 
 		if(!StrUtil.hasLen(fUserPassword))
 			fRememberPassword = false;
 
+		fSessionData = null;
+		fSessionExpires = null;
+		String expiresStr = fCookieMap.get(SessionExpiresDataCookie);
+		if(StrUtil.hasLen(expiresStr))
+		{
+			Date expiresAt = DateUtil.convertFromISO8601(expiresStr);
+			if((expiresAt != null) && ((new Date()).getTime() < expiresAt.getTime()))
+			{
+				fSessionData = fCookieMap.get(SessionDataCookie);
+				fSessionExpires = expiresAt;
+			}
+		}
+
 		//TODO return StrUtil.hasLen(fUserID);
+	}
+
+	private void saveDataSettings(boolean saveUser) throws UnsupportedEncodingException
+	{
+		if(saveUser)
+		{
+			//deleteCookie("user");
+			//deleteCookie("password");
+			//deleteCookie("remember");
+
+			//saveCookie(UserIDCookie, this.fUserID, false);
+			//saveCookie(UserPasswordCookie, this.fUserPassword, !this.fRememberPassword);
+			//saveCookie(RememberPasswordCookie, this.fRememberPassword ? "true" : "false", true);
+		}
+
+		//deleteCookie("sess");
+		//deleteCookie("sessexp");
+		saveCookie(SessionDataCookie, this.fSessionData, true);
+		saveCookie(SessionExpiresDataCookie, DateUtil.convertToISO8601(this.fSessionExpires), true);
 	}
 
 	private boolean checkSignon() throws UnsupportedEncodingException
@@ -154,16 +191,18 @@ public class Session
 		if(StrUtil.hasLen(fSessionData))
 			return true;
 
-		//TODO change to Guest account
-		if (!StrUtil.hasLen(fUserID))
+		if(StrUtil.hasLen(fUserID) && StrUtil.hasLen(fUserPassword))
 		{
-			fUserID = "100000000";
-			fUserPassword = "123456";
+			if(signon(fUserID, fUserPassword))
+			{
+				saveDataSettings(false);
+				return true;
+			}
 		}
 
-		if(signon(fUserID, fUserPassword))
+		if(signon(GuestUserID, null))
 		{
-			saveCookie(SessionDataCookie, fSessionData, true);
+			saveDataSettings(false);
 			return true;
 		}
 
@@ -206,8 +245,8 @@ public class Session
 		if(StatusCode.sc_Success.equals(playerRequestor.getStatusCode()))
 		{
 			fSessionData = signonResp.getSessionData();
+			fSessionExpires = signonResp.getSessionExpires();
 			//TODO
-			//this.fSessionExpires = signonResp.SessionExpires;
 			//this.fMemberPrefs = signonResp.MemberState.MemberPrefs;
 			//this.IncludeAdult = this.fMemberPrefs.IncludeAdult;
 			//this.CanAccessAdult = (this.IncludeAdult == ina_Always);

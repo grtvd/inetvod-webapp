@@ -248,7 +248,7 @@ function Session()
 	var expiresStr = getCookie("sessexp");
 	if(testStrHasLen(expiresStr))
 	{
-		var expiresAt = new Date(Date.parse(expiresStr));
+		var expiresAt = ISO8601DateTimeFromString(expiresStr);
 		if((new Date()).getTime() < expiresAt)
 		{
 			this.fSessionData = getCookie("sess");
@@ -283,7 +283,7 @@ function Session()
 	deleteCookie("sess");
 	deleteCookie("sessexp");
 	setCookie("sess", this.fSessionData, true);
-	setCookie("sessexp", this.fSessionExpires.toString(), true);
+	setCookie("sessexp", dateTimeToString(this.fSessionExpires, dtf_ISO8601_DateTime), true);
 
 	return true;
 }
