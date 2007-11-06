@@ -16,10 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.inetvod.common.core.Logger;
 import com.inetvod.common.core.StrUtil;
 import com.inetvod.common.data.CategoryID;
+import com.inetvod.common.data.ManufacturerID;
 import com.inetvod.common.data.ShowID;
 import com.inetvod.playerClient.PlayerRequestor;
 import com.inetvod.playerClient.request.SignonResp;
 import com.inetvod.playerClient.request.StatusCode;
+import com.inetvod.playerClient.rqdata.Player;
 import com.inetvod.playerClient.rqdata.RentedShowSearchList;
 import com.inetvod.playerClient.rqdata.ShowDetail;
 import com.inetvod.playerClient.rqdata.ShowSearchList;
@@ -199,7 +201,8 @@ public class Session
 	{
 		PlayerRequestor playerRequestor = getPlayerRequestor();
 
-		SignonResp signonResp = playerRequestor.signon(userID, userPassword);
+		Player player = Player.newInstance(new ManufacturerID("inetvod"), "webapp", "1", "1.0.0000");
+		SignonResp signonResp = playerRequestor.signon(userID, userPassword, player);
 		if(StatusCode.sc_Success.equals(playerRequestor.getStatusCode()))
 		{
 			fSessionData = signonResp.getSessionData();
