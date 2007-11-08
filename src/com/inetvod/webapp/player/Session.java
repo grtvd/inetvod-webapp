@@ -36,6 +36,7 @@ public class Session
 	private static final String UserIDCookie = "user";
 	private static final String UserPasswordCookie = "password";
 	private static final String RememberPasswordCookie = "remember";
+	private static final String GuestDataCookie = "guest";
 	private static final String SessionDataCookie = "sess";
 	private static final String SessionExpiresDataCookie = "sessexp";
 	private static final int TenYearsSecs = 315360000;
@@ -49,6 +50,7 @@ public class Session
 	private String fUserID;
 	private String fUserPassword;
 	private boolean fRememberPassword;
+	private boolean fGuestAccess;
 	private String fSessionData;
 	private Date fSessionExpires;
 	HashMap<String, String> fCookieMap;
@@ -122,8 +124,7 @@ public class Session
 
 		if(!sessionOnly)
 			cookie.setMaxAge((expireSecs == null) ? TenYearsSecs : expireSecs);
-		if(StrUtil.hasLen(path))
-			cookie.setPath(path);
+		cookie.setPath(StrUtil.hasLen(path) ? path : "/");
 		if(StrUtil.hasLen(domain))
 			cookie.setDomain(domain);
 		cookie.setSecure(secure);
@@ -151,6 +152,8 @@ public class Session
 		if(!StrUtil.hasLen(fUserPassword))
 			fRememberPassword = false;
 
+		fGuestAccess = "true".equals(fCookieMap.get(GuestDataCookie));
+
 		fSessionData = null;
 		fSessionExpires = null;
 		String expiresStr = fCookieMap.get(SessionExpiresDataCookie);
@@ -167,23 +170,24 @@ public class Session
 		//TODO return StrUtil.hasLen(fUserID);
 	}
 
-	private void saveDataSettings(boolean saveUser) throws UnsupportedEncodingException
+	private void saveDataSettings(boolean guestAccess) throws UnsupportedEncodingException
 	{
-		if(saveUser)
-		{
-			//deleteCookie("user");
-			//deleteCookie("password");
-			//deleteCookie("remember");
+		//deleteCookie("user");
+		//deleteCookie("password");
+		//deleteCookie("remember");
 
-			//saveCookie(UserIDCookie, this.fUserID, false);
-			//saveCookie(UserPasswordCookie, this.fUserPassword, !this.fRememberPassword);
-			//saveCookie(RememberPasswordCookie, this.fRememberPassword ? "true" : "false", true);
-		}
+		//saveCookie(UserIDCookie, this.fUserID, false);
+		//saveCookie(UserPasswordCookie, this.fUserPassword, !this.fRememberPassword);
+		//saveCookie(RememberPasswordCookie, this.fRememberPassword ? "true" : "false", true);
+
+		//deleteCookie("guest");
+		fGuestAccess = guestAccess;
+		saveCookie(GuestDataCookie, fGuestAccess ? "true" : "false", true);
 
 		//deleteCookie("sess");
 		//deleteCookie("sessexp");
-		saveCookie(SessionDataCookie, this.fSessionData, true);
-		saveCookie(SessionExpiresDataCookie, DateUtil.convertToISO8601(this.fSessionExpires), true);
+		saveCookie(SessionDataCookie, fSessionData, true);
+		saveCookie(SessionExpiresDataCookie, DateUtil.convertToISO8601(fSessionExpires), true);
 	}
 
 	private boolean checkSignon() throws UnsupportedEncodingException
@@ -202,7 +206,7 @@ public class Session
 
 		if(signon(GuestUserID, null))
 		{
-			saveDataSettings(false);
+			saveDataSettings(true);
 			return true;
 		}
 
@@ -256,7 +260,7 @@ public class Session
 			return true;
 		}
 		else if(StatusCode.sc_InvalidUserIDPassword.equals(playerRequestor.getStatusCode()))
-			this.fUserPassword = null;
+			fUserPassword = null;
 
 		showRequestError(playerRequestor.getStatusMessage());
 		return false;

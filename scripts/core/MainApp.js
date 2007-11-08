@@ -78,7 +78,6 @@ function MainApp()
 	this.fScreenTitleImageDiv = null;
 	this.fScreenTitleImage = null;
 	this.fFirstMouseMove = false;
-	this.fStartScreen = null;
 }
 
 /******************************************************************************/
@@ -122,6 +121,7 @@ function MainApp()
 
 /*void*/ MainApp.prototype.openPopup = function()
 {
+	this.closeAllScreens();
 	setStyleDisplay(this.fMainPopup, true);
 }
 
@@ -129,28 +129,8 @@ function MainApp()
 
 /*void*/ MainApp.prototype.closePopup = function()
 {
-	this.reset();
+	this.closeAllScreens();
 	setStyleDisplay(this.fMainPopup, false);
-}
-
-/******************************************************************************/
-
-/*void*/ MainApp.prototype.setStartScreen = function(/*string*/ screenID)
-{
-	this.fStartScreen = screenID;
-}
-
-/******************************************************************************/
-
-/*void*/ MainApp.prototype.openStartScreen = function()
-{
-	if(testStrHasLen(this.fStartScreen))
-	{
-		eval(this.fStartScreen);
-		return;
-	}
-
-	this.closePopup();
 }
 
 /******************************************************************************/

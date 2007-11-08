@@ -3,107 +3,55 @@
 /******************************************************************************/
 /******************************************************************************/
 
-function StartupInitialCheck(/*string*/ startScreen)
+function StartupFlow()
 {
-	var oMainApp = MainApp.getThe();
-	var oSession = oMainApp.getSession();
-
-	oMainApp.reset();
-	oMainApp.openPopup();
-	oMainApp.setStartScreen(startScreen);
-
-	/* connect to the server */
-	if(!oSession.CanPingServer)
-	{
-		oSession.pingServer(StartupInitial_afterPingServer);
-	}
-	else
-		StartupInitial_afterPingServer(null, sc_Success, null);
+	this.Data = null;
 }
 
-/******************************************************************************/
-
-/*void*/ function StartupInitial_afterPingServer(/*object*/ data, /*StatusCode*/ statusCode,
-	/*string*/ statusMessage)
-{
-	if(statusCode != sc_Success)
-	{
-		MainApp.getThe().closePopup();
-		return;
-	}
-
-	var oSession = MainApp.getThe().getSession();
-
-	if(!oSession.loadDataSettings())
-	{
-		SetupScreen.newInstance();
-		return;
-	}
-
-	if(oSession.haveSessionData())
-	{
-		oSession.loadSystemData(StartupInitial_afterLoadSystemData);
-		return;
-	}
-
-	if(!oSession.haveUserPassword())
-	{
-		AskPINScreen.newInstance();
-		return;
-	}
-
-	oSession.signon(StartupInitial_afterSignon);
-}
-
-/******************************************************************************/
-
-/*void*/ function StartupInitial_afterSignon(/*object*/ data, /*StatusCode*/ statusCode,
-	/*string*/ statusMessage)
-{
-	var oSession = MainApp.getThe().getSession();
-
-	if(statusCode == sc_Success)
-	{
-		oSession.saveDataSettings();
-
-		oSession.loadSystemData(StartupInitial_afterLoadSystemData);
-	}
-	else if(statusCode == sc_InvalidUserIDPassword)
-	{
-		AskPINScreen.newInstance();
-	}
-}
-
-/******************************************************************************/
-
-/*void*/ function StartupInitial_afterLoadSystemData(/*object*/ data, /*StatusCode*/ statusCode,
-	/*string*/ statusMessage)
-{
-	var oSession = MainApp.getThe().getSession();
-
-	if(statusCode == sc_Success)
-	{
-		MainApp.getThe().openStartScreen();
-	}
-	else
-	{
-		oSession.clearLogonInfo();
-		MainApp.getThe().closePopup();
-	}
-}
-
-/******************************************************************************/
 /******************************************************************************/
 
 /*void*/ function StartupSearchDetail(/*ShowID*/ showID)
 {
-	StartupInitialCheck("MainApp.getThe().getSession().showDetail(StartupSearchDetail_afterShowDetail, '" + showID + "');");
+	var oMainApp = MainApp.getThe();
+
+	oMainApp.openPopup();
+
+	var oSession = oMainApp.getSession();
+	oSession.loadDataSettings();
+
+	var oStartupFlow = new StartupFlow();
+	oStartupFlow.Data = showID;
+
+	if(!oSession.isSystemDataLoaded())
+	{
+		oStartupFlow.Callback = StartupFlow.prototype.SearchDetail_afterLoadSystemData;
+		oSession.loadSystemData(oStartupFlow);
+		return;
+	}
+
+	oStartupFlow.SearchDetail_afterLoadSystemData(null, sc_Success, null);
 }
 
 /******************************************************************************/
 
-/*void*/ function StartupSearchDetail_afterShowDetail(/*ShowDetail*/ showDetail,
-	/*StatusCode*/ statusCode, /*string*/ statusMessage)
+/*void*/ StartupFlow.prototype.SearchDetail_afterLoadSystemData = function(
+	/*object*/ data, /*StatusCode*/ statusCode, /*string*/ statusMessage)
+{
+	var oSession = MainApp.getThe().getSession();
+
+	if(statusCode == sc_Success)
+	{
+		this.Callback = StartupFlow.prototype.StartupSearchDetail_afterShowDetail;
+		oSession.showDetail(this, this.Data);
+	}
+	else
+		MainApp.getThe().closePopup();
+}
+
+/******************************************************************************/
+
+/*void*/ StartupFlow.prototype.StartupSearchDetail_afterShowDetail = function(
+	/*ShowDetail*/ showDetail, /*StatusCode*/ statusCode, /*string*/ statusMessage)
 {
 	if(statusCode == sc_Success)
 		SearchDetailScreen.newInstance(showDetail);
@@ -116,13 +64,49 @@ function StartupInitialCheck(/*string*/ startScreen)
 
 /*void*/ function StartupRentedShowDetail(/*RentedShowID*/ rentedShowID)
 {
-	StartupInitialCheck("MainApp.getThe().getSession().rentedShow(StartupRentedShowDetail_afterRentedShow, '" + rentedShowID + "');");
+//	StartupInitialCheck("MainApp.getThe().getSession().rentedShow(StartupRentedShowDetail_afterRentedShow, '" + rentedShowID + "');");
+
+	var oMainApp = MainApp.getThe();
+
+	oMainApp.openPopup();
+
+	var oSession = oMainApp.getSession();
+	oSession.loadDataSettings();
+
+	var oStartupFlow = new StartupFlow();
+	oStartupFlow.Data = rentedShowID;
+
+	if(!oSession.isSystemDataLoaded())
+	{
+		oStartupFlow.Callback = StartupFlow.prototype.RentedShowDetail_afterLoadSystemData;
+		oSession.loadSystemData(oStartupFlow);
+		return;
+	}
+
+	oStartupFlow.RentedShowDetail_afterLoadSystemData(null, sc_Success, null);
+
 }
 
 /******************************************************************************/
 
-/*void*/ function StartupRentedShowDetail_afterRentedShow(/*RentedShow*/ rentedShow,
-	/*StatusCode*/ statusCode, /*string*/ statusMessage)
+/*void*/ StartupFlow.prototype.RentedShowDetail_afterLoadSystemData = function(
+	/*object*/ data, /*StatusCode*/ statusCode, /*string*/ statusMessage)
+{
+	var oSession = MainApp.getThe().getSession();
+
+	if(statusCode == sc_Success)
+	{
+		this.Callback = StartupFlow.prototype.RentedShowDetail_afterRentedShow;
+		oSession.rentedShow(this, this.Data);
+	}
+	else
+		MainApp.getThe().closePopup();
+}
+
+/******************************************************************************/
+
+/*void*/ StartupFlow.prototype.RentedShowDetail_afterRentedShow = function(
+	/*RentedShow*/ rentedShow, /*StatusCode*/ statusCode, /*string*/ statusMessage)
 {
 	if(statusCode == sc_Success)
 		RentedShowDetailScreen.newInstance(rentedShow);

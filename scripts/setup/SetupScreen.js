@@ -12,9 +12,9 @@ var ss_HaveLogonIDStep = 2;
 
 /******************************************************************************/
 
-SetupScreen.newInstance = function()
+SetupScreen.newInstance = function(/*object*/ callerCallback)
 {
-	var oScreen = new SetupScreen();
+	var oScreen = new SetupScreen(callerCallback);
 
 	MainApp.getThe().openScreen(oScreen);
 	oScreen.openStep(ss_AskSignedUpStep);
@@ -29,11 +29,12 @@ SetupScreen.prototype.constructor = SetupScreen;
 
 /******************************************************************************/
 
-function SetupScreen()
+function SetupScreen(/*object*/ callerCallback)
 {
 	this.ScreenID = SetupScreen.ScreenID;
 	this.ScreenTitle = "setup";
 	this.ScreenTitleImage = "titleSetup.gif";
+	this.CallerCallback = callerCallback;
 
 	this.fContainerControl = new ContainerControl(this.ScreenID, 80, 100);
 
@@ -109,7 +110,6 @@ function SetupScreen()
 		if(this.fCurStep == ss_AskSignedUpStep)
 		{
 			this.close();
-			MainApp.getThe().closePopup();
 			return true;
 		}
 		else if(this.fCurStep == ss_NeedLogonIDStep)
@@ -200,7 +200,23 @@ function SetupScreen()
 
 		oSession.saveDataSettings();
 
-		oSession.loadSystemData(StartupInitial_afterLoadSystemData);
+		this.Callback = SetupScreen.prototype.doCallBackCaller;
+		oSession.loadSystemData(this);
+	}
+}
+
+/******************************************************************************/
+
+/*void*/ SetupScreen.prototype.doCallBackCaller = function(/*object*/ data,
+	/*StatusCode*/ statusCode, /*string*/ statusMessage)
+{
+	if(isObject(this.CallerCallback) && isFunction(this.CallerCallback.Callback))
+	{
+		this.CallerCallback.Callback();
+	}
+	else if(isFunction(this.CallerCallback))
+	{
+		this.CallerCallback();
 	}
 }
 

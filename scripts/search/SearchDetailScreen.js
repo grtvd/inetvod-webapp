@@ -143,11 +143,37 @@ function SearchDetailScreen(/*RentedShow*/ showDetail)
 
 	if(controlID == SearchDetailScreen.RentNowID)
 	{
-		RentScreen.newInstance(this.fShowDetail);
+		if(!oSession.isGuestAccess())
+		{
+			RentScreen.newInstance(this.fShowDetail);
+			return;
+		}
+
+		this.Callback = SearchDetailScreen.prototype.doAfterSignon;
+
+		if(!oSession.haveUserID())
+		{
+			SetupScreen.newInstance(this);
+			return;
+		}
+
+		if(!oSession.haveUserPassword())
+		{
+			AskPINScreen.newInstance(this);
+			return;
+		}
+
 		return;
 	}
 
 	Screen.prototype.onButton.call(this, controlID);
+}
+
+/******************************************************************************/
+
+/*void*/ SearchDetailScreen.prototype.doAfterSignon = function()
+{
+	RentScreen.newInstance(this.fShowDetail);
 }
 
 /******************************************************************************/

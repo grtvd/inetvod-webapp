@@ -10,9 +10,9 @@ AskPINScreen.ContinueID = "Startup004_Continue";
 
 /******************************************************************************/
 
-AskPINScreen.newInstance = function()
+AskPINScreen.newInstance = function(/*object*/ callerCallback)
 {
-	return MainApp.getThe().openScreen(new AskPINScreen());
+	return MainApp.getThe().openScreen(new AskPINScreen(callerCallback));
 }
 
 /******************************************************************************/
@@ -22,13 +22,14 @@ AskPINScreen.prototype.constructor = AskPINScreen;
 
 /******************************************************************************/
 
-function AskPINScreen()
+function AskPINScreen(/*object*/ callerCallback)
 {
 	var oControl;
 
 	this.ScreenID = AskPINScreen.ScreenID;
 	this.ScreenTitle = "enter pin";
 	this.ScreenTitleImage = "titleEnterpin.gif";
+	this.CallerCallback = callerCallback;
 
 	this.fContainerControl = new ContainerControl(this.ScreenID, 200, 200);
 
@@ -36,21 +37,6 @@ function AskPINScreen()
 	this.newControl(oControl);
 //TODO?	oControl.AutoButton = true;
 	this.newControl(new ButtonControl(AskPINScreen.ContinueID, this.ScreenID));
-}
-
-/******************************************************************************/
-
-/*boolean*/ AskPINScreen.prototype.key = function(/*int*/ key, /*Event*/ evt)
-{
-	var handled = Screen.prototype.key.call(this, key, evt);
-
-	if((key == ek_Back) || (key == ek_Escape))
-	{
-		if(!this.isOpen())
-			MainApp.getThe().closePopup();
-	}
-
-	return handled;
 }
 
 /******************************************************************************/
@@ -87,7 +73,23 @@ function AskPINScreen()
 
 		oSession.saveDataSettings();	// for possible temp store of userPassword
 
-		oSession.loadSystemData(StartupInitial_afterLoadSystemData);
+		this.Callback = AskPINScreen.prototype.doCallBackCaller;
+		oSession.loadSystemData(this);
+	}
+}
+
+/******************************************************************************/
+
+/*void*/ AskPINScreen.prototype.doCallBackCaller = function(/*object*/ data,
+	/*StatusCode*/ statusCode, /*string*/ statusMessage)
+{
+	if(isObject(this.CallerCallback) && isFunction(this.CallerCallback.Callback))
+	{
+		this.CallerCallback.Callback();
+	}
+	else if(isFunction(this.CallerCallback))
+	{
+		this.CallerCallback();
 	}
 }
 

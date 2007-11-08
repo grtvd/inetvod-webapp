@@ -34,6 +34,7 @@ function Session()
 	this.fUserID = null;
 	this.fUserPassword = null;
 	this.fRememberPassword = false;
+	this.fGuestAccess = false;
 	this.fSessionData = null;
 	this.fSessionExpires = null;
 	this.fMemberPrefs = null;
@@ -99,11 +100,19 @@ function Session()
 
 /******************************************************************************/
 
+/*boolean*/ Session.prototype.isGuestAccess = function()
+{
+	return this.fGuestAccess;
+}
+
+/******************************************************************************/
+
 /*void*/ Session.prototype.clearLogonInfo = function()
 {
 	this.fIsUserLoggedOn = false;
 	this.fUserID = null;
 	this.fUserPassword = null;
+	this.fGuestAccess = false;
 	this.fSessionData = null;
 	this.fSessionExpires = null;
 }
@@ -113,6 +122,13 @@ function Session()
 /*boolean*/ Session.prototype.haveSessionData = function()
 {
 	return testStrHasLen(this.fSessionData);
+}
+
+/******************************************************************************/
+
+/*boolean*/ Session.prototype.isSystemDataLoaded = function()
+{
+	return this.fIsSystemDataLoaded;
 }
 
 /******************************************************************************/
@@ -243,6 +259,8 @@ function Session()
 			this.fRememberPassword = false;
 	}
 
+	this.fGuestAccess = (getCookie("guest") == "true");
+
 	this.fSessionData = null;
 	this.fSessionExpires = null;
 	var expiresStr = getCookie("sessexp");
@@ -280,6 +298,9 @@ function Session()
 		setCookie("remember", this.fRememberPassword ? "true" : "false", true);
 	}
 
+	deleteCookie("guest");
+	setCookie("guest", this.fGuestAccess ? "true" : "false", true);
+
 	deleteCookie("sess");
 	deleteCookie("sessexp");
 	setCookie("sess", this.fSessionData, true);
@@ -300,6 +321,10 @@ function Session()
 		deleteCookie("password");
 		deleteCookie("remember");
 	}
+
+	deleteCookie("guest");
+	deleteCookie("sess");
+	deleteCookie("sessexp");
 }
 
 /******************************************************************************/
@@ -409,6 +434,7 @@ function Session()
 	WaitScreen_close();
 	if(statusCode == sc_Success)
 	{
+		this.fGuestAccess = false;
 		this.fSessionData = signonResp.SessionData;
 		this.fSessionExpires = signonResp.SessionExpires;
 		this.fMemberPrefs = signonResp.MemberState.MemberPrefs;

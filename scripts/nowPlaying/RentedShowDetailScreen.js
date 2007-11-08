@@ -53,7 +53,7 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 	this.newControl(new ButtonControl(RentedShowDetailScreen.DeleteNowID, this.ScreenID));
 
 	oControl = new ImageControl(RentedShowDetailScreen.StatusIconID, this.ScreenID);
-	oControl.setSource("images/ballRed32.gif");
+	oControl.setSource("images/ballRed24.gif");
 	this.newControl(oControl);
 
 	oControl = new TextControl(RentedShowDetailScreen.NameID, this.ScreenID);
@@ -250,8 +250,10 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 {
 	if(statusCode == sc_Success)
 	{
-		this.close();
-		MainApp.getThe().closePopup();
+		//noinspection SillyAssignmentJS
+		document.location = document.location;
+//		this.close();
+//		MainApp.getThe().closePopup();
 
 		//		var oNowPlayingScreen = MainApp.getThe().findScreen(NowPlayingScreen.ScreenID);
 //		if(oNowPlayingScreen != null)
