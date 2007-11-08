@@ -27,10 +27,8 @@
 			</filelist>
 			<filelist dir="scripts/controls">
 				<file name="TextListControl.js" />
-				<file name="ShowSearchListControl.js" />
 				<file name="ShowProviderListControl.js" />
 				<file name="ShowProviderItem.js" />
-				<file name="RentedShowListControl.js" />
 			</filelist>
 			<filelist dir="scripts/data">
 				<file name="Session.js" />
@@ -94,10 +92,6 @@
 				<file name="ReleaseShowRqst.js" />
 				<file name="ReleaseShowResp.js" />
 			</filelist>
-			<filelist dir="scripts/welcome">
-				<file name="StartScreen.js" />
-				<file name="WelcomeScreen.js" />
-			</filelist>
 			<filelist dir="scripts/setup">
 				<file name="StartupFlows.js" />
 				<file name="NotInstalledScreen.js" />
@@ -109,13 +103,11 @@
 				<file name="HaveLogonIDControl.js" />
 			</filelist>
 			<filelist dir="scripts/search">
-				<file name="CategorySearchScreen.js" />
 				<file name="SearchScreen.js" />
 				<file name="SearchData.js" />
 				<file name="ProviderSelectScreen.js" />
 				<file name="CategorySelectScreen.js" />
 				<file name="RatingSelectScreen.js" />
-				<file name="SearchResultsScreen.js" />
 				<file name="SearchDetailScreen.js" />
 			</filelist>
 			<filelist dir="scripts/rent">
@@ -128,7 +120,6 @@
 				<file name="ConfirmChargeControl.js" />
 			</filelist>
 			<filelist dir="scripts/nowPlaying">
-				<file name="NowPlayingScreen.js" />
 				<file name="RentedShowDetailScreen.js" />
 			</filelist>
 			<filelist dir="scripts/prefs">
