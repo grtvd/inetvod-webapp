@@ -1,11 +1,14 @@
+<%--
+Copyright © 2007 iNetVOD, Inc. All Rights Reserved.
+iNetVOD Confidential and Proprietary.  See LEGAL.txt.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-/**
- * Copyright © 2007 iNetVOD, Inc. All Rights Reserved.
- * iNetVOD Confidential and Proprietary.  See LEGAL.txt.
- */
-%>
+<%@ page import="com.inetvod.common.data.CategoryID" %>
 <%@ page import="com.inetvod.webapp.PageMenuMap" %>
+<%@ page import="com.inetvod.webapp.player.CategorySearchView" %>
+<%@ page import="com.inetvod.webapp.player.NowPlayingView" %>
+<%@ page import="com.inetvod.webapp.player.ProviderSearchView" %>
+<%@ page import="com.inetvod.webapp.player.SearchResultsView" %>
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -77,13 +80,13 @@
 			<td align="left" valign="top" width="170">
 				<table cellpadding="0" cellspacing="0" border="0" width="100%">
 					<tbody>
-						<tr><td id="NowPlaying_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a id="NowPlaying_Link" class="buttonCtr_normal" href="nowPlaying.jsp" onclick="onMenuClick(event, this); return true;">My Shows</a></td></tr>
+						<tr><td id="NowPlaying_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a id="NowPlaying_Link" class="buttonCtr_normal" href="<%=NowPlayingView.buildPath()%>" onclick="onMenuClick(event, this); return true;">My Shows</a></td></tr>
 						<tr><td height="2"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
-						<tr><td id="Featured_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a id="Featured_Link" class="buttonCtr_normal" href="searchResults.jsp?categoryid=featured" onclick="onMenuClick(event, this); return true;">Featured</a></td></tr>
+						<tr><td id="Featured_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a id="Featured_Link" class="buttonCtr_normal" href="<%=SearchResultsView.buildPath(null, CategoryID.Featured)%>" onclick="onMenuClick(event, this); return true;">Featured</a></td></tr>
 						<tr><td height="2"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
-						<tr><td id="SearchByCategory_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a id="SearchByCategory_Link" class="buttonCtr_normal" href="categorySearch.jsp" onclick="onMenuClick(event, this); return true;">Search By Category</a></td></tr>
+						<tr><td id="SearchByCategory_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a id="SearchByCategory_Link" class="buttonCtr_normal" href="<%=CategorySearchView.buildPath()%>" onclick="onMenuClick(event, this); return true;">Search By Category</a></td></tr>
 						<tr><td height="2"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
-						<tr><td id="SearchByProvider_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a id="SearchByProvider_Link" class="buttonCtr_normal" href="providerSearch.jsp" onclick="onMenuClick(event, this); return true;">Search By Provider</a></td></tr>
+						<tr><td id="SearchByProvider_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a id="SearchByProvider_Link" class="buttonCtr_normal" href="<%=ProviderSearchView.buildPath()%>" onclick="onMenuClick(event, this); return true;">Search By Provider</a></td></tr>
 						<tr><td height="2"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
 						<tr><td id="SearchByName_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a id="SearchByName_Link" class="buttonCtr_normal" href="search.jsp" onclick="onMenuClick(event, this); return true;">Search By Title</a></td></tr>
 						<tr><td height="2"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>

@@ -6,6 +6,9 @@ package com.inetvod.webapp.player;
 
 public class ProviderSearchView
 {
+	/* Constants */
+	private static final String PAGE = "providerSearch.jsp";
+
 	/* Construction */
 	public void load(Session session)
 	{
@@ -17,4 +20,8 @@ public class ProviderSearchView
 	}
 
 	/* Implementation */
+	public static String buildPath()
+	{
+		return PAGE;
+	}
 }

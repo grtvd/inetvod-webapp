@@ -6,6 +6,9 @@ package com.inetvod.webapp.player;
 
 public class CategorySearchView
 {
+	/* Constants */
+	private static final String PAGE = "categorySearch.jsp";
+
 	/* Construction */
 	public void load(Session session)
 	{
@@ -17,4 +20,8 @@ public class CategorySearchView
 	}
 
 	/* Implementation */
+	public static String buildPath()
+	{
+		return PAGE;
+	}
 }

@@ -8,6 +8,9 @@ import com.inetvod.playerClient.rqdata.RentedShowSearchList;
 
 public class NowPlayingView
 {
+	/* Constants */
+	private static final String PAGE = "nowPlaying.jsp";
+
 	/* Fields */
 	private RentedShowSearchList fRentedShowSearchList;
 
@@ -29,4 +32,8 @@ public class NowPlayingView
 	}
 
 	/* Implementation */
+	public static String buildPath()
+	{
+		return PAGE;
+	}
 }
