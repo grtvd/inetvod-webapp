@@ -24,7 +24,11 @@ import com.inetvod.common.data.ShowID;
 import com.inetvod.playerClient.PlayerRequestor;
 import com.inetvod.playerClient.request.SignonResp;
 import com.inetvod.playerClient.request.StatusCode;
+import com.inetvod.playerClient.request.SystemDataResp;
+import com.inetvod.playerClient.rqdata.CategoryList;
 import com.inetvod.playerClient.rqdata.Player;
+import com.inetvod.playerClient.rqdata.ProviderList;
+import com.inetvod.playerClient.rqdata.RatingList;
 import com.inetvod.playerClient.rqdata.RentedShowSearchList;
 import com.inetvod.playerClient.rqdata.ShowDetail;
 import com.inetvod.playerClient.rqdata.ShowSearchList;
@@ -56,6 +60,11 @@ public class Session
 	HashMap<String, String> fCookieMap;
 	private Map<String, String[]> fParameterMap;
 
+	private boolean fIsSystemDataLoaded;
+	private ProviderList fProviderList;
+	private CategoryList fCategoryList;
+	private RatingList fRatingList;
+
 	private boolean fHasError;
 	private String fMessage;
 
@@ -68,6 +77,11 @@ public class Session
 			return null;
 		return values[0];
 	}
+
+	public boolean isSystemDataLoaded() { return this.fIsSystemDataLoaded; }
+	public ProviderList getProviderList() { return fProviderList; }
+	public CategoryList getCategoryList() { return fCategoryList; }
+	public RatingList getRatingList() { return fRatingList; }
 
 	public boolean hasError() { return fHasError; }
 	public void setError(String message)
@@ -261,6 +275,25 @@ public class Session
 		}
 		else if(StatusCode.sc_InvalidUserIDPassword.equals(playerRequestor.getStatusCode()))
 			fUserPassword = null;
+
+		showRequestError(playerRequestor.getStatusMessage());
+		return false;
+	}
+
+	public boolean loadSystemData()
+	{
+		PlayerRequestor playerRequestor = getPlayerRequestor();
+
+		SystemDataResp systemDataResp = playerRequestor.systemData();
+		if(StatusCode.sc_Success.equals(playerRequestor.getStatusCode()))
+		{
+			fProviderList = systemDataResp.getProviderList();
+			fCategoryList = systemDataResp.getCategoryList();
+			fRatingList = systemDataResp.getRatingList();
+
+			fIsSystemDataLoaded = true;
+			return true;
+		}
 
 		showRequestError(playerRequestor.getStatusMessage());
 		return false;
