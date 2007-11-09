@@ -20,6 +20,8 @@ import com.inetvod.common.core.Logger;
 import com.inetvod.common.core.StrUtil;
 import com.inetvod.common.data.CategoryID;
 import com.inetvod.common.data.ManufacturerID;
+import com.inetvod.common.data.ProviderID;
+import com.inetvod.common.data.RatingID;
 import com.inetvod.common.data.ShowID;
 import com.inetvod.playerClient.PlayerRequestor;
 import com.inetvod.playerClient.request.SignonResp;
@@ -299,11 +301,11 @@ public class Session
 		return false;
 	}
 
-	public ShowSearchList showSearch(CategoryID categoryID)
+	public ShowSearchList showSearch(String search, ProviderID providerID, CategoryID categoryID, RatingID ratingID)
 	{
 		PlayerRequestor playerRequestor = getPlayerRequestor();
 
-		ShowSearchList showSearchList = playerRequestor.showSearch(categoryID);
+		ShowSearchList showSearchList = playerRequestor.showSearch(search, providerID, categoryID, ratingID);
 		if(StatusCode.sc_Success.equals(playerRequestor.getStatusCode()))
 		{
 			//TODO
