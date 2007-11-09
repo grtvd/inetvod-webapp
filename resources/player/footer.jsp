@@ -16,10 +16,10 @@
 						<td><h2 class="sl f">Sponsored Links</h2></td>
 					</tr>
 					<tr>
-						<td height="7"><img alt="" height="1" width="1" src=""/></td>
+						<td height="7"></td>
 					</tr>
 					<tr>
-						<td width="20"><img alt="" height="1" width="1" src=""/></td>
+						<td width="20"></td>
 						<td onmouseover="return true" nowrap="nowrap">
 							<font size="-0"><a id="an1" href="#"><b>Video</b> Without The Lag</a></font><br/>Why settle for less? Don't subject<br/>your customers to
 							<b>video</b> delay.<br/><span class="a">www.BitGravity.com</span><br/> <br/><font size="-0"><a id="an2"
