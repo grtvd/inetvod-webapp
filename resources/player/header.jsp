@@ -18,7 +18,7 @@
 		function runOnLoad()
 		{
 			MainApp.getThe().init();
-			var curMenu = '<%=PageMenuMap.mapMenuFromPage(request.getServletPath())%>';
+			var curMenu = '<%=PageMenuMap.mapMenuFromPage(request.getServletPath(), request.getQueryString())%>';
 			if(!testStrHasLen(curMenu))
 				curMenu = getCookie(gCurMenuCookie);
 			if(testStrHasLen(curMenu))
