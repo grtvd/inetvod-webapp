@@ -93,6 +93,13 @@ function Session()
 
 /******************************************************************************/
 
+/*string*/ Session.prototype.getUserID = function()
+{
+	return this.fUserID;
+}
+
+/******************************************************************************/
+
 /*boolean*/ Session.prototype.haveUserPassword = function()
 {
 	return testStrHasLen(this.fUserPassword);

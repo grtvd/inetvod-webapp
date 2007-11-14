@@ -21,11 +21,15 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 		function runOnLoad()
 		{
 			MainApp.getThe().init();
+			MainApp.getThe().getSession().loadDataSettings();
+
 			var curMenu = '<%=PageMenuMap.mapMenuFromPage(request.getServletPath(), request.getQueryString())%>';
 			if(!testStrHasLen(curMenu))
 				curMenu = getCookie(gCurMenuCookie);
 			if(testStrHasLen(curMenu))
 				hilightMenu(curMenu + "_");
+
+			headerCheckFields();
 		}
 		function hilightMenu(rowID)
 		{
@@ -57,6 +61,33 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 				document.location = oLink.href;
 			}
 		}
+		function headerCheckFields()
+		{
+			var oMainApp = MainApp.getThe();
+			var oSession = oMainApp.getSession();
+			var guestAccess = oSession.isGuestAccess();
+
+			var oUIObj = document.getElementById("HeaderLogon")
+			setStyleDisplay(oUIObj, guestAccess);
+
+			oUIObj = document.getElementById("HeaderUser");
+			oUIObj.innerHTML = (guestAccess || !oSession.haveUserID()) ? "" : oSession.getUserID();
+
+			oUIObj = document.getElementById("HeaderRegister");
+			setStyleDisplay(oUIObj, guestAccess);
+
+			oUIObj = document.getElementById("HeaderLogout");
+			setStyleDisplay(oUIObj, !guestAccess);
+		}
+		function headerLogout()
+		{
+			var oMainApp = MainApp.getThe();
+			var oSession = oMainApp.getSession();
+			oSession.resetDataSettings();
+			oMainApp.reset();
+
+			document.location = "index.jsp";
+		}
 	</script>
 </head>
 <body onload="runOnLoad();">
@@ -65,9 +96,11 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 			<td align="right" valign="top">
 				<table border="0" cellpadding="0" cellspacing="0">
 					<tr>
-						<td class="buttonCtr_normal">Login</td>
+						<td id="HeaderLogon" style="display:none"><a class="linkCtr">Logon</a></td>
+						<td id="HeaderUser" class="textCtr"></td>
 						<td class="textSmallLbl">&nbsp;|&nbsp;</td>
-						<td class="buttonCtr_normal">Register</td>
+						<td id="HeaderRegister" style="display:none"><a class="linkCtr" href="../member/mem_new.jsp">Register</a></td>
+						<td id="HeaderLogout" style="display:none"><a class="linkCtr" onclick="headerLogout()">Logout</a></td>
 					</tr>
 				</table>
 			</td>

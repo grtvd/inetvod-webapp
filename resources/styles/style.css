@@ -115,6 +115,19 @@ table
 	/*border: 1px solid blue;*/
 }
 
+.linkCtr
+{
+	background: #0291CE;
+	color: #DAF9FC;
+	text-decoration: none;
+	cursor: hand;
+	cursor: pointer;
+	padding: 5px;
+}
+.linkCtr:hover
+{
+	background: #7CC0E2;
+}
 .buttonCtr_normal
 {
 	color: #DAF9FC;
