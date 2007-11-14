@@ -80,7 +80,8 @@ public class Session
 		return values[0];
 	}
 
-	public boolean isSystemDataLoaded() { return this.fIsSystemDataLoaded; }
+	public boolean isGuestAccess() { return fGuestAccess; }
+	public boolean isSystemDataLoaded() { return fIsSystemDataLoaded; }
 	public ProviderList getProviderList() { return fProviderList; }
 	public CategoryList getCategoryList() { return fCategoryList; }
 	public RatingList getRatingList() { return fRatingList; }
