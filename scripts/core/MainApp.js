@@ -112,9 +112,25 @@ function MainApp()
 	this.fScreenTitleImageDiv = document.getElementById("ScreenTitleImageDiv");
 	this.fScreenTitleImage = document.getElementById("ScreenTitleImage");
 
+	this.updateMainBodyDivHeight();
 	enableErrors(false);
 	window.setTimeout("MainAppIdle()", 500);
 	this.reset();
+}
+
+/******************************************************************************/
+
+/*vod*/ MainApp.prototype.updateMainBodyDivHeight = function()
+{
+	var oMainBodyDiv = document.getElementById("MainBodyDiv");
+	var oAppTable = document.getElementById("AppTable");
+
+	var extra = 20; //border
+	if (oMainBodyDiv.offsetTop == 0)
+		extra += 20;	//fudge for IE
+
+	var newDivHeight = getWindowInnerHeight() - extra - oAppTable.offsetTop;
+	oMainBodyDiv.style.height = newDivHeight + "px";
 }
 
 /******************************************************************************/

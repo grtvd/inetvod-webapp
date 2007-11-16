@@ -49,7 +49,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 		{
 		%>
 
-			<table width="100%" cellspacing="0" cellpadding="3">
+			<table cellspacing="0" cellpadding="3">
 				<thead>
 					<tr
 						><td class="listHeader">Show</td

@@ -469,3 +469,42 @@ function stopEventPropagation(evt)
 
 /******************************************************************************/
 /******************************************************************************/
+
+function getWindowInnerWidth()
+{
+	// all except Explorer
+	if(self && self.innerHeight)
+		return self.innerWidth;
+
+	// Explorer 6 Strict Mode
+	if(document.documentElement && document.documentElement.clientHeight)
+		return document.documentElement.clientWidth;
+
+	// other Explorers
+	if(document.body && document.body.clientWidth)
+		return document.body.clientWidth;
+
+	throw "getWindowInnerWidth: can't get width";
+}
+
+/******************************************************************************/
+
+function getWindowInnerHeight()
+{
+	// all except Explorer
+	if(self && self.innerHeight)
+		return self.innerHeight;
+
+	// Explorer 6 Strict Mode
+	if(document.documentElement && document.documentElement.clientHeight)
+		return document.documentElement.clientHeight;
+
+	// other Explorers
+	if(document.body)
+		return document.body.clientHeight;
+
+	throw "getWindowInnerHeight: can't get height";
+}
+
+/******************************************************************************/
+/******************************************************************************/

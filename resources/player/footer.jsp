@@ -1,10 +1,9 @@
+<%--
+Copyright © 2007 iNetVOD, Inc. All Rights Reserved.
+iNetVOD Confidential and Proprietary.  See LEGAL.txt.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-/**
- * Copyright © 2007 iNetVOD, Inc. All Rights Reserved.
- * iNetVOD Confidential and Proprietary.  See LEGAL.txt.
- */
-%>
+				</div>
 			</td>
 
 			<td align="left" valign="top" width="280" class="ads">
@@ -29,12 +28,7 @@
 							<b>podcasts</b> now</a></font><br/>Create, Share and Discover<br/>1000s of top shows for free<br/><span
 							class="a">www.podshow.com</span><br/> <br/><font size="-0"><a id="an4"
 							href="#">90,000 Pod Movies</a></font><br/>Unlimited &amp; Unrestricted Pod DVDs<br/>Fast Search, Download &amp; enjoy!<br/><span
-							class="a">xf2.net/iPodDownloads</span><br/> <br/><font size="-0"><a id="an5"
-							href="#">Free ipod
-							<b>video</b> downloads</a></font><br/>Totally free videos and animation<br/>for the ipod
-							<b>video</b> player.<br/><span class="a">www.heavy.com/ipod</span><br/> <br/><font size="-0"><a id="an6"
-							href="#">Start Podcasting Now</a></font><br/><b>Podcast</b> production services and<br/>Business podcasting solutions<br/><span
-							class="a">www.audioexpansion.com</span>
+							class="a">xf2.net/iPodDownloads</span>
 						</td>
 					</tr>
 				</table>

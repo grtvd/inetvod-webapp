@@ -108,7 +108,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 		<tr><td height="10"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
 	</table>
 
-	<table border="0" cellpadding="0" cellspacing="0" width="100%">
+	<table id="AppTable" border="0" cellpadding="0" cellspacing="0" width="100%">
 		<tr>
 			<td align="left" valign="top" width="170">
 				<table cellpadding="0" cellspacing="0" border="0" width="100%">
@@ -128,4 +128,5 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 				</table>
 
 			</td>
-			<td valign="top" class="mainbody" height="400">
+			<td valign="top" class="mainbody">
+				<div id="MainBodyDiv" style="overflow:auto;">
