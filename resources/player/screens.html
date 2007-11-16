@@ -10,15 +10,27 @@
 <!-- *********************************************************************** -->
 
 <div id="Startup004" style="position:absolute; display:none;">
-<table cellpadding=0 cellspacing=0 border=0 width=380>
+<table cellpadding=0 cellspacing=0 border=0 width=470>
 	<tr><td class="textCtr">
-		Please enter your PIN:<br>
+		Please enter your registered Email and your chosen Password:<br>
 		<br>
 	</td></tr>
 	<tr><td align="center"
-		><table cellpadding=0 cellspacing=6 border=0
-			><tr><td class="textLbl">PIN:</td
-				><td><input id="Startup004_PIN" type="password" class="editCtr_normal" size="6" maxlength="6"
+		><table cellpadding=0 cellspacing=6 border=0 width="400"
+			><tr><td class="textLbl" width="170"><span class="required">*</span>Email:</td
+				><td><input id="Startup004_UserID" type="text" class="editCtr_normal" size="20" maxlength="64"
+			></td></tr
+			><tr><td></td
+				><td><span id="Startup004_UserID_Msg" class="required"></span
+			></td></tr
+			><tr><td class="textLbl"><span class="required">*</span>Password:</td
+				><td><input id="Startup004_UserPassword" type="password" class="editCtr_normal" size="10" maxlength="16"
+			></td></tr
+			><tr><td></td
+				><td><span id="Startup004_UserPassword_Msg" class="required"></span
+			></td></tr
+			><tr><td class="textLbl">Remember Me:</td
+				><td><input id="Startup00_RememberPassword" type="checkbox" class="checkCtr_normal"
 			></td></tr
 		></table>
 		<br>
@@ -30,6 +42,11 @@
 				><a id="Startup004_Continue" class="buttonCtr_normal">Continue</a></td></tr
 		></table
 	></td></tr>
+	<tr><td>
+		<br>
+		<br>
+		<span class="required">*Required</span>
+	</td></tr>
 </table>
 </div>
 
@@ -99,7 +116,6 @@
 			><tr><td class="textLbl" >Remember PIN:</td
 				><td><input id="Setup001_HaveLogonIDControl_RememberPIN" type="checkbox" class="checkCtr_normal"
 			></td></tr
-			><tr><td colspan="2"></td></tr
 		></table>
 		<br>
 		<br>

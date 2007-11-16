@@ -36,7 +36,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 		It is a good idea to keep many shows in your 'My Shows' list. This will allow new shows to
 		be downloaded while you are watching another show.<br>
 		<br>
-		If you already have an account, <a class="linkCtr">Logon</a> here.<br>
+		If you already have an account, <a class="linkCtr" onclick="StartupLogon();">Logon</a> here.<br>
 		<br>
 		Otherwise, you'll need to <a class="linkCtr" href="../member/mem_new.jsp">Register</a>.
 		</div>

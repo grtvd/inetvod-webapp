@@ -36,6 +36,13 @@ table
 {
 	color: red;
 }
+.required
+{
+	color: red;
+	font-size: 8pt;
+	font-weight: normal;
+	font-style: italic;
+}
 .textCtr	/*TODO: rename?*/
 {
 	/*border: 1px solid blue;*/

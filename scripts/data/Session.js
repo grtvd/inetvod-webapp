@@ -7,6 +7,13 @@ var DownloadStatus_NotStarted = "NotStarted";
 var DownloadStatus_InProgress = "InProgress";
 var DownloadStatus_Completed = "Completed";
 
+Session.UserIDCookie = "user";
+Session.UserPasswordCookie = "password";
+Session.RememberPasswordCookie = "remember";
+Session.GuestDataCookie = "guest";
+Session.SessionDataCookie = "sess";
+Session.SessionExpiresDataCookie = "sessexp";
+
 /******************************************************************************/
 
 Session.newInstance = function()
@@ -247,36 +254,24 @@ function Session()
 
 /*boolean*/ Session.prototype.loadDataSettings = function()
 {
-	if(this.fDownloadServiceMgr != null)
-	{
-		this.fUserID = this.fDownloadServiceMgr.getUserLogonID();
-		this.fUserPassword = this.fDownloadServiceMgr.getUserPIN();
-		this.fRememberPassword = this.fDownloadServiceMgr.getRememberUserPIN();
+	this.fUserID = getCookie(Session.UserIDCookie);
+	this.fUserPassword = getCookie(Session.UserPasswordCookie);
+	this.fRememberPassword = (getCookie(Session.RememberPasswordCookie) == "true");
 
-		if(!this.fRememberPassword)
-			this.fUserPassword = null;
-	}
-	else
-	{
-		this.fUserID = getCookie("user");
-		this.fUserPassword = getCookie("password");
-		this.fRememberPassword = (getCookie("remember") == "true");
+	if(!testStrHasLen(this.fUserPassword))
+		this.fRememberPassword = false;
 
-		if(!testStrHasLen(this.fUserPassword))
-			this.fRememberPassword = false;
-	}
-
-	this.fGuestAccess = (getCookie("guest") == "true");
+	this.fGuestAccess = (getCookie(Session.GuestDataCookie) == "true");
 
 	this.fSessionData = null;
 	this.fSessionExpires = null;
-	var expiresStr = getCookie("sessexp");
+	var expiresStr = getCookie(Session.SessionExpiresDataCookie);
 	if(testStrHasLen(expiresStr))
 	{
 		var expiresAt = ISO8601DateTimeFromString(expiresStr);
 		if((new Date()).getTime() < expiresAt)
 		{
-			this.fSessionData = getCookie("sess");
+			this.fSessionData = getCookie(Session.SessionDataCookie);
 			this.fSessionExpires = expiresAt;
 		}
 	}
@@ -294,26 +289,50 @@ function Session()
 			this.fRememberPassword);
 		this.fDownloadServiceMgr.processNow();
 	}
-	else
-	{
-		deleteCookie("user");
-		deleteCookie("password");
-		deleteCookie("remember");
 
-		setCookie("user", this.fUserID, false);
-		setCookie("password", this.fUserPassword, !this.fRememberPassword);
-		setCookie("remember", this.fRememberPassword ? "true" : "false", true);
+	deleteCookie(Session.UserIDCookie);
+	deleteCookie(Session.UserPasswordCookie);
+	deleteCookie(Session.RememberPasswordCookie);
+
+	if(testStrHasLen(this.fUserID))
+		setCookie(Session.UserIDCookie, this.fUserID, false);
+	if(testStrHasLen(this.fUserPassword))
+		setCookie(Session.UserPasswordCookie, this.fUserPassword, !this.fRememberPassword);
+	if(this.fRememberPassword)
+		setCookie(Session.RememberPasswordCookie, "true", true);
+
+	deleteCookie(Session.GuestDataCookie);
+	if(this.fGuestAccess)
+		setCookie(Session.GuestDataCookie, "true", true);
+
+	deleteCookie(Session.SessionDataCookie);
+	deleteCookie(Session.SessionExpiresDataCookie);
+	if(testStrHasLen(this.fSessionData))
+	{
+		setCookie(Session.SessionDataCookie, this.fSessionData, true);
+		setCookie(Session.SessionExpiresDataCookie, dateTimeToString(this.fSessionExpires, dtf_ISO8601_DateTime), true);
 	}
 
-	deleteCookie("guest");
-	setCookie("guest", this.fGuestAccess ? "true" : "false", true);
-
-	deleteCookie("sess");
-	deleteCookie("sessexp");
-	setCookie("sess", this.fSessionData, true);
-	setCookie("sessexp", dateTimeToString(this.fSessionExpires, dtf_ISO8601_DateTime), true);
-
 	return true;
+}
+
+/******************************************************************************/
+
+/*void*/ Session.prototype.logoffDataSettings = function()
+{
+	this.fUserPassword = null;
+	this.fRememberPassword = false;
+
+	this.fGuestAccess = false;
+	this.fSessionData = null;
+	this.fSessionExpires = null;
+
+	deleteCookie(Session.UserPasswordCookie);
+	deleteCookie(Session.RememberPasswordCookie);
+
+	deleteCookie(Session.GuestDataCookie);
+	deleteCookie(Session.SessionDataCookie);
+	deleteCookie(Session.SessionExpiresDataCookie);
 }
 
 /******************************************************************************/
@@ -322,16 +341,14 @@ function Session()
 {
 	if(this.fDownloadServiceMgr != null)
 		this.fDownloadServiceMgr.setUserCredentials("", "", false);
-	else
-	{
-		deleteCookie("user");
-		deleteCookie("password");
-		deleteCookie("remember");
-	}
 
-	deleteCookie("guest");
-	deleteCookie("sess");
-	deleteCookie("sessexp");
+	deleteCookie(Session.UserIDCookie);
+	deleteCookie(Session.UserPasswordCookie);
+	deleteCookie(Session.RememberPasswordCookie);
+
+	deleteCookie(Session.GuestDataCookie);
+	deleteCookie(Session.SessionDataCookie);
+	deleteCookie(Session.SessionExpiresDataCookie);
 }
 
 /******************************************************************************/

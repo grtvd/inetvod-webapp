@@ -94,7 +94,7 @@
 			</filelist>
 			<filelist dir="scripts/setup">
 				<file name="StartupFlows.js" />
-				<file name="AskPINScreen.js" />
+				<file name="LogonScreen.js" />
 				<file name="SetupScreen.js" />
 				<file name="SetupData.js" />
 				<file name="AskSignedUpControl.js" />

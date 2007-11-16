@@ -159,7 +159,7 @@ function SearchDetailScreen(/*RentedShow*/ showDetail)
 
 		if(!oSession.haveUserPassword())
 		{
-			AskPINScreen.newInstance(this);
+			LogonScreen.newInstance(this);
 			return;
 		}
 

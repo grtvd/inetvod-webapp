@@ -17,6 +17,7 @@ function TextControl(/*string*/ controlID, /*string*/ screenID)
 		throw "TextControl::ctor(controlID): Can't find UI object, ID(" + controlID + ")";
 	this.fFocused = false;
 
+	this.setText("");
 	this.setFocus(false);
 	this.show(true);
 }

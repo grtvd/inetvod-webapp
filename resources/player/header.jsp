@@ -83,7 +83,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 		{
 			var oMainApp = MainApp.getThe();
 			var oSession = oMainApp.getSession();
-			oSession.resetDataSettings();
+			oSession.logoffDataSettings();
 			oMainApp.reset();
 
 			document.location = "index.jsp";
@@ -96,7 +96,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 			<td align="right" valign="top">
 				<table border="0" cellpadding="0" cellspacing="0">
 					<tr>
-						<td id="HeaderLogon" style="display:none"><a class="linkCtr">Logon</a></td>
+						<td id="HeaderLogon" style="display:none"><a class="linkCtr" onclick="StartupLogon();">Logon</a></td>
 						<td id="HeaderUser" class="textCtr"></td>
 						<td class="textSmallLbl">&nbsp;|&nbsp;</td>
 						<td id="HeaderRegister" style="display:none"><a class="linkCtr" href="../member/mem_new.jsp">Register</a></td>

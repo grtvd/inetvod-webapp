@@ -51,6 +51,13 @@ function EditControl(/*string*/ controlID, /*string*/ screenID, /*int*/ fieldSiz
 
 /******************************************************************************/
 
+/*void*/ EditControl.prototype.setText = function(/*string*/ text)
+{
+	this.fUIObj.value = (testStrHasLen(text) ? text : "");
+}
+
+/******************************************************************************/
+
 /*Array*/ EditControl.prototype.getValidCharArray = function(/*EditControlType*/ editControlType)
 {
 	var invalidAlphaUpper = false;

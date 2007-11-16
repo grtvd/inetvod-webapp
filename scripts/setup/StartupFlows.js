@@ -9,11 +9,36 @@ function StartupFlow()
 }
 
 /******************************************************************************/
+/******************************************************************************/
+
+/*void*/ function StartupLogon()
+{
+	var oMainApp = MainApp.getThe();
+	oMainApp.openPopup();
+
+	var oSession = oMainApp.getSession();
+	oSession.loadDataSettings();
+
+	var oStartupFlow = new StartupFlow();
+	oStartupFlow.Callback = StartupFlow.prototype.Logon_afterLogon;
+
+	LogonScreen.newInstance(oStartupFlow);
+}
+
+/******************************************************************************/
+
+/*void*/ StartupFlow.prototype.Logon_afterLogon = function()
+{
+	//noinspection SillyAssignmentJS
+	document.location = document.location;
+}
+
+/******************************************************************************/
+/******************************************************************************/
 
 /*void*/ function StartupSearchDetail(/*ShowID*/ showID)
 {
 	var oMainApp = MainApp.getThe();
-
 	oMainApp.openPopup();
 
 	var oSession = oMainApp.getSession();
@@ -67,7 +92,6 @@ function StartupFlow()
 //	StartupInitialCheck("MainApp.getThe().getSession().rentedShow(StartupRentedShowDetail_afterRentedShow, '" + rentedShowID + "');");
 
 	var oMainApp = MainApp.getThe();
-
 	oMainApp.openPopup();
 
 	var oSession = oMainApp.getSession();
