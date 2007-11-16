@@ -20,7 +20,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 	if(sess.hasMessage())
 	{
 	%>
-		<span class="error"><%=sess.getMessage()%></span>
+		<div class="error" style="padding:20px"><%=sess.getMessage()%></div>
 	<%
 	}
 

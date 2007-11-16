@@ -56,8 +56,6 @@ public class SearchResultsView
 		}
 
 		fShowSearchList = session.showSearch(search, providerID, categoryID, ratingID);
-		if(!session.hasError() && (fShowSearchList != null) && (fShowSearchList.size() == 0))
-			session.setMessage("No shows were found matching your search criteria.  Please try again.");
 	}
 
 	/* Implementation */

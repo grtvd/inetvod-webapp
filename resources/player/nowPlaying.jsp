@@ -90,12 +90,12 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 		else
 		{
 		%>
-		<div class="textCtr" style="padding:20px">Your 'My Shows' list is empty. 'My Shows' keeps track of shows
-		that you pick or rent to be downloaded or watch later.<br>
-		<br>
-		It is a good idea to keep many shows in your 'My Shows' list. This will allow new shows to
-		be downloaded while you are watching another show.
-		</div>
+			<div class="textCtr" style="padding:20px">Your 'My Shows' list is empty. 'My Shows' keeps track of shows
+			that you pick or rent to be downloaded or watch later.<br>
+			<br>
+			It is a good idea to keep many shows in your 'My Shows' list. This will allow new shows to
+			be downloaded while you are watching another show.
+			</div>
 		<%
 		}
 	}
