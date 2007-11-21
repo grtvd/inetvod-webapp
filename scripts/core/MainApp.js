@@ -74,9 +74,9 @@ function MainApp()
 	this.fSession = null;
 	this.fMainTable = null;
 	this.fMainPopup = null;
-	this.fScreenTitle = null;
-	this.fScreenTitleImageDiv = null;
-	this.fScreenTitleImage = null;
+//	this.fScreenTitle = null;
+//	this.fScreenTitleImageDiv = null;
+//	this.fScreenTitleImage = null;
 	this.fFirstMouseMove = false;
 }
 
@@ -108,9 +108,9 @@ function MainApp()
 
 	this.fMainTable = document.getElementById("MainTable");
 	this.fMainPopup = document.getElementById("MainPopup");
-	this.fScreenTitle = document.getElementById("ScreenTitle");
-	this.fScreenTitleImageDiv = document.getElementById("ScreenTitleImageDiv");
-	this.fScreenTitleImage = document.getElementById("ScreenTitleImage");
+//	this.fScreenTitle = document.getElementById("ScreenTitle");
+//	this.fScreenTitleImageDiv = document.getElementById("ScreenTitleImageDiv");
+//	this.fScreenTitleImage = document.getElementById("ScreenTitleImage");
 
 	this.updateMainBodyDivHeight();
 	enableErrors(false);
@@ -161,7 +161,7 @@ function MainApp()
 	this.fScreenList.push(oScreen);
 
 	this.fFirstMouseMove = true;
-	this.showScreenTitle(oScreen);
+//	this.showScreenTitle(oScreen);
 	oScreen.moveTo(this.fMainTable.offsetLeft, this.fMainTable.offsetTop);
 	oScreen.show(true);
 	oScreen.setFocus(true);
@@ -198,7 +198,7 @@ function MainApp()
 	if(this.fScreenList.length > 0)
 	{
 		oScreen = this.fScreenList[this.fScreenList.length - 1];
-		this.showScreenTitle(oScreen);
+//		this.showScreenTitle(oScreen);
 		oScreen.show(true);
 		oScreen.setFocus(true);
 	}
@@ -237,21 +237,21 @@ function MainApp()
 
 /******************************************************************************/
 
-/*void*/ MainApp.prototype.showScreenTitle = function(/*Screen*/ oScreen)
-{
-	if(oScreen.ScreenTitleImage && (oScreen.ScreenTitleImage.length > 0))
-	{
-		this.fScreenTitleImage.src = "images/" + oScreen.ScreenTitleImage;
-		setStyleDisplay(this.fScreenTitleImageDiv, true);
-		setStyleDisplay(this.fScreenTitle, false);
-	}
-	else
-	{
-		this.fScreenTitle.innerHTML = oScreen.ScreenTitle;
-		setStyleDisplay(this.fScreenTitle, true);
-		setStyleDisplay(this.fScreenTitleImageDiv, false);
-	}
-}
+///*void*/ MainApp.prototype.showScreenTitle = function(/*Screen*/ oScreen)
+//{
+//	if(oScreen.ScreenTitleImage && (oScreen.ScreenTitleImage.length > 0))
+//	{
+//		this.fScreenTitleImage.src = "images/" + oScreen.ScreenTitleImage;
+//		setStyleDisplay(this.fScreenTitleImageDiv, true);
+//		setStyleDisplay(this.fScreenTitle, false);
+//	}
+//	else
+//	{
+//		this.fScreenTitle.innerHTML = oScreen.ScreenTitle;
+//		setStyleDisplay(this.fScreenTitle, true);
+//		setStyleDisplay(this.fScreenTitleImageDiv, false);
+//	}
+//}
 
 /******************************************************************************/
 
