@@ -508,3 +508,25 @@ function getWindowInnerHeight()
 
 /******************************************************************************/
 /******************************************************************************/
+
+/*string*/ function determineFileExtFromURL(/*string*/ url)
+{
+	if(!testStrHasLen(url))
+		return null;
+
+	var dotPos = url.lastIndexOf(".");
+	if(dotPos < 0)
+		return null;
+
+	if(url.lastIndexOf("/") >= dotPos)
+		return null;
+
+	var paramPos = url.lastIndexOf("?");
+	if(paramPos >= dotPos)
+		return url.substring(dotPos, paramPos);
+
+	return url.substring(dotPos);
+}
+
+/******************************************************************************/
+/******************************************************************************/

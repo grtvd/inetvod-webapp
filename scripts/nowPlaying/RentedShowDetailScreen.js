@@ -230,17 +230,12 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 	if(statusCode != sc_Success)
 		return;
 
-	alert("TODO: play media");
-/*
-	showMsg("This player does not play audio or video content.");
-
 	var oSession = MainApp.getThe().getSession();
 	var localURL = oSession.getDownloadRentedShowPath(this.fRentedShow.RentedShowID);
 	if(testStrHasLen(localURL))
-		oControl.playMedia(localURL);
+		showMsg("Not yet!");//TODO oControl.playMedia(localURL);
 	else
-		oControl.playMedia(license.ShowURL);
-*/
+		MediaPlayerScreen.newInstance(license.ShowURL);
 }
 
 /******************************************************************************/

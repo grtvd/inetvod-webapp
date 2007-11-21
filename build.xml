@@ -24,6 +24,7 @@
 				<file name="XmlDataReader.js" />
 				<file name="XmlDataWriter.js" />
 				<file name="WaitScreen.js" />
+				<file name="MediaPlayerScreen.js" />
 			</filelist>
 			<filelist dir="scripts/controls">
 				<file name="TextListControl.js" />
