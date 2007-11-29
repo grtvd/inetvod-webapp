@@ -6,14 +6,11 @@
 MediaPlayerScreen.ScreenID = "Player001";
 MediaPlayerScreen.MediaPlayerID = "Player001_MediaPlayer";
 
-MediaPlayerScreen.QuickTimeFileExtensions = [".mov", ".mp4", ".m4v", ".m4a"];
-MediaPlayerScreen.WindowsMediaFileExtensions = [".wmv", ".wma", ".avi", ".mp3"];
-
 /******************************************************************************/
 
-MediaPlayerScreen.newInstance = function(/*string*/ url)
+MediaPlayerScreen.newInstance = function(/*string*/ url, /*string*/ useApp)
 {
-	var oScreen = MainApp.getThe().openScreen(new MediaPlayerScreen(url));
+	var oScreen = MainApp.getThe().openScreen(new MediaPlayerScreen(url, useApp));
 	oScreen.playMedia();
 	return oScreen;
 }
@@ -25,9 +22,10 @@ MediaPlayerScreen.prototype.constructor = MediaPlayerScreen;
 
 /******************************************************************************/
 
-function MediaPlayerScreen(/*string*/ url)
+function MediaPlayerScreen(/*string*/ url, /*string*/ useApp)
 {
 	this.fURL = url;
+	this.fUseApp = useApp;
 	this.ScreenID = MediaPlayerScreen.ScreenID;
 
 	this.fContainerControl = new ContainerControl(this.ScreenID, 12, 42);
@@ -66,12 +64,10 @@ function MediaPlayerScreen(/*string*/ url)
 
 /*string*/ MediaPlayerScreen.prototype.buildPlayerURL = function()
 {
-	var fileExt = determineFileExtFromURL(this.fURL).toLowerCase();
-
-	if(arrayIndexOf(MediaPlayerScreen.QuickTimeFileExtensions, fileExt) >= 0)
+	if(Application_QuickTimePlayer == this.fUseApp)
 		return "playQuickTime.jsp?url=" + this.fURL;
 
-	if(arrayIndexOf(MediaPlayerScreen.WindowsMediaFileExtensions, fileExt) >= 0)
+	if(Application_WindowsMediaPlayer == this.fUseApp)
 		return "playWindowsMedia.jsp?url=" + this.fURL;
 
 	return null;

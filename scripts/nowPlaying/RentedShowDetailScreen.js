@@ -193,21 +193,6 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 
 	if(controlID == RentedShowDetailScreen.WatchNowID)
 	{
-		oSession.downloadRefresh();
-		var downloadStatus = oSession.getDownloadRentedShowStatus(this.fRentedShow.RentedShowID);
-
-		if(downloadStatus == DownloadStatus_NotStarted)
-		{
-			showMsg("This show cannot be played until it has first been downloaded.");
-			return;
-		}
-
-		if(downloadStatus == DownloadStatus_InProgress)
-		{
-			showMsg("This show cannot be played until it has finished downloading.");
-			return;
-		}
-
 		this.Callback = RentedShowDetailScreen.prototype.afterWatchShow;
 		oSession.watchShow(this, this.fRentedShow.RentedShowID);
 		return;
@@ -231,11 +216,30 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 		return;
 
 	var oSession = MainApp.getThe().getSession();
-	var localURL = oSession.getDownloadRentedShowPath(this.fRentedShow.RentedShowID);
-	if(testStrHasLen(localURL))
-		showMsg("Not yet!");//TODO oControl.playMedia(localURL);
-	else
-		MediaPlayerScreen.newInstance(license.ShowURL);
+	oSession.downloadRefresh();
+
+	var useApp = oSession.determineAppForShow(license.ShowURL);
+	var downloadStatus = oSession.getDownloadRentedShowStatus(this.fRentedShow.RentedShowID);
+
+	var playLocal = false;
+
+	// downloadStatus will be null if DownloadServiceMgr is not insalled
+	if(downloadStatus == DownloadStatus_Completed)
+		playLocal = true;
+	else if((downloadStatus == DownloadStatus_InProgress) && (useApp == Application_WindowsMediaPlayer))
+		playLocal = true;
+
+	if(playLocal)
+	{
+		if(!oSession.playDownloadedRentedShow(this.fRentedShow.RentedShowID, useApp))
+		{
+			playLocal = false;
+			showMsg("An error occurred while trying to play locally.  Show will be streamed.");
+		}
+	}
+
+	if(!playLocal)
+		MediaPlayerScreen.newInstance(license.ShowURL, useApp);
 }
 
 /******************************************************************************/

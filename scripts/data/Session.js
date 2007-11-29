@@ -7,6 +7,13 @@ var DownloadStatus_NotStarted = "NotStarted";
 var DownloadStatus_InProgress = "InProgress";
 var DownloadStatus_Completed = "Completed";
 
+var Application_QuickTimePlayer = "qt";
+var Application_WindowsMediaPlayer = "wm";
+var Application_InternetExplorer = "ie";
+
+var FileExtensions_QuickTime = [".mov", ".mp4", ".m4v", ".m4a"];
+var FileExtensions_WindowsMedia = [".wmv", ".wma", ".avi", ".asf", ".mp3", ".wav"];
+
 Session.UserIDCookie = "user";
 Session.UserPasswordCookie = "password";
 Session.RememberPasswordCookie = "remember";
@@ -30,6 +37,7 @@ Session.newInstance = function()
 function Session()
 {
 	this.fDownloadServiceMgr = null;
+	this.checkInstall();
 
 	this.fNetworkURL = "http://" + location.hostname + "/inetvod/playerapi/xml";
 	this.fCryptoAPIURL = "http://" + location.hostname + "/inetvod/cryptoapi";
@@ -437,7 +445,6 @@ function Session()
 		throw "Session::signon: Missing UserPassword";
 
 	var signonRqst;
-	var signonResp;
 
 	signonRqst = SignonRqst.newInstance();
 	signonRqst.UserID = this.fUserID;
@@ -869,6 +876,17 @@ function Session()
 
 /******************************************************************************/
 
+/*string*/ Session.prototype.playDownloadedRentedShow = function(/*string*/ rentedShowID,
+	/*string*/ useApp)
+{
+	if(this.fDownloadServiceMgr == null)
+		return false;
+
+	return this.fDownloadServiceMgr.playRentedShow(rentedShowID, useApp);
+}
+
+/******************************************************************************/
+
 /*void*/ Session.prototype.watchShow = function(/*object*/ callbackObj, /*string*/ rentedShowID)
 {
 	var watchShowRqst;
@@ -915,18 +933,35 @@ function Session()
 
 /******************************************************************************/
 
-/*void*/ Session.prototype.releaseShowResponse = function(/*WatchShowResp*/ releaseShowResp,
+/*void*/ Session.prototype.releaseShowResponse = function(/*ReleaseShowResp*/ releaseShowResp,
 	/*StatusCode*/ statusCode, /*string*/ statusMessage)
 {
 	WaitScreen_close();
 	if(statusCode == sc_Success)
 	{
+		if(this.fDownloadServiceMgr != null)
+			this.fDownloadServiceMgr.processNow();
 		this.callbackCaller(null, statusCode, statusMessage);
 		return;
 	}
 
 	this.showRequestError(statusMessage);
 	this.callbackCaller(null, statusCode, statusMessage);
+}
+
+/******************************************************************************/
+
+/*string*/ Session.prototype.determineAppForShow = function(/*string*/ showURL)
+{
+	var fileExt = determineFileExtFromURL(showURL).toLowerCase();
+
+	if(arrayIndexOf(FileExtensions_QuickTime, fileExt) >= 0)
+		return Application_QuickTimePlayer;
+
+	if(arrayIndexOf(FileExtensions_WindowsMedia, fileExt) >= 0)
+		return Application_WindowsMediaPlayer;
+
+	return null;
 }
 
 /******************************************************************************/
