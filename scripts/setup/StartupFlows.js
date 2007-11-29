@@ -29,8 +29,7 @@ function StartupFlow()
 
 /*void*/ StartupFlow.prototype.Logon_afterLogon = function()
 {
-	//noinspection SillyAssignmentJS
-	document.location = document.location;
+	document.location.reload(true);
 }
 
 /******************************************************************************/

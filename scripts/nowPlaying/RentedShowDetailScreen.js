@@ -249,8 +249,7 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 {
 	if(statusCode == sc_Success)
 	{
-		//noinspection SillyAssignmentJS
-		document.location = document.location;
+		document.location.reload(true);
 //		this.close();
 //		MainApp.getThe().closePopup();
 
