@@ -35,7 +35,7 @@ function LogonScreen(/*object*/ callerCallback)
 	this.ScreenTitleImage = "titleEnterpin.gif";
 	this.CallerCallback = callerCallback;
 
-	this.fContainerControl = new ContainerControl(this.ScreenID, 150, 100);
+	this.fContainerControl = new ContainerControl(this.ScreenID, 50, 100);
 
 	var oSession = MainApp.getThe().getSession();
 

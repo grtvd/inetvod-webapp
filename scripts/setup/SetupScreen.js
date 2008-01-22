@@ -36,7 +36,7 @@ function SetupScreen(/*object*/ callerCallback)
 	this.ScreenTitleImage = "titleSetup.gif";
 	this.CallerCallback = callerCallback;
 
-	this.fContainerControl = new ContainerControl(this.ScreenID, 80, 100);
+	this.fContainerControl = new ContainerControl(this.ScreenID, 50, 100);
 
 	this.fStepControlID = AskSignedUpControl.ControlID;
 	this.fSetupData = new SetupData();

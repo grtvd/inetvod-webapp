@@ -47,7 +47,7 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 	this.ScreenTitleImage = "titlePlaying.gif";
 	this.fDownloadStatus = "";
 
-	this.fContainerControl = new ContainerControl(this.ScreenID, 30, 120);
+	this.fContainerControl = new ContainerControl(this.ScreenID, 22, 80);
 
 	this.newControl(new ButtonControl(RentedShowDetailScreen.WatchNowID, this.ScreenID));
 	this.newControl(new ButtonControl(RentedShowDetailScreen.DeleteNowID, this.ScreenID));

@@ -38,7 +38,7 @@ function RentScreen(/*ShowDetail*/ oShowDetail)
 	this.ScreenTitle = "rent";
 	this.ScreenTitleImage = "titleRent.gif";
 
-	this.fContainerControl = new ContainerControl(this.ScreenID, 80, 100);
+	this.fContainerControl = new ContainerControl(this.ScreenID, 50, 100);
 
 	this.fStepControlID = null;
 	this.fRentData = new RentData(oShowDetail);

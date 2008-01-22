@@ -45,7 +45,7 @@ function SearchDetailScreen(/*RentedShow*/ showDetail)
 	var showProvider = this.fShowDetail.ShowProviderList[0];
 	var showCost = showProvider.ShowCostList[0];
 
-	this.fContainerControl = new ContainerControl(this.ScreenID, 30, 120);
+	this.fContainerControl = new ContainerControl(this.ScreenID, 22, 80);
 
 	oControl = new ButtonControl(SearchDetailScreen.RentNowID, this.ScreenID);
 	oControl.setText((showCost.ShowCostType == sct_Free) ? "Get Now" : "Rent Now");
