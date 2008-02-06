@@ -5,10 +5,16 @@
 
 SearchScreen.ScreenID = "Search006";
 SearchScreen.ShowNameID = "Search006_ShowName";
+SearchScreen.ShowNameMsgID = "Search006_ShowName_Msg";
 SearchScreen.SearchID = "Search006_Search";
 SearchScreen.ProviderID = "Search006_Provider";
 SearchScreen.CategoryID = "Search006_Category";
 SearchScreen.RatingID = "Search006_Rating";
+
+SearchScreen.SEARCH_PARAM = "search";
+SearchScreen.PROVIDERID_PARAM = "provderid";
+SearchScreen.CATEGORYID_PARAM = "categoryid";
+SearchScreen.RATINGID_PARAM = "ratingid";
 
 /******************************************************************************/
 
@@ -32,13 +38,15 @@ function SearchScreen()
 	this.ScreenTitle = "search";
 	this.ScreenTitleImage = "titleSearch.gif";
 
-	this.fContainerControl = new ContainerControl(this.ScreenID, 100, 150);
-	this.fContainerControl.onNavigate = SearchScreen.onNavigate;
+	this.fContainerControl = new ContainerControl(this.ScreenID, 80, 100);
+	//this.fContainerControl.onNavigate = SearchScreen.onNavigate;
 
-	oControl = new EditControl(SearchScreen.ShowNameID, this.ScreenID, 16);
+	oControl = new EditControl(SearchScreen.ShowNameID, this.ScreenID, 32, 64);
 	this.newControl(oControl);
-	oControl.Type = ect_UpperAlphaNumeric;
+	oControl.Type = ect_AlphaNumeric;
 	this.newControl(new ButtonControl(SearchScreen.SearchID, this.ScreenID));
+	oControl = new TextControl(SearchScreen.ShowNameMsgID, this.ScreenID);
+	this.newControl(oControl);
 
 	this.newControl(new ButtonControl(SearchScreen.ProviderID, this.ScreenID));
 	this.newControl(new ButtonControl(SearchScreen.CategoryID, this.ScreenID));
@@ -49,9 +57,21 @@ function SearchScreen()
 
 /******************************************************************************/
 
+/*boolean*/ SearchScreen.prototype.key = function(/*int*/ key, /*Event*/ evt)
+{
+	if((key == ek_Back) || (key == ek_Escape))
+	{
+		MainApp.getThe().closePopup();
+		return;
+	}
+
+	return Screen.prototype.key.call(this, key, evt);
+}
+
+/******************************************************************************/
+
 /*void*/ SearchScreen.prototype.onButton = function(/*string*/ controlID)
 {
-	var oSession = MainApp.getThe().getSession();
 	var oControl;
 
 	if((controlID == SearchScreen.SearchID) || (controlID == SearchScreen.ShowNameID))
@@ -59,8 +79,21 @@ function SearchScreen()
 		oControl = this.getControl(SearchScreen.ShowNameID);
 		this.fSearchData.Search = oControl.getText();
 
-		this.Callback = SearchScreen.prototype.afterShowSearch;
-		oSession.showSearch(this, this.fSearchData);
+		if(!testStrHasLen(this.fSearchData.Search))
+		{
+			this.getControl(SearchScreen.ShowNameMsgID).setText("Partial title must be entered.");
+			this.fContainerControl.focusControl(SearchScreen.ShowNameID, true);
+			return;
+		}
+
+		var url = "searchResults.jsp?" + SearchScreen.SEARCH_PARAM + "=" + encodeURIComponent(this.fSearchData.Search);
+		if(this.fSearchData.ProviderID != Provider.AllProvidersID)
+			url += "&" + SearchScreen.PROVIDERID_PARAM + "=" + this.fSearchData.ProviderID;
+		if(this.fSearchData.CategoryID != Category.AllCategoriesID)
+			url += "&" + SearchScreen.CATEGORYID_PARAM + "=" + this.fSearchData.CategoryID;
+		if(this.fSearchData.RatingID != Rating.AllRatingsID)
+			url += "&" + SearchScreen.RATINGID_PARAM + "=" + this.fSearchData.RatingID;
+		location.assign(url);
 		return;
 	}
 
@@ -83,15 +116,6 @@ function SearchScreen()
 	}
 
 	Screen.prototype.onButton.call(this, controlID);
-}
-
-/******************************************************************************/
-
-/*void*/ SearchScreen.prototype.afterShowSearch = function(/*ShowSearchList*/ showSearchList,
-	/*StatusCode*/ statusCode, /*string*/ statusMessage)
-{
-//	if(statusCode == sc_Success)
-//		SearchResultsScreen.newInstance(showSearchList);
 }
 
 /******************************************************************************/

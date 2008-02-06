@@ -35,6 +35,40 @@ function StartupFlow()
 /******************************************************************************/
 /******************************************************************************/
 
+/*void*/ function StartupSearch()
+{
+	var oMainApp = MainApp.getThe();
+	oMainApp.openPopup();
+
+	var oSession = oMainApp.getSession();
+	oSession.loadDataSettings();
+
+	var oStartupFlow = new StartupFlow();
+
+	if(!oSession.isSystemDataLoaded())
+	{
+		oStartupFlow.Callback = StartupFlow.prototype.Search_afterLoadSystemData;
+		oSession.loadSystemData(oStartupFlow);
+		return;
+	}
+
+	oStartupFlow.Search_afterLoadSystemData(null, sc_Success, null);
+}
+
+/******************************************************************************/
+
+/*void*/ StartupFlow.prototype.Search_afterLoadSystemData = function(
+	/*object*/ data, /*StatusCode*/ statusCode, /*string*/ statusMessage)
+{
+	if(statusCode == sc_Success)
+		SearchScreen.newInstance();
+	else
+		MainApp.getThe().closePopup();
+}
+
+/******************************************************************************/
+/******************************************************************************/
+
 /*void*/ function StartupSearchDetail(/*ShowID*/ showID)
 {
 	var oMainApp = MainApp.getThe();

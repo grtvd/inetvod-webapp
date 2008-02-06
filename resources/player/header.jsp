@@ -1,9 +1,17 @@
 <%--
-Copyright © 2007 iNetVOD, Inc. All Rights Reserved.
+Copyright ï¿½ 2007 iNetVOD, Inc. All Rights Reserved.
 iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.inetvod.common.data.CategoryID" %>
+<%@ page import="com.inetvod.playerClient.rqdata.Category" %>
+<%@ page import="com.inetvod.playerClient.rqdata.CategoryList" %>
+<%@ page import="com.inetvod.playerClient.rqdata.Provider" %>
+<%@ page import="com.inetvod.playerClient.rqdata.ProviderList" %>
+<%@ page import="com.inetvod.playerClient.rqdata.RentedShowSearch" %>
+<%@ page import="com.inetvod.playerClient.rqdata.RentedShowSearchList" %>
+<%@ page import="com.inetvod.playerClient.rqdata.ShowSearch" %>
+<%@ page import="com.inetvod.playerClient.rqdata.ShowSearchList" %>
 <%@ page import="com.inetvod.webapp.PageMenuMap" %>
 <%@ page import="com.inetvod.webapp.player.CategorySearchView" %>
 <%@ page import="com.inetvod.webapp.player.NowPlayingView" %>
@@ -59,6 +67,23 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 				hilightMenu(oItem.id);
 				stopEventPropagation(evt);
 				document.location = oLink.href;
+			}
+		}
+		function onMenuClickScript(evt, oItem, fnc)
+		{
+			setCookie(gCurMenuCookie, getClassNameBase(oItem.id), true);
+			stopEventPropagation(evt);
+			eval(fnc);
+		}
+		function onMenuRowClickScript(evt, oItem, fnc)
+		{
+			var linkID = buildClassName(oItem.id, "Link");
+			var oLink = document.getElementById(linkID);
+			if(oLink)
+			{
+				setCookie(gCurMenuCookie, getClassNameBase(oItem.id), true);
+				stopEventPropagation(evt);
+				eval(fnc);
 			}
 		}
 		function headerCheckFields()
@@ -121,7 +146,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 						<tr><td height="2"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
 						<tr><td id="SearchByProvider_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a id="SearchByProvider_Link" class="buttonCtr_normal" href="<%=ProviderSearchView.buildPath()%>" onclick="onMenuClick(event, this); return true;">Search By Provider</a></td></tr>
 						<tr><td height="2"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
-						<tr><td id="SearchByName_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a id="SearchByName_Link" class="buttonCtr_normal" href="search.jsp" onclick="onMenuClick(event, this); return true;">Search By Title</a></td></tr>
+						<tr><td id="SearchByName_Row" class="buttonCtr_normal" onclick="onMenuRowClickScript(event, this, 'StartupSearch();');"><a id="SearchByName_Link" class="buttonCtr_normal" href="#" onclick="onMenuClickScript(event, this, 'StartupSearch();'); return true;">Search By Title</a></td></tr>
 						<tr><td height="2"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
 						<tr><td id="Preferences_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a id="Preferences_Link" class="buttonCtr_normal" href="preferences.jsp" onclick="onMenuClick(event, this); return true;">Preferences</a></td></tr>
 					</tbody>
