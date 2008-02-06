@@ -8,17 +8,17 @@ ListControl.prototype.constructor = ListControl;
 
 /******************************************************************************/
 
-function ListControl(/*string*/ controlID, /*string*/ screenID, /*int*/ numRows,
+function ListControl(/*string*/ controlID, /*string*/ screenID,
 	/*ListControlRowItemList*/ oRowItemList)
 {
 	if(controlID)	// default ctor will be called by inherited objects
-		this.init(controlID, screenID, numRows, oRowItemList);
+		this.init(controlID, screenID, oRowItemList);
 }
 
 /******************************************************************************/
 
 /*void*/ ListControl.prototype.init = function(/*string*/ controlID, /*string*/ screenID,
-	/*int*/ numRows, /*ListControlRowItemList*/ oRowItemList)
+	/*ListControlRowItemList*/ oRowItemList)
 {
 	this.ControlID = controlID;
 	this.ScreenID = screenID;
@@ -33,96 +33,40 @@ function ListControl(/*string*/ controlID, /*string*/ screenID, /*int*/ numRows,
 	this.fFocusedItem = null;			// focused item, null if no focused item
 
 	this.fRowItemList = oRowItemList;
-	this.fRowList = new Array();
-	for(var i = 0; i < numRows; i++)
-	{
-		this.fRowList.push(new ListControlRow(controlID, i, oRowItemList));
-	}
+	this.createRows();
 
-	this.fUIUpIconObj = document.getElementById(controlID + "_Up");
-	this.fUIUpIconObj.onmouseover = MainAppOnMouseOver;
-	this.fUIUpIconObj.onclick = MainAppOnMouseClick;
-	this.fUIDownIconObj = document.getElementById(controlID + "_Down");
-	this.fUIDownIconObj.onmouseover = MainAppOnMouseOver;
-	this.fUIDownIconObj.onclick = MainAppOnMouseClick;
-	this.fUICountObj = document.getElementById(controlID + "_Count");
-
-	this.fTopItem = 0;
-	this.fBottomItem = -1;
-
-	this.recalcBottomItemFromTopItem();
-	this.setFocus(false);
 	this.drawItems(false);
-	this.drawUpIcon(false);
-	this.drawDownIcon(false);
-	this.drawCount();
+//	this.setFocus(false);
 }
 
 /******************************************************************************/
 
-/*void*/ ListControl.prototype.recalcTopItemFromBottomItem = function()
+/*void*/ ListControl.prototype.createRows = function()
 {
-	var totalItems = this.getItemCount();
+	this.deleteRows();
 
-	if(totalItems == 0)
+	this.fRowList = new Array();
+	for(var i = 0; i < this.getItemCount(); i++)
 	{
-		this.fTopItem = 0;
-		this.fBottomItem = -1;
-		return;
+		this.fRowList.push(new ListControlRow(this.ControlID, i, this.fRowItemList));
 	}
-
-	if(this.fBottomItem >= totalItems)
-		this.fBottomItem = totalItems - 1;
-
-	this.fTopItem = this.fBottomItem - this.fRowList.length + 1;
-	if(this.fTopItem < 0)
-		this.fTopItem = 0;
 }
 
 /******************************************************************************/
 
-/*void*/ ListControl.prototype.recalcBottomItemFromTopItem = function()
+/*void*/ ListControl.prototype.deleteRows = function()
 {
-	var totalItems = this.getItemCount();
-
-	this.fBottomItem = -1;
-	if(totalItems == 0)
-	{
-		this.fTopItem = 0;
-		return;
-	}
-
-	if(this.fTopItem >= totalItems)
-		this.fTopItem = totalItems - 1;
-
-	this.fBottomItem = this.fTopItem + this.fRowList.length - 1;
-	if(this.fBottomItem >= totalItems)
-		this.fBottomItem = totalItems - 1;
+	var oBody = document.getElementById(this.ControlID + "_Body");
+	for(var i = oBody.rows.length - 1; i >= 0; i--)
+		oBody.deleteRow(i);
 }
 
 /******************************************************************************/
 
-/*void*/ ListControl.prototype.recalcAfterDataChange = function(/*boolrean*/ reset)
+/*void*/ ListControl.prototype.recalcAfterDataChange = function(/*boolean*/ reset)
 {
-	if(reset)
-	{
-		this.fTopItem = 0;
-		this.fBottomItem = -1;
-
-		this.recalcBottomItemFromTopItem();
-		if(this.getItemCount() > 0)
-			this.setFocusedItem(this.fRowList[0]);
-	}
-	else
-	{
-		this.recalcTopItemFromBottomItem();
-		if((this.fFocusedItem != null) && (this.fBottomItem >= 0) && (this.fFocusedItem.RowIndex > this.fBottomItem))
-			this.setFocusedItem(this.fRowList[this.fBottomItem]);
-	}
+	this.createRows();
 	this.drawItems(true);
-	this.drawUpIcon(false);
-	this.drawDownIcon(false);
-	this.drawCount();
 }
 
 /******************************************************************************/
@@ -189,7 +133,7 @@ function ListControl(/*string*/ controlID, /*string*/ screenID, /*int*/ numRows,
 /*int*/ ListControl.prototype.getFocusedItemPos = function()
 {
 	if(this.fFocusedItem != null)
-		return this.findRowPos(this.fFocusedItem.ControlID) + this.fTopItem;
+		return this.findRowPos(this.fFocusedItem.ControlID);
 
 	return -1;
 }
@@ -223,77 +167,7 @@ function ListControl(/*string*/ controlID, /*string*/ screenID, /*int*/ numRows,
 /*void*/ ListControl.prototype.setFocusedItemByPos = function(/*int*/ focusedItem)
 {
 	if((focusedItem >= 0) && (focusedItem < this.getItemCount()))
-	{
-		if(focusedItem < this.fTopItem)
-			focusedItem = this.fTopItem;
-		this.recalcBottomItemFromTopItem();
-
-		if(focusedItem > this.fBottomItem)
-		{
-			this.fBottomItem = focusedItem;
-			this.recalcTopItemFromBottomItem();
-		}
-
-		this.setFocusedItem(this.fRowList[focusedItem - this.fTopItem]);
-		this.drawItems(true);
-		this.drawUpIcon(false);
-		this.drawDownIcon(false);
-		this.drawCount();
-	}
-}
-
-/******************************************************************************/
-
-/*boolean*/ ListControl.prototype.isUpIconEnabled = function()
-{
-	return (this.fTopItem > 0);
-}
-
-/******************************************************************************/
-
-/*void*/ ListControl.prototype.drawUpIcon = function(/*boolean*/ showFocus)
-{
-	var enabled = this.isUpIconEnabled();
-
-	checkClassName(this.fUIUpIconObj, enabled ? (showFocus ? 'hilite' : 'normal') : 'disabled');
-}
-
-/******************************************************************************/
-
-/*boolean*/ ListControl.prototype.isDownIconEnabled = function()
-{
-	return (this.fBottomItem < this.getItemCount() - 1);
-}
-
-/******************************************************************************/
-
-/*void*/ ListControl.prototype.drawDownIcon = function(/*boolean*/ showFocus)
-{
-	var enabled = this.isDownIconEnabled();
-
-	checkClassName(this.fUIDownIconObj, enabled ? (showFocus ? 'hilite' : 'normal') : 'disabled');
-}
-
-/******************************************************************************/
-
-/*void*/ ListControl.prototype.drawCount = function()
-{
-	var itemCount = this.getItemCount();
-	var current = -1;
-	var value = "";
-
-	if(itemCount > 0)
-	{
-		if(this.fFocusedItem != null)
-			current = this.findRowPos(this.fFocusedItem.ControlID) + this.fTopItem + 1;
-
-		if(current == -1)
-			current = this.fTopItem + 1;
-
-		value = "" + current + "/" + itemCount;
-	}
-
-	this.fUICountObj.innerHTML = value;
+		this.setFocusedItem(this.fRowList[focusedItem]);
 }
 
 /******************************************************************************/
@@ -309,7 +183,7 @@ function ListControl(/*string*/ controlID, /*string*/ screenID, /*int*/ numRows,
 	if(this.fFocusedItem != null)
 		focusedControlID = this.fFocusedItem.ControlID;
 
-	for(var dataIndex = this.fTopItem; dataIndex <= this.fBottomItem; dataIndex++)
+	for(var dataIndex = 0; dataIndex < this.getItemCount(); dataIndex++)
 	{
 		oRow = this.fRowList[rowIndex];
 		this.drawItem(dataIndex, oRow);
@@ -339,11 +213,6 @@ function ListControl(/*string*/ controlID, /*string*/ screenID, /*int*/ numRows,
 		if(this.fRowList[i].hasControl(controlID))
 			return true;
 
-	if(this.fUIUpIconObj.id == controlID)
-		return true;
-	if(this.fUIDownIconObj.id == controlID)
-		return true;
-
 	return false;
 }
 
@@ -372,97 +241,75 @@ function ListControl(/*string*/ controlID, /*string*/ screenID, /*int*/ numRows,
 		return true;
 	}
 
-	var focusedItem = this.fTopItem - 1;
+//	var focusedItem = -1;
+//
+//	if(this.fFocusedItem != null)
+//		focusedItem = this.findRowPos(this.fFocusedItem.ControlID);
+//
+//	if(key == ek_DownButton)
+//	{
+//		if(focusedItem < this.getItemCount() - 1)
+//			focusedItem++;
+//		else
+//			return false;
+//
+//		this.setFocusedItem(this.fRowList[focusedItem]);
+//		return true;
+//	}
+//
+//	if(key == ek_UpButton)
+//	{
+//		if(focusedItem > 0)
+//			--focusedItem;
+//		else
+//			return false;
+//
+//		this.setFocusedItem(this.fRowList[focusedItem]);
+//		return true;
+//	}
 
-	if(this.fFocusedItem != null)
-		focusedItem = this.findRowPos(this.fFocusedItem.ControlID) + this.fTopItem;
+//	if(key == ek_PageDown)
+//	{
+//		var itemCount = this.getItemCount();
+//		var pageCount = (this.fBottomItem - this.fTopItem + 1);
+//
+//		this.fBottomItem += pageCount;
+//		if(this.fBottomItem >= itemCount)
+//			this.fBottomItem = itemCount - 1;
+//		focusedItem += pageCount;
+//		if(focusedItem >= itemCount)
+//			focusedItem = itemCount - 1;
+//		this.recalcTopItemFromBottomItem();
+//
+//		this.drawItems(true);
+//		this.drawUpIcon(false);
+//		this.drawDownIcon(false);
+//		this.setFocusedItem((focusedItem >= 0) ? this.fRowList[focusedItem - this.fTopItem] : null);
+//		this.drawCount();
+//
+//		return true;
+//	}
 
-	if(key == ek_DownButton)
-	{
-		var itemCount = this.getItemCount();
-
-		if(focusedItem < this.getItemCount() - 1)
-			focusedItem++;
-		else
-			return false;
-
-		if(focusedItem > this.fBottomItem)
-		{
-			this.fBottomItem = focusedItem;
-			this.recalcTopItemFromBottomItem();
-			this.drawItems(true);
-			this.drawUpIcon(false);
-			this.drawDownIcon(false);
-		}
-
-		this.setFocusedItem((focusedItem >= 0) ? this.fRowList[focusedItem - this.fTopItem] : null);
-		this.drawCount();
-		return true;
-	}
-
-	if(key == ek_UpButton)
-	{
-		if(focusedItem > 0)
-			--focusedItem;
-		else
-			return false;
-
-		if(focusedItem < this.fTopItem)
-		{
-			this.fTopItem = focusedItem;
-			this.recalcBottomItemFromTopItem();
-			this.drawItems(true);
-			this.drawUpIcon(false);
-			this.drawDownIcon(false);
-		}
-
-		this.setFocusedItem((focusedItem >= 0) ? this.fRowList[focusedItem - this.fTopItem] : null);
-		this.drawCount();
-		return true;
-	}
-
-	if(key == ek_PageDown)
-	{
-		var itemCount = this.getItemCount();
-		var pageCount = (this.fBottomItem - this.fTopItem + 1);
-
-		this.fBottomItem += pageCount;
-		if(this.fBottomItem >= itemCount)
-			this.fBottomItem = itemCount - 1;
-		focusedItem += pageCount;
-		if(focusedItem >= itemCount)
-			focusedItem = itemCount - 1;
-		this.recalcTopItemFromBottomItem();
-
-		this.drawItems(true);
-		this.drawUpIcon(false);
-		this.drawDownIcon(false);
-		this.setFocusedItem((focusedItem >= 0) ? this.fRowList[focusedItem - this.fTopItem] : null);
-		this.drawCount();
-
-		return true;
-	}
-
-	if(key == ek_PageUp)
-	{
-		var pageCount = (this.fBottomItem - this.fTopItem + 1);
-
-		this.fTopItem -= pageCount;
-		if(this.fTopItem < 0)
-			this.fTopItem = 0;
-		focusedItem -= pageCount;
-		if(focusedItem < 0)
-			focusedItem = 0;
-		this.recalcBottomItemFromTopItem();
-
-		this.drawItems(true);
-		this.drawUpIcon(false);
-		this.drawDownIcon(false);
-		this.setFocusedItem((focusedItem >= 0) ? this.fRowList[focusedItem - this.fTopItem] : null);
-		this.drawCount();
-
-		return true;
-	}
+//	if(key == ek_PageUp)
+//	{
+//		var pageCount = (this.fBottomItem - this.fTopItem + 1);
+//
+//		this.fTopItem -= pageCount;
+//		if(this.fTopItem < 0)
+//			this.fTopItem = 0;
+//		focusedItem -= pageCount;
+//		if(focusedItem < 0)
+//			focusedItem = 0;
+//		this.recalcBottomItemFromTopItem();
+//
+//		this.drawItems(true);
+//		this.drawUpIcon(false);
+//		this.drawDownIcon(false);
+//		this.setFocusedItem((focusedItem >= 0) ? this.fRowList[focusedItem - this.fTopItem] : null);
+//		this.drawCount();
+//
+//		return true;
+//	}
 
 	return false;
 }
@@ -471,22 +318,6 @@ function ListControl(/*string*/ controlID, /*string*/ screenID, /*int*/ numRows,
 
 /*void*/ ListControl.prototype.mouseClick = function(/*string*/ controlID)
 {
-	// check more icons
-	if(controlID == this.fUIUpIconObj.id)
-	{
-		if(this.isUpIconEnabled())
-			this.key(ek_PageUp, null /*TODO*/);
-		return;
-	}
-
-	if(controlID == this.fUIDownIconObj.id)
-	{
-		if(this.isDownIconEnabled())
-			this.key(ek_PageDown, null /*TODO*/);
-		return;
-	}
-
-	// must be in list row
 	var rowPos = this.findRowPos(controlID);
 	if((rowPos >= 0) && (rowPos < this.getItemCount()))
 		this.getScreen().onButton(this.ControlID);
@@ -501,15 +332,8 @@ function ListControl(/*string*/ controlID, /*string*/ screenID, /*int*/ numRows,
 	if((rowPos >= 0) && (rowPos < this.getItemCount()))
 	{
 		this.setFocusedItem(this.fRowList[rowPos]);
-		this.drawUpIcon(false);
-		this.drawDownIcon(false);
-		this.drawCount();
-		return;
+		//return;
 	}
-
-	// check more icons
-	this.drawUpIcon(controlID == this.fUIUpIconObj.id);
-	this.drawDownIcon(controlID == this.fUIDownIconObj.id);
 }
 
 /******************************************************************************/

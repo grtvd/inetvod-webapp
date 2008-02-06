@@ -15,13 +15,13 @@ PickRentalControl.newInstance = function()
 	var containerControl = new PickRentalControl(PickRentalControl.ControlID, 0, 0);
 
 	var oRowItemList = new Array();
-	oRowItemList.push(new ListControlRowItem("Provider", 350));
-	oRowItemList.push(new ListControlRowItem("Rental", 230));
-	oRowItemList.push(new ListControlRowItem("Price", 100));
+	oRowItemList.push(new ListControlRowItem("Provider", 215, "listCtrItem_normal"));
+	oRowItemList.push(new ListControlRowItem("Rental", 140, "listCtrSmallItem_normal"));
+	oRowItemList.push(new ListControlRowItem("Price", 60, "listCtrSmallItem_normal"));
 
 	containerControl.newControl(new TextControl(PickRentalControl.AvailTextID, RentScreen.ScreenID));
 	containerControl.newControl(new ShowProviderListControl(PickRentalControl.ProviderListID,
-		RentScreen.ScreenID, 3, oRowItemList, null));
+		RentScreen.ScreenID, oRowItemList, null));
 
 	return containerControl;
 }

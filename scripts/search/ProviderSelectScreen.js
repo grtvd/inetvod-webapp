@@ -35,9 +35,9 @@ function ProviderSelectScreen(/*SearchDataPtr*/ oSearchData)
 	this.ScreenTitleImage = "titleSearch.gif";
 
 	var oRowItemList = new Array();
-	oRowItemList.push(new ListControlRowItem("Provider", 438));
+	oRowItemList.push(new ListControlRowItem("Provider", 300, "listCtrItem_normal"));
 
-	this.fContainerControl = new ContainerControl(this.ScreenID, 100, 150);
+	this.fContainerControl = new ContainerControl(this.ScreenID, 80, 100);
 
 	this.fSearchData = oSearchData;
 
@@ -50,7 +50,7 @@ function ProviderSelectScreen(/*SearchDataPtr*/ oSearchData)
 	for(var i = 0; i < providerList.length; i++)
 		itemList.push(new NameValuePair(providerList[i].ProviderID, providerList[i].Name));
 
-	this.newControl(new TextListControl(ProviderSelectScreen.ProvidersID, this.ScreenID, 8,
+	this.newControl(new TextListControl(ProviderSelectScreen.ProvidersID, this.ScreenID,
 		oRowItemList, itemList));
 }
 

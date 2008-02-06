@@ -35,9 +35,9 @@ function RatingSelectScreen(/*SearchDataPtr*/ oSearchData)
 	this.ScreenTitleImage = "titleSearch.gif";
 
 	var oRowItemList = new Array();
-	oRowItemList.push(new ListControlRowItem("Rating", 438));
+	oRowItemList.push(new ListControlRowItem("Rating", 300, "listCtrItem_normal"));
 
-	this.fContainerControl = new ContainerControl(this.ScreenID, 100, 150);
+	this.fContainerControl = new ContainerControl(this.ScreenID, 80, 100);
 
 	this.fSearchData = oSearchData;
 
@@ -50,7 +50,7 @@ function RatingSelectScreen(/*SearchDataPtr*/ oSearchData)
 	for(var i = 0; i < ratingList.length; i++)
 		itemList.push(new NameValuePair(ratingList[i].RatingID, ratingList[i].Name));
 
-	this.newControl(new TextListControl(RatingSelectScreen.RatingsID, this.ScreenID, 8,
+	this.newControl(new TextListControl(RatingSelectScreen.RatingsID, this.ScreenID,
 		oRowItemList, itemList));
 }
 

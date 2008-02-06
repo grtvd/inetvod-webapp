@@ -8,12 +8,12 @@ ShowProviderListControl.prototype.constructor = ListControl;
 
 /******************************************************************************/
 
-function ShowProviderListControl(/*string*/ controlID, /*string*/ screenID, /*int*/ numRows,
+function ShowProviderListControl(/*string*/ controlID, /*string*/ screenID,
 	/*ListControlRowItemList*/ oRowItemList, /*Array*/ showProviderList)
 {
 	this.initShowProviderItemList(showProviderList);
 
-	ListControl.prototype.init.call(this, controlID, screenID, numRows, oRowItemList);
+	ListControl.prototype.init.call(this, controlID, screenID, oRowItemList);
 }
 
 /******************************************************************************/

@@ -35,9 +35,9 @@ function CategorySelectScreen(/*SearchDataPtr*/ oSearchData)
 	this.ScreenTitleImage = "titleSearch.gif";
 
 	var oRowItemList = new Array();
-	oRowItemList.push(new ListControlRowItem("Category", 438));
+	oRowItemList.push(new ListControlRowItem("Category", 300, "listCtrItem_normal"));
 
-	this.fContainerControl = new ContainerControl(this.ScreenID, 100, 150);
+	this.fContainerControl = new ContainerControl(this.ScreenID, 80, 100);
 
 	this.fSearchData = oSearchData;
 
@@ -50,7 +50,7 @@ function CategorySelectScreen(/*SearchDataPtr*/ oSearchData)
 	for(var i = 0; i < categoryList.length; i++)
 		itemList.push(new NameValuePair(categoryList[i].CategoryID, categoryList[i].Name));
 
-	this.newControl(new TextListControl(CategorySelectScreen.CategoriesID, this.ScreenID, 8,
+	this.newControl(new TextListControl(CategorySelectScreen.CategoriesID, this.ScreenID,
 		oRowItemList, itemList));
 }
 

@@ -134,6 +134,116 @@
 <!-- *********************************************************************** -->
 <!-- *********************************************************************** -->
 
+<div id="Search006" style="position:absolute; display:none;">
+<table cellpadding=0 cellspacing=6 border=0>
+	<tr><td class="textLbl" colspan=4 style="text-align:left;"
+		>Please enter a partial title then Search:</td></tr>
+	<tr><td height="10"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""></td></tr>
+	<tr>
+		<td width=30><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""></td>
+		<td class="textLbl">Title:</td>
+		<td><input id="Search006_ShowName" class="editCtr" size="32" maxlength="64"></td>
+		<td align="right"
+			><table cellpadding=0 cellspacing=0 border=0
+				><tr><td id="Search006_Search_Frame" class="buttonCtr_normal"
+					><a id="Search006_Search" class="buttonCtr_normal">Search</a></td></tr
+			></table
+		></td>
+	</tr>
+	<tr><td/><td><br></td
+		><td><span id="Search006_ShowName_Msg" class="required"
+		/></td
+	></tr>
+</table>
+<br>
+<table cellpadding=0 cellspacing=6 border=0>
+	<tr><td class="textLbl" colspan=4 style="text-align:left;"
+		>You may also refine your search:</td></tr>
+	<tr><td height="10" colspan=4><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""></td></tr>
+	<tr>
+		<td width="60"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""></td>
+		<td class="textLbl">Provider:</td>
+		<td
+			><table width="100%" cellpadding=0 cellspacing=0 border=0
+				><tr><td id="Search006_Provider" class="buttonCtr_normal">All Providers</td></tr
+			></table
+		></td>
+	</tr>
+	<tr>
+		<td/>
+		<td class="textLbl">Category:</td>
+		<td
+			><table width="100%" cellpadding=0 cellspacing=0 border=0
+				><tr><td id="Search006_Category" class="buttonCtr_normal">All Categories</td></tr
+			></table
+		></td>
+	</tr>
+	<tr>
+		<td/>
+		<td class="textLbl">Rating:</td>
+		<td
+			><table width="100%" cellpadding=0 cellspacing=0 border=0
+				><tr><td id="Search006_Rating" class="buttonCtr_normal">All Ratings</td></tr
+			></table
+		></td>
+	</tr>
+</table>
+</div>
+
+<!-- *********************************************************************** -->
+<!-- *********************************************************************** -->
+
+<div id="Search001" style="position:absolute; display:none">
+<table cellpadding=0 cellspacing=0 border=0>
+	<tr><td class="textCtr" valign="top">Please select the Provider you would like to search:</td></tr>
+	<tr><td height=20><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""></td></tr>
+	<tr><td class="listCtrHeader">Providers</td></tr>
+	<tr><td height=6><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""></td></tr>
+	<tr><td><div style="height:256px; overflow:auto;"
+		><table id="Search001_Providers" width="400px" cellpadding=6 cellspacing=0 border=0>
+			<tbody id="Search001_Providers_Body"/>
+		</table
+	></div></td></tr>
+</table>
+</div>
+
+<!-- *********************************************************************** -->
+<!-- *********************************************************************** -->
+
+<div id="Search002" style="position:absolute; display:none">
+<table cellpadding=0 cellspacing=0 border=0>
+	<tr><td class="textCtr" valign="top">Please select which Category you would like to search:</td></tr>
+	<tr><td height=20><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""></td></tr>
+	<tr><td class="listCtrHeader">Categories</td></tr>
+	<tr><td height=6><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""></td></tr>
+	<tr><td><div style="height:256px; overflow:auto;"
+		><table id="Search002_Categories" width="400px" cellpadding=6 cellspacing=0 border=0>
+			<tbody id="Search002_Categories_Body"/>
+		</table
+	></div></td></tr>
+</table>
+</div>
+
+<!-- *********************************************************************** -->
+<!-- *********************************************************************** -->
+
+<div id="Search008" style="position:absolute; display:none">
+<table cellpadding=0 cellspacing=0 border=0>
+	<tr><td class="textCtr" valign="top">Please select which Rating you would like to search:</td></tr>
+	<tr><td height=20><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""></td></tr>
+	<tr><td class="listCtrHeader">Ratings</td></tr>
+	<tr><td height=6><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""></td></tr>
+	<tr><td><div style="height:256px; overflow:auto;"
+		><table id="Search008_Ratings" width="400px" cellpadding=6 cellspacing=0 border=0>
+			<tbody id="Search008_Ratings_Body"/>
+		</table
+	></div></td></tr>
+</table>
+</div>
+
+<!-- *********************************************************************** -->
+<!-- *********************************************************************** -->
+
 <div id="Search004" style="position:absolute; display:none">
 <table cellpadding=0 cellspacing=0 border=0 width=520>
 	<tr><td align=left valign=top>
@@ -189,46 +299,16 @@
 		<tr><td class="textCtr">Please select your desired rental:</td></tr>
 		<tr><td height=20><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""></td></tr>
 		<tr><td align="center"
-			><table id=Rent001_PickRentalControl_ProviderList cellpadding=0 cellspacing=0 border=0>
-				<tr><td>
-					<table cellpadding=6 cellspacing=0 border=0>
-						<tr
-							><td class="listCtrHeader" style="width:350px;">Provider</td
-							><td class="listCtrSmallHeader" style="width:230px;">Rental</td
-							><td class="listCtrSmallHeader" style="width:100px;">Price</td
-						></tr>
-						<tr id="Rent001_PickRentalControl_ProviderList_0" class="listCtrRow_normal"
-							><td id="Rent001_PickRentalControl_ProviderList_0_Provider_Frame" class="listCtrItem_normal"
-								><a id="Rent001_PickRentalControl_ProviderList_0_Provider" class="listCtrItem_normal"></a></td
-							><td id="Rent001_PickRentalControl_ProviderList_0_Rental" class="listCtrSmallItem_normal"></td
-							><td id="Rent001_PickRentalControl_ProviderList_0_Price" class="listCtrSmallItem_normal"></td
-						></tr>
-						<tr id="Rent001_PickRentalControl_ProviderList_1" class="listCtrRow_normal"
-							><td id="Rent001_PickRentalControl_ProviderList_1_Provider_Frame" class="listCtrItem_normal"
-								><a id="Rent001_PickRentalControl_ProviderList_1_Provider" class="listCtrItem_normal"></a></td
-							><td id="Rent001_PickRentalControl_ProviderList_1_Rental" class="listCtrSmallItem_normal"></td
-							><td id="Rent001_PickRentalControl_ProviderList_1_Price" class="listCtrSmallItem_normal"></td
-						></tr>
-						<tr id="Rent001_PickRentalControl_ProviderList_2" class="listCtrRow_normal"
-							><td id="Rent001_PickRentalControl_ProviderList_2_Provider_Frame" class="listCtrItem_normal"
-								><a id="Rent001_PickRentalControl_ProviderList_2_Provider" class="listCtrItem_normal"></a></td
-							><td id="Rent001_PickRentalControl_ProviderList_2_Rental" class="listCtrSmallItem_normal"></td
-							><td id="Rent001_PickRentalControl_ProviderList_2_Price" class="listCtrSmallItem_normal"></td
-						></tr>
-					</table
-				></td></tr>
-				<tr><td align="right"
-					><table cellpadding=0 cellspacing=5 border=0>
-						<tr><td id="Rent001_PickRentalControl_ProviderList_Count" class="listCtrCount">0 of 0</td
-							><td width=5><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""></td
-							><td class="listCtrPrev_normal"><a id="Rent001_PickRentalControl_ProviderList_Up"
-								class="listCtrPrev_normal">&lt;</a></td
-							><td class="listCtrNext_normal"><a id="Rent001_PickRentalControl_ProviderList_Down"
-								class="listCtrNext_normal">&gt;</a></td
-						></tr>
-					</table
-				></td></tr>
-			</table
+			><div style="height:420px; overflow:auto; background-color:white;"
+				><table id="Rent001_PickRentalControl_ProviderList" width="461px" cellpadding=6 cellspacing=0 border=0>
+					<thead><tr
+						><td class="listCtrHeader" style="width:215px;">Provider</td
+						><td class="listCtrSmallHeader" style="width:140px;">Rental</td
+						><td class="listCtrSmallHeader" style="width:60px;">Price</td
+					></tr></thead>
+					<tbody id="Rent001_PickRentalControl_ProviderList_Body"/>
+				</table
+			></div
 		></td></tr>
 	</table>
 </div>

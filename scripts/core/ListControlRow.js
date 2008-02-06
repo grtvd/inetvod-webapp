@@ -8,24 +8,23 @@ function ListControlRow(/*string*/ controlID, /*int*/ rowIndex,
 {
 	this.ControlID = controlID + "_" + new String(rowIndex);
 	this.RowIndex = rowIndex;
-	this.fUIObj = document.getElementById(this.ControlID);
-	if(this.fUIObj == null)
-		throw "ListControlRow::ctor(controlID): Can't find UI object, ID(" + this.ControlID + ")";
 
-	var oRowItem;
-	var oUIObj;
+	var oBody = document.getElementById(controlID + "_Body");
+
+	this.fUIObj = oBody.insertRow(-1);
+	this.fUIObj.className = "listCtrRow_normal";
 
 	this.fRowItemList = oRowItemList;
 	for(var i = 0; i < this.fRowItemList.length; i++)
 	{
-		oRowItem = this.fRowItemList[i];
-		controlID = this.getRowItemControlID(i);
-		oUIObj = document.getElementById(controlID);
-		if(oUIObj == null)
-			throw "ListControlRow::ctor(controlID): Can't find UI object, ID(" + controlID + ")";
+		var oRowItem = this.fRowItemList[i];
 
-		oUIObj.style.width = oRowItem.Width;
-		checkClassName(oUIObj, 'normal');
+		var oCell = this.fUIObj.insertCell(-1);
+		oCell.id = this.getRowItemControlID(i);
+		oCell.className = oRowItem.ClassName;
+
+		oCell.style.width = oRowItem.Width;
+		checkClassName(oCell, 'normal');
 	}
 }
 
@@ -38,8 +37,8 @@ function ListControlRow(/*string*/ controlID, /*int*/ rowIndex,
 	for(var i = 0; i < this.fRowItemList.length; i++)
 		this.focusRowItem(i, set);
 
-	if(set)
-		this.fUIObj.focus();
+//TODO	if(set)
+//TODO		this.fUIObj.focus();
 }
 
 /******************************************************************************/

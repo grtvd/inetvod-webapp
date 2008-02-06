@@ -8,12 +8,12 @@ TextListControl.prototype.constructor = ListControl;
 
 /******************************************************************************/
 
-function TextListControl(/*string*/ controlID, /*string*/ screenID, /*int*/ numRows,
+function TextListControl(/*string*/ controlID, /*string*/ screenID,
 	/*ListControlRowItemList*/ oRowItemList, /*Array*/ nameValuePairList)
 {
 	this.NameValuePairList = nameValuePairList;
 
-	ListControl.prototype.init.call(this, controlID, screenID, numRows, oRowItemList);
+	ListControl.prototype.init.call(this, controlID, screenID, oRowItemList);
 }
 
 /******************************************************************************/
