@@ -4,6 +4,7 @@
 /******************************************************************************/
 
 RentedShowDetailScreen.ScreenID = "Show003";
+RentedShowDetailScreen.PictureID = "Show003_Picture";
 RentedShowDetailScreen.StatusIconID = "Show003_StatusIcon";
 RentedShowDetailScreen.NameID = "Show003_Name";
 RentedShowDetailScreen.EpisodeID = "Show003_Episode";
@@ -48,6 +49,13 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 	this.fDownloadStatus = "";
 
 	this.fContainerControl = new ContainerControl(this.ScreenID, 22, 80);
+
+	oControl = new ImageControl(RentedShowDetailScreen.PictureID, this.ScreenID);
+	if(testStrHasLen(rentedShow.PictureURL))
+		oControl.setSource(rentedShow.PictureURL);
+	else
+		oControl.setSource("images/no_picture.gif");
+	this.newControl(oControl);
 
 	this.newControl(new ButtonControl(RentedShowDetailScreen.WatchNowID, this.ScreenID));
 	this.newControl(new ButtonControl(RentedShowDetailScreen.DeleteNowID, this.ScreenID));

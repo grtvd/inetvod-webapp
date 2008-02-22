@@ -1,5 +1,5 @@
 <%--
-Copyright © 2007 iNetVOD, Inc. All Rights Reserved.
+Copyright Â© 2007-2008 iNetVOD, Inc. All Rights Reserved.
 iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -51,7 +51,8 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 							><td
 								><table cellpadding="0" cellspacing="0" border="0">
 									<tr
-										><td rowspan="2" style="padding-left:5px;"><img src="images/no_picture.gif"
+										><td rowspan="2" style="padding-left:5px;"><img src="<%=showSearch.getPictureURL()
+											!= null ? showSearch.getPictureURL() : "images/no_picture.gif"%>"
 											border=0 width=48 height=48 alt=""/></td
 										><td class="listItem"><a class="listItem"
 											onclick="StartupSearchDetail('<%=showSearch.getShowID()%>');"

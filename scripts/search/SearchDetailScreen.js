@@ -4,6 +4,7 @@
 /******************************************************************************/
 
 SearchDetailScreen.ScreenID = "Search004";
+SearchDetailScreen.PictureID = "Search004_Picture";
 SearchDetailScreen.NameID = "Search004_Name";
 SearchDetailScreen.EpisodeID = "Search004_Episode";
 SearchDetailScreen.ReleasedID = "Search004_Released";
@@ -46,6 +47,13 @@ function SearchDetailScreen(/*RentedShow*/ showDetail)
 	var showCost = showProvider.ShowCostList[0];
 
 	this.fContainerControl = new ContainerControl(this.ScreenID, 22, 80);
+
+	oControl = new ImageControl(SearchDetailScreen.PictureID, this.ScreenID);
+	if(testStrHasLen(showDetail.PictureURL))
+		oControl.setSource(showDetail.PictureURL);
+	else
+		oControl.setSource("images/no_picture.gif");
+	this.newControl(oControl);
 
 	oControl = new ButtonControl(SearchDetailScreen.RentNowID, this.ScreenID);
 	oControl.setText((showCost.ShowCostType == sct_Free) ? "Get Now" : "Rent Now");
