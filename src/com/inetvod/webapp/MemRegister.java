@@ -1,13 +1,18 @@
 /**
- * Copyright © 2006 iNetVOD, Inc. All Rights Reserved.
+ * Copyright © 2006-2008 iNetVOD, Inc. All Rights Reserved.
  * iNetVOD Confidential and Proprietary.  See LEGAL.txt.
  */
 package com.inetvod.webapp;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+import java.util.HashMap;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.inetvod.common.core.CompUtil;
 import com.inetvod.common.core.CountryID;
@@ -30,6 +35,58 @@ import com.inetvod.common.dbdata.RatingList;
 
 public class MemRegister extends MemRegisterSetVariables
 {
+	private static final String UserIDCookie = "user";
+	private static final String UserPasswordCookie = "password";
+	private static final String RememberPasswordCookie = "remember";
+	private static final String GuestDataCookie = "guest";
+	private static final String SessionDataCookie = "sess";
+	private static final String SessionExpiresDataCookie = "sessexp";
+	private static final String MemberIDCookie = "MemberId";
+	private static final String PageRedirectCookie = "Page_Redirect";
+
+	private static final int TenYearsSecs = 315360000;
+	private static final String CookieEncoding = "UTF-8";
+	private static final String GuestUserID = "guest";
+
+	public String getUserIDCookie() { return UserIDCookie; }
+	public String getUserPasswordCookie() { return UserPasswordCookie; }
+	public String getMemberIDCookie() { return MemberIDCookie; }
+	public String getPageRedirectCookie() { return PageRedirectCookie; }
+
+	public HashMap<String, String> parseCookies(HttpServletRequest request) throws UnsupportedEncodingException
+	{
+		HashMap<String, String> cookieMap = new HashMap<String, String>();
+
+		Cookie[] cookies = request.getCookies();
+		if(cookies != null)
+			for(Cookie cookie : cookies)
+				if(StrUtil.hasLen(cookie.getValue()))
+					cookieMap.put(cookie.getName(), URLDecoder.decode(cookie.getValue(), CookieEncoding));
+
+		return cookieMap;
+	}
+
+	public void saveCookie(HttpServletResponse response, String name, String value, boolean sessionOnly,
+		Integer expireSecs, String path, String domain, boolean secure) throws UnsupportedEncodingException
+	{
+		Cookie cookie = new Cookie(name, StrUtil.hasLen(value) ? URLEncoder.encode(value, CookieEncoding) : "");
+
+		if(!sessionOnly)
+			cookie.setMaxAge((expireSecs == null) ? TenYearsSecs : expireSecs);
+		cookie.setPath(StrUtil.hasLen(path) ? path : "/");
+		if(StrUtil.hasLen(domain))
+			cookie.setDomain(domain);
+		cookie.setSecure(secure);
+
+		response.addCookie(cookie);
+	}
+
+	public void saveCookie(HttpServletResponse response, String name, String value, boolean sessionOnly)
+		throws UnsupportedEncodingException
+	{
+		saveCookie(response, name, value, sessionOnly, null, null, null, false);
+	}
+
 	/*******************************************************************************************************/
 	// Registering a New User -- START
 	/*-----------------------------------------------------------------------------------------------------*/
@@ -462,7 +519,7 @@ public class MemRegister extends MemRegisterSetVariables
 			setParental_details(parent_det.toString());
 
 			RatingList ratingList = RatingList.find();
-			if(mem_Prefs.getIncludeRatingIDList().size() == ratingList.size())
+			if(mem_Prefs.getIncludeRatingIDList().size() == ratingList.size() + 1)
 				setRatingId("All ratings");
 			else
 				setRatingId("Some ratings");
@@ -926,6 +983,34 @@ public class MemRegister extends MemRegisterSetVariables
 	/*-----------------------------------------------------------------------------------------------------*/
 	//Player Logon Update-- END
 	/*******************************************************************************************************/
+
+	public MemberID member_Session_Check(String userID, String pass)
+	{
+		try
+		{
+			setError_flag(false);
+
+			if(StrUtil.hasLen(userID) && StrUtil.hasLen(pass) && !GuestUserID.equals(userID))
+			{
+				MemberLogon memberLogon;
+
+				if(StrUtil.isNumeric(userID))
+					memberLogon = MemberLogon.findByLogonIDPIN(Integer.parseInt(userID), pass);
+				else
+					memberLogon = MemberLogon.findByEmailPassword(userID, pass);
+
+				if(memberLogon != null)
+					return memberLogon.getMemberID();
+			}
+		}
+		catch(Exception e)
+		{
+			setError_flag(true);
+			Logger.logErr(this, "member_Session_Check", e);
+		}
+
+		return null;
+	}
 
 	/*******************************************************************************************************/
 	//Logon Check-- START

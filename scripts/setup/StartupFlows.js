@@ -3,6 +3,24 @@
 /******************************************************************************/
 /******************************************************************************/
 
+function StartupInitGeneral()
+{
+	MainApp.getThe().init();
+	MainApp.getThe().getSession().loadDataSettings();
+}
+
+/******************************************************************************/
+
+function StartupInitMember()
+{
+	StartupInitGeneral();
+	if(!MainApp.getThe().getSession().isUserLoggedOn())
+		document.location = "../member/mem_logon.jsp";
+}
+
+/******************************************************************************/
+/******************************************************************************/
+
 function StartupFlow()
 {
 	this.Data = null;

@@ -1,5 +1,5 @@
 <%--
-Copyright � 2007 iNetVOD, Inc. All Rights Reserved.
+Copyright © 2007-2008 iNetVOD, Inc. All Rights Reserved.
 iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -25,93 +25,12 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 	<link rel="stylesheet" href="../styles/style.css" type="text/css"/>
 	<script type="text/javascript" src="../main.js"></script>
 	<script type="text/javascript">
-		var gCurMenuCookie = "curMenu";
 		function runOnLoad()
 		{
-			MainApp.getThe().init();
-			MainApp.getThe().getSession().loadDataSettings();
+			StartupInitGeneral();
 
-			var curMenu = '<%=PageMenuMap.mapMenuFromPage(request.getServletPath(), request.getQueryString())%>';
-			if(!testStrHasLen(curMenu))
-				curMenu = getCookie(gCurMenuCookie);
-			if(testStrHasLen(curMenu))
-				hilightMenu(curMenu + "_");
-
+			initMenu('<%=PageMenuMap.mapMenuFromPage(request.getServletPath(), request.getQueryString())%>');
 			headerCheckFields();
-		}
-		function hilightMenu(rowID)
-		{
-			rowID = buildClassName(rowID, "Row");
-			var oRow = document.getElementById(rowID);
-			if(oRow)
-				checkClassName(oRow, "hilite");
-			rowID = buildClassName(rowID, "Link");
-			var oLink = document.getElementById(rowID);
-			if(oLink)
-				checkClassName(oLink, "hilite");
-
-			deleteCookie(gCurMenuCookie);
-			setCookie(gCurMenuCookie, getClassNameBase(rowID), true);
-		}
-		function onMenuClick(evt, oItem)
-		{
-			hilightMenu(oItem.id);
-			stopEventPropagation(evt);
-		}
-		function onMenuRowClick(evt, oItem)
-		{
-			var linkID = buildClassName(oItem.id, "Link");
-			var oLink = document.getElementById(linkID);
-			if(oLink)
-			{
-				hilightMenu(oItem.id);
-				stopEventPropagation(evt);
-				document.location = oLink.href;
-			}
-		}
-		function onMenuClickScript(evt, oItem, fnc)
-		{
-			setCookie(gCurMenuCookie, getClassNameBase(oItem.id), true);
-			stopEventPropagation(evt);
-			eval(fnc);
-		}
-		function onMenuRowClickScript(evt, oItem, fnc)
-		{
-			var linkID = buildClassName(oItem.id, "Link");
-			var oLink = document.getElementById(linkID);
-			if(oLink)
-			{
-				setCookie(gCurMenuCookie, getClassNameBase(oItem.id), true);
-				stopEventPropagation(evt);
-				eval(fnc);
-			}
-		}
-		function headerCheckFields()
-		{
-			var oMainApp = MainApp.getThe();
-			var oSession = oMainApp.getSession();
-			var guestAccess = oSession.isGuestAccess();
-
-			var oUIObj = document.getElementById("HeaderLogon")
-			setStyleDisplay(oUIObj, guestAccess);
-
-			oUIObj = document.getElementById("HeaderUser");
-			oUIObj.innerHTML = (guestAccess || !oSession.haveUserID()) ? "" : oSession.getUserID();
-
-			oUIObj = document.getElementById("HeaderRegister");
-			setStyleDisplay(oUIObj, guestAccess);
-
-			oUIObj = document.getElementById("HeaderLogout");
-			setStyleDisplay(oUIObj, !guestAccess);
-		}
-		function headerLogout()
-		{
-			var oMainApp = MainApp.getThe();
-			var oSession = oMainApp.getSession();
-			oSession.logoffDataSettings();
-			oMainApp.reset();
-
-			document.location = "index.jsp";
 		}
 	</script>
 </head>
@@ -122,7 +41,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 				<table border="0" cellpadding="0" cellspacing="0">
 					<tr>
 						<td id="HeaderLogon" style="display:none"><a class="linkCtr" onclick="StartupLogon();">Logon</a></td>
-						<td id="HeaderUser" class="textCtr"></td>
+						<td><a id="HeaderUser" class="linkNoBackCtr" href="../member/mem_overview.jsp" style="display:none"/></td>
 						<td class="textSmallLbl">&nbsp;|&nbsp;</td>
 						<td id="HeaderRegister" style="display:none"><a class="linkCtr" href="../member/mem_new.jsp">Register</a></td>
 						<td id="HeaderLogout" style="display:none"><a class="linkCtr" onclick="headerLogout()">Logout</a></td>

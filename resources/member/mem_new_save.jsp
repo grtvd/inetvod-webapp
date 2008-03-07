@@ -1,10 +1,28 @@
 <%@ page import="java.net.URLEncoder"%>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="com.inetvod.common.core.StrUtil" %>
+<%@ page import="com.inetvod.common.data.CategoryID" %>
+<%@ page import="com.inetvod.playerClient.rqdata.Category" %>
+<%@ page import="com.inetvod.playerClient.rqdata.CategoryList" %>
+<%@ page import="com.inetvod.playerClient.rqdata.Provider" %>
+<%@ page import="com.inetvod.playerClient.rqdata.ProviderList" %>
+<%@ page import="com.inetvod.playerClient.rqdata.RentedShowSearch" %>
+<%@ page import="com.inetvod.playerClient.rqdata.RentedShowSearchList" %>
+<%@ page import="com.inetvod.playerClient.rqdata.ShowSearch" %>
+<%@ page import="com.inetvod.playerClient.rqdata.ShowSearchList" %>
+<%@ page import="com.inetvod.webapp.MemRegister" %>
+<%@ page import="com.inetvod.webapp.PageMenuMap" %>
+<%@ page import="com.inetvod.webapp.ReadXMLFile" %>
+<%@ page import="com.inetvod.webapp.player.CategorySearchView" %>
+<%@ page import="com.inetvod.webapp.player.NowPlayingView" %>
+<%@ page import="com.inetvod.webapp.player.ProviderSearchView" %>
+<%@ page import="com.inetvod.webapp.player.SearchResultsView" %>
 <%@ page contentType="text/html; charset=iso-8859-1" language="java" %>
 <%
-	/**
-	 * Copyright © 2006 iNetVOD, Inc. All Rights Reserved.
-	 * iNetVOD Confidential and Proprietary.  See LEGAL.txt.
-	 */
+/**
+ * Copyright © 2006-2008 iNetVOD, Inc. All Rights Reserved.
+ * iNetVOD Confidential and Proprietary.  See LEGAL.txt.
+ */
 %>
 
 <%
@@ -36,6 +54,7 @@
 
 
 <jsp:useBean id="newMember" class="com.inetvod.webapp.MemRegister" scope="request"/>
+<jsp:useBean id="sess" class="com.inetvod.webapp.player.Session" scope="request"/>
 
 <jsp:setProperty name="newMember" property="email_id" value="<%= request.getParameter("tbx_Email") %>"/>
 <jsp:setProperty name="newMember" property="password_id" value="<%= request.getParameter("tbx_Password") %>"/>
@@ -65,15 +84,19 @@
 		return;
 	}
 
-	Cookie cookie = new Cookie("MemberId", newMember.getMember_id());
-	Cookie cookie_page = new Cookie("Page_Redirect", "new");
-	//cookie.setMaxAge(365 * 24 * 60 * 60);
-	response.addCookie(cookie);
-	response.addCookie(cookie_page);
-
-//	response.sendRedirect("mem_personal.jsp");
+	sess.loadMember(request, response, newMember.getEmail_id(), newMember.getPassword_id(), false);
+	if(!sess.hasError())
+	{
+		Cookie cookie = new Cookie("MemberId", newMember.getMember_id());
+		Cookie cookie_page = new Cookie("Page_Redirect", "new");
+		response.addCookie(cookie);
+		response.addCookie(cookie_page);
 
 %>
 <script type="text/javascript">location.href = "mem_personal.jsp"</script>
-
+<%
+	}
+	else
+%>
+<script type="text/javascript">location.href = "error.jsp"</script>
 

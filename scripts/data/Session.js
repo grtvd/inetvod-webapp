@@ -20,6 +20,7 @@ Session.RememberPasswordCookie = "remember";
 Session.GuestDataCookie = "guest";
 Session.SessionDataCookie = "sess";
 Session.SessionExpiresDataCookie = "sessexp";
+Session.MemberIDCookie = "MemberId";	//TODO remove after Member code has been updated to Player
 
 /******************************************************************************/
 
@@ -45,13 +46,13 @@ function Session()
 
 	this.fPlayer = null;
 
-	this.fIsUserLoggedOn = false;
 	this.fUserID = null;
 	this.fUserPassword = null;
 	this.fRememberPassword = false;
 	this.fGuestAccess = false;
 	this.fSessionData = null;
 	this.fSessionExpires = null;
+	this.fMemberID = null;	//TODO remove after Member code has been updated to Player
 	this.fMemberPrefs = null;
 	this.fMemberProviderList = new Array();
 
@@ -96,7 +97,8 @@ function Session()
 
 /*boolean*/ Session.prototype.isUserLoggedOn = function()
 {
-	return this.fIsUserLoggedOn;
+	return (testStrHasLen(this.fSessionData) && !this.fGuestAccess)
+		|| testStrHasLen(this.fMemberID);	//TODO remove after Member code has been updated to Player
 }
 
 /******************************************************************************/
@@ -131,12 +133,12 @@ function Session()
 
 /*void*/ Session.prototype.clearLogonInfo = function()
 {
-	this.fIsUserLoggedOn = false;
 	this.fUserID = null;
 	this.fUserPassword = null;
 	this.fGuestAccess = false;
 	this.fSessionData = null;
 	this.fSessionExpires = null;
+	this.fMemberID = null;	//TODO remove after Member code has been updated to Player
 }
 
 /******************************************************************************/
@@ -283,6 +285,7 @@ function Session()
 			this.fSessionExpires = expiresAt;
 		}
 	}
+	this.fMemberID = getCookie(Session.MemberIDCookie);	//TODO remove after Member code has been updated to Player
 
 	return testStrHasLen(this.fUserID);
 }
@@ -321,6 +324,9 @@ function Session()
 		setCookie(Session.SessionExpiresDataCookie, dateTimeToString(this.fSessionExpires, dtf_ISO8601_DateTime), true);
 	}
 
+	deleteCookie(Session.MemberIDCookie);		//TODO remove after Member code has been updated to Player
+	if(testStrHasLen(this.fMemberID))
+		setCookie(Session.MemberIDCookie, this.fMemberID, true);	//TODO remove after Member code has been updated to Player
 	return true;
 }
 
@@ -334,6 +340,7 @@ function Session()
 	this.fGuestAccess = false;
 	this.fSessionData = null;
 	this.fSessionExpires = null;
+	this.fMemberID = null;	//TODO remove after Member code has been updated to Player
 
 	deleteCookie(Session.UserPasswordCookie);
 	deleteCookie(Session.RememberPasswordCookie);
@@ -341,6 +348,7 @@ function Session()
 	deleteCookie(Session.GuestDataCookie);
 	deleteCookie(Session.SessionDataCookie);
 	deleteCookie(Session.SessionExpiresDataCookie);
+	deleteCookie(Session.MemberIDCookie);		///TODO remove after Member code has been updated to Player
 }
 
 /******************************************************************************/
@@ -357,6 +365,7 @@ function Session()
 	deleteCookie(Session.GuestDataCookie);
 	deleteCookie(Session.SessionDataCookie);
 	deleteCookie(Session.SessionExpiresDataCookie);
+	deleteCookie(Session.MemberIDCookie);		///TODO remove after Member code has been updated to Player
 }
 
 /******************************************************************************/
@@ -430,8 +439,6 @@ function Session()
 /*void*/ Session.prototype.signon = function(/*object*/ callbackObj,
 	/*string*/ userID, /*string*/ password, /*boolean*/ rememberPassword)
 {
-	this.fIsUserLoggedOn = false;
-
 	if(testStrHasLen(userID))
 		this.fUserID = userID;
 	if(testStrHasLen(password))
@@ -473,7 +480,6 @@ function Session()
 		this.CanAccessAdult = (this.IncludeAdult == ina_Always);
 		this.fMemberProviderList = signonResp.MemberState.MemberProviderList;
 
-		this.fIsUserLoggedOn = true;
 		this.callbackCaller(null, statusCode, statusMessage);
 		return;
 	}

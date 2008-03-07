@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.inetvod.common.core.DateUtil;
 import com.inetvod.common.core.Logger;
 import com.inetvod.common.core.StrUtil;
+import com.inetvod.common.crypto.CryptoDigest;
 import com.inetvod.common.data.CategoryID;
 import com.inetvod.common.data.ManufacturerID;
 import com.inetvod.common.data.ProviderID;
@@ -121,6 +122,29 @@ public class Session
 		}
 	}
 
+	public void loadMember(HttpServletRequest request, HttpServletResponse response, String userID,
+		String userPassword, boolean rememberPassword)
+	{
+		try
+		{
+			fRequest = request;
+			fResponse = response;
+
+			clearDataSettings();
+			if(!pingServer())
+				return;
+			this.fUserID = userID;
+			this.fUserPassword = CryptoDigest.encrypt(userPassword);
+			this.fRememberPassword = rememberPassword;
+			checkSignonMember();
+		}
+		catch(Exception e)
+		{
+			Logger.logWarn(this, "load", e);
+			setError(null);
+		}
+	}
+
 	private void parseCookies() throws UnsupportedEncodingException
 	{
 		HashMap<String, String> cookieMap = new HashMap<String, String>();
@@ -137,7 +161,7 @@ public class Session
 	private void saveCookie(String name, String value, boolean sessionOnly, Integer expireSecs, String path,
 		String domain, boolean secure) throws UnsupportedEncodingException
 	{
-		Cookie cookie = new Cookie(name, StrUtil.hasLen(value) ? URLEncoder.encode(value, CookieEncoding) : null);
+		Cookie cookie = new Cookie(name, StrUtil.hasLen(value) ? URLEncoder.encode(value, CookieEncoding) : "");
 
 		if(!sessionOnly)
 			cookie.setMaxAge((expireSecs == null) ? TenYearsSecs : expireSecs);
@@ -152,6 +176,11 @@ public class Session
 	private void saveCookie(String name, String value, boolean sessionOnly) throws UnsupportedEncodingException
 	{
 		saveCookie(name, value, sessionOnly, null, null, null, false);
+	}
+
+	private void deleteCookie(String name) throws UnsupportedEncodingException
+	{
+		saveCookie(name, null, true, 0, null, null, false);
 	}
 
 	private void parseParameters()
@@ -207,6 +236,36 @@ public class Session
 		saveCookie(SessionExpiresDataCookie, DateUtil.convertToISO8601(fSessionExpires), true);
 	}
 
+	private void saveDataSettingsMember() throws UnsupportedEncodingException
+	{
+		//deleteCookie("user");
+		//deleteCookie("password");
+		//deleteCookie("remember");
+
+		saveCookie(UserIDCookie, this.fUserID, false);
+		saveCookie(UserPasswordCookie, this.fUserPassword, !this.fRememberPassword);
+		saveCookie(RememberPasswordCookie, this.fRememberPassword ? "true" : "false", true);
+
+		//deleteCookie(GuestDataCookie);
+		fGuestAccess = false;
+		saveCookie(GuestDataCookie, "false", true);
+
+		//deleteCookie("sess");
+		//deleteCookie("sessexp");
+		saveCookie(SessionDataCookie, fSessionData, true);
+		saveCookie(SessionExpiresDataCookie, DateUtil.convertToISO8601(fSessionExpires), true);
+	}
+
+	private void clearDataSettings() throws UnsupportedEncodingException
+	{
+		deleteCookie(UserIDCookie);
+		deleteCookie(UserPasswordCookie);
+		deleteCookie(RememberPasswordCookie);
+		deleteCookie(GuestDataCookie);
+		deleteCookie(SessionDataCookie);
+		deleteCookie(SessionExpiresDataCookie);
+	}
+
 	private boolean checkSignon() throws UnsupportedEncodingException
 	{
 		if(StrUtil.hasLen(fSessionData))
@@ -225,6 +284,20 @@ public class Session
 		{
 			saveDataSettings(true);
 			return true;
+		}
+
+		return false;
+	}
+
+	private boolean checkSignonMember() throws UnsupportedEncodingException
+	{
+		if(StrUtil.hasLen(fUserID) && StrUtil.hasLen(fUserPassword))
+		{
+			if(signon(fUserID, fUserPassword))
+			{
+				saveDataSettingsMember();
+				return true;
+			}
 		}
 
 		return false;

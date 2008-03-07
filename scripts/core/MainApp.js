@@ -125,12 +125,15 @@ function MainApp()
 	var oMainBodyDiv = document.getElementById("MainBodyDiv");
 	var oAppTable = document.getElementById("AppTable");
 
-	var extra = 20; //border
-	if (oMainBodyDiv.offsetTop == 0)
-		extra += 20;	//fudge for IE
+	if(oMainBodyDiv && oAppTable)
+	{
+		var extra = 20; //border
+		if (oMainBodyDiv.offsetTop == 0)
+			extra += 20;	//fudge for IE
 
-	var newDivHeight = getWindowInnerHeight() - extra - oAppTable.offsetTop;
-	oMainBodyDiv.style.height = newDivHeight + "px";
+		var newDivHeight = getWindowInnerHeight() - extra - oAppTable.offsetTop;
+		oMainBodyDiv.style.height = newDivHeight + "px";
+	}
 }
 
 /******************************************************************************/

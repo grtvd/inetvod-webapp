@@ -1,9 +1,9 @@
 <%@ page contentType="text/html; charset=iso-8859-1" language="java" %>
 <%
-	/**
-	 * Copyright © 2006 iNetVOD, Inc. All Rights Reserved.
-	 * iNetVOD Confidential and Proprietary.  See LEGAL.txt.
-	 */
+/**
+ * Copyright © 2006-2008 iNetVOD, Inc. All Rights Reserved.
+ * iNetVOD Confidential and Proprietary.  See LEGAL.txt.
+ */
 %>
 <jsp:useBean id="newMember" class="com.inetvod.webapp.MemRegister" scope="request"/>
 <jsp:setProperty name="newMember" property="error_flag" value="false"/>
@@ -11,7 +11,7 @@
 <html>
 <head>
 	<title>Error</title>
-	<link rel="stylesheet" href="../twc615.css" type="text/css"/>
+	<link href="../styles/style.css" rel="stylesheet" type="text/css"/>
 	<link href="../omnie.css" rel="stylesheet" type="text/css"/>
 	<style type="text/css">
 		<!--

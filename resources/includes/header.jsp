@@ -1,42 +1,36 @@
-<jsp:useBean id="newMember" class="com.inetvod.webapp.MemRegister" scope="request"/>
-
-<!--webbot bot="Include" U-Include="include_top3.htm" TAG="BODY" startspan -->
+<%@ page import="java.util.HashMap" %>
+<%@ page import="com.inetvod.common.core.StrUtil" %>
+<%@ page import="com.inetvod.common.data.CategoryID" %>
+<%@ page import="com.inetvod.playerClient.rqdata.Category" %>
+<%@ page import="com.inetvod.playerClient.rqdata.CategoryList" %>
+<%@ page import="com.inetvod.playerClient.rqdata.Provider" %>
+<%@ page import="com.inetvod.playerClient.rqdata.ProviderList" %>
+<%@ page import="com.inetvod.playerClient.rqdata.RentedShowSearch" %>
+<%@ page import="com.inetvod.playerClient.rqdata.RentedShowSearchList" %>
+<%@ page import="com.inetvod.playerClient.rqdata.ShowSearch" %>
+<%@ page import="com.inetvod.playerClient.rqdata.ShowSearchList" %>
+<%@ page import="com.inetvod.webapp.MemRegister" %>
+<%@ page import="com.inetvod.webapp.PageMenuMap" %>
+<%@ page import="com.inetvod.webapp.ReadXMLFile" %>
+<%@ page import="com.inetvod.webapp.player.CategorySearchView" %>
+<%@ page import="com.inetvod.webapp.player.NowPlayingView" %>
+<%@ page import="com.inetvod.webapp.player.ProviderSearchView" %>
+<%@ page import="com.inetvod.webapp.player.SearchResultsView" %>
 <div align="center">
-	<table border="0" cellpadding="0" cellspacing="0" width="760" height="70"
-		background="../images/design_elements/header.jpg">
-		<tr>
-			<td class="yourname">&nbsp;</td>
-			<td class="youraddress"><p>&nbsp;</p></td>
-		</tr>
-	</table>
-	<table border="0" cellpadding="0" cellspacing="0" width="760">
-		<tr>
-			<td valign="top"><img src="../images/staticbanner2.jpg" width="760" height="130" border="0" usemap="#Map"
-				alt=""/></td>
-		</tr>
-		<tr>
-			<td valign="middle" class="banner"><%
-				if(newMember.isLoggedIn())
-				{
-					%><a href="../member/cookie_reset.jsp">Logoff</a><%
-				}
-				else
-				{
-					%><a href="../member/mem_logon.jsp">Logon</a> / <a href="../member/mem_new.jsp">Register</a><%
-				}
-				%></td>
-		</tr>
-	</table>
+<table border="0" cellpadding="0" cellspacing="0" width="760">
+	<tr><td><a href="../index.jsp"><img src="../player/images/logo.gif" alt="Storm Media Player" border="0"/></a></td>
+		<td align="right" valign="top">
+			<table border="0" cellpadding="0" cellspacing="0">
+				<tr>
+					<td id="HeaderLogon" style="display:none"><a class="linkCtr" href="../member/mem_logon.jsp">Logon</a></td>
+					<td id="HeaderUser" class="textCtr"></td>
+					<td class="textSmallLbl">&nbsp;|&nbsp;</td>
+					<td id="HeaderRegister" style="display:none"><a class="linkCtr" href="../member/mem_new.jsp">Register</a></td>
+					<td id="HeaderLogout" style="display:none"><a class="linkCtr" onclick="headerLogout()">Logout</a></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr><td height="10"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
+</table>
 </div>
-<!--webbot bot="Include" i-checksum="60546" endspan -->
-<%
-	String sitePath = "http://www.inetvod.com/";
-%>
-<map id="Map" name="Map">
-	<area shape="rect" coords="19,3,184,23" href="<%= sitePath %>index.htm" alt="Home"/>
-	<area shape="rect" coords="14,29,179,47" href="<%= sitePath %>companyoverview.htm" alt="About Us"/>
-	<area shape="rect" coords="15,56,168,74" href="<%= sitePath %>ourservice.htm" alt="Our Service"/>
-	<area shape="rect" coords="12,81,162,100" href="<%= sitePath %>partneropportunities.htm" alt="Partners"/>
-	<area shape="rect" coords="11,106,147,125" href="<%= sitePath %>contactus.htm" alt="Contact Us"/>
-	<area shape="rect" coords="263,15,737,116" href="<%= sitePath %>index.htm" alt="Home"/>
-</map>

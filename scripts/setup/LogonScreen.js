@@ -49,7 +49,7 @@ function LogonScreen(/*object*/ callerCallback)
 	oControl = new TextControl(LogonScreen.UserPasswordMsgID, this.ScreenID);
 	this.newControl(oControl);
 	oControl = new CheckControl(LogonScreen.RememberPasswordID, this.ScreenID);
-	oControl.setChecked(true);
+	oControl.setChecked(false);
 	this.newControl(oControl);
 
 	this.newControl(new ButtonControl(LogonScreen.ContinueID, this.ScreenID));

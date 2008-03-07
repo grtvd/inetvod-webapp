@@ -1,9 +1,27 @@
+<%@ page import="java.util.HashMap" %>
+<%@ page import="com.inetvod.common.core.StrUtil" %>
+<%@ page import="com.inetvod.common.data.CategoryID" %>
+<%@ page import="com.inetvod.playerClient.rqdata.Category" %>
+<%@ page import="com.inetvod.playerClient.rqdata.CategoryList" %>
+<%@ page import="com.inetvod.playerClient.rqdata.Provider" %>
+<%@ page import="com.inetvod.playerClient.rqdata.ProviderList" %>
+<%@ page import="com.inetvod.playerClient.rqdata.RentedShowSearch" %>
+<%@ page import="com.inetvod.playerClient.rqdata.RentedShowSearchList" %>
+<%@ page import="com.inetvod.playerClient.rqdata.ShowSearch" %>
+<%@ page import="com.inetvod.playerClient.rqdata.ShowSearchList" %>
+<%@ page import="com.inetvod.webapp.MemRegister" %>
+<%@ page import="com.inetvod.webapp.PageMenuMap" %>
+<%@ page import="com.inetvod.webapp.ReadXMLFile" %>
+<%@ page import="com.inetvod.webapp.player.CategorySearchView" %>
+<%@ page import="com.inetvod.webapp.player.NowPlayingView" %>
+<%@ page import="com.inetvod.webapp.player.ProviderSearchView" %>
+<%@ page import="com.inetvod.webapp.player.SearchResultsView" %>
 <%@ page contentType="text/html; charset=iso-8859-1" language="java" %>
 <%
-	/**
-	 * Copyright © 2006 iNetVOD, Inc. All Rights Reserved.
-	 * iNetVOD Confidential and Proprietary.  See LEGAL.txt.
-	 */
+/**
+ * Copyright © 2006-2008 iNetVOD, Inc. All Rights Reserved.
+ * iNetVOD Confidential and Proprietary.  See LEGAL.txt.
+ */
 %>
 <jsp:useBean id="newMember" class="com.inetvod.webapp.MemRegister" scope="request"/>
 
@@ -29,12 +47,16 @@
 <html>
 <head>
 	<title>Reset Logon Password</title>
-	<link rel="stylesheet" href="../twc615.css" type="text/css"/>
+	<link href="../styles/style.css" rel="stylesheet" type="text/css"/>
 	<link href="../omnie.css" rel="stylesheet" type="text/css"/>
+	<script type="text/javascript" src="../main.js"></script>
 	<script src="../includes/form_validations.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		function RunOnLoad()
 		{
+			StartupInitGeneral();
+			headerCheckFields();
+
 			//Attache enter event on the browser to be fired and handled
 			addKeyEvent();
 
@@ -92,7 +114,7 @@
 			<td align="left" valign="top" class="leftside" width="222">
 				<jsp:include flush="true" page="../includes/left_navigation.jsp?page=Logon"/>
 			</td>
-			<td valign="top" class="contentWithoutBorder">
+			<td valign="top" class="contentBody">
 				<form action="mem_reset_password_save.jsp" method="post" name="inet">
 					<input type="hidden" name="hdn_email" value="<%= request.getParameter("tbx_Email")%>"/>
 					<noscript>

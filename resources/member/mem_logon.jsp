@@ -1,21 +1,49 @@
 <%@ page contentType="text/html; charset=iso-8859-1" language="java" %>
 <%
-	/**
-	 * Copyright © 2006 iNetVOD, Inc. All Rights Reserved.
-	 * iNetVOD Confidential and Proprietary.  See LEGAL.txt.
-	 */
+/**
+ * Copyright © 2006-2008 iNetVOD, Inc. All Rights Reserved.
+ * iNetVOD Confidential and Proprietary.  See LEGAL.txt.
+ */
 %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="com.inetvod.common.core.StrUtil" %>
+<%@ page import="com.inetvod.common.data.CategoryID" %>
+<%@ page import="com.inetvod.playerClient.rqdata.Category" %>
+<%@ page import="com.inetvod.playerClient.rqdata.CategoryList" %>
+<%@ page import="com.inetvod.playerClient.rqdata.Provider" %>
+<%@ page import="com.inetvod.playerClient.rqdata.ProviderList" %>
+<%@ page import="com.inetvod.playerClient.rqdata.RentedShowSearch" %>
+<%@ page import="com.inetvod.playerClient.rqdata.RentedShowSearchList" %>
+<%@ page import="com.inetvod.playerClient.rqdata.ShowSearch" %>
+<%@ page import="com.inetvod.playerClient.rqdata.ShowSearchList" %>
+<%@ page import="com.inetvod.webapp.MemRegister" %>
+<%@ page import="com.inetvod.webapp.PageMenuMap" %>
+<%@ page import="com.inetvod.webapp.ReadXMLFile" %>
+<%@ page import="com.inetvod.webapp.player.CategorySearchView" %>
+<%@ page import="com.inetvod.webapp.player.NowPlayingView" %>
+<%@ page import="com.inetvod.webapp.player.ProviderSearchView" %>
+<%@ page import="com.inetvod.webapp.player.SearchResultsView" %>
 <jsp:useBean id="newMember" class="com.inetvod.webapp.MemRegister" scope="request"/>
+<%
+	HashMap<String, String> cookieMap = newMember.parseCookies(request);
 
+	String userID = newMember.Check_For_Null(cookieMap.get(newMember.getUserIDCookie()));
+	boolean rememberPassword = StrUtil.hasLen(cookieMap.get(newMember.getUserPasswordCookie()));
+%>
 <html>
 <head>
 	<title>Logon</title>
-	<link rel="stylesheet" href="../twc615.css" type="text/css"/>
+	<link href="../styles/style.css" rel="stylesheet" type="text/css"/>
 	<link href="../omnie.css" rel="stylesheet" type="text/css"/>
+	<script type="text/javascript" src="../main.js"></script>
 	<script src="../includes/form_validations.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		function RunOnLoad()
 		{
+			MainApp.getThe().init();
+			MainApp.getThe().getSession().loadDataSettings();
+			headerCheckFields();
+
 			//Attache enter event on the browser to be fired and handled
 			addKeyEvent();
 
@@ -35,6 +63,11 @@
 				ShowGeneralError();
 			else if(flag == 3)
 				ShowGeneralError("Your password was successfully updated.");
+
+			var email = '<%=userID%>';
+			if(email.length > 0)
+				document.getElementById("tbx_Email").value = email;
+			document.getElementById("tbx_RememberPassword").checked = <%=rememberPassword ? "true" : "false"%>;
 
 			//Set focus on the First field of the page
 			setFocus();
@@ -68,12 +101,34 @@
 
 			//If there is no error then will return true
 			if(validated)
-				document.inet.submit();
+			{
+				var oSession = MainApp.getThe().getSession();
+				var userID = document.getElementById("tbx_Email").value;
+				var userPassword = document.getElementById("tbx_Password").value;
+				var rememberPassword = document.getElementById("tbx_RememberPassword").checked;
+
+				oSession.signon(afterSignon, userID, userPassword, rememberPassword);
+			}
 
 			event.returnValue = false;
 
 			//	return validated;
 		}
+
+		/*void*/ function afterSignon(/*object*/ data, /*StatusCode*/ statusCode, /*string*/ statusMessage)
+		{
+			var oSession = MainApp.getThe().getSession();
+
+			if(statusCode == sc_Success)
+			{
+				oSession.saveDataSettings();	// for possible temp store of userPassword
+
+				document.location = "mem_overview.jsp";
+			}
+			else
+				document.getElementById("btn_Continue").disabled = false;
+		}
+
 	</script>
 
 </head>
@@ -87,8 +142,8 @@
 			<td align="left" valign="top" class="leftside" width="222">
 				<jsp:include flush="true" page="../includes/left_navigation.jsp?page=Logon"/>
 			</td>
-			<td valign="top" class="contentWithoutBorder">
-				<form action="mem_logon_check.jsp" method="post" name="inet">
+			<td valign="top" class="contentBody">
+				<form action="mem_logon.jsp" method="post" name="inet">
 					<noscript>
 						<h1><font color="#FF0000">Your browser does not support JavaScript! Please enabale Javascript
 							and try again...</font></h1>
@@ -145,6 +200,17 @@
 							<td></td>
 							<td align="left"><font size="2"><a href="mem_reset_email.jsp">Forgot Password?</a></font>
 								</td>
+						</tr>
+						<tr>
+							<td width="172" align="center">&nbsp;</td>
+							<td align="left">&nbsp;</td>
+						</tr>
+						<tr>
+							<td align="right"><font size="2">Remember Me?&nbsp;</font></td>
+							<td align="left"><font size="2" face="Verdana">
+								<input type="checkbox" id="tbx_RememberPassword" name="tbx_RememberPassword"
+									value="true"/>
+								</font></td>
 						</tr>
 
 						<tr>
