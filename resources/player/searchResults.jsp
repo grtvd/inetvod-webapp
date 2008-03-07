@@ -47,7 +47,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 					for(ShowSearch showSearch : showSearchList)
 					{
 					%>
-						<tr class="listRow"
+						<tr class="listRow" onclick="StartupSearchDetail('<%=showSearch.getShowID()%>');"
 							><td
 								><table cellpadding="0" cellspacing="0" border="0">
 									<tr
@@ -55,7 +55,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 											!= null ? showSearch.getPictureURL() : "images/no_picture.gif"%>"
 											border=0 width=48 height=48 alt=""/></td
 										><td class="listItem"><a class="listItem"
-											onclick="StartupSearchDetail('<%=showSearch.getShowID()%>');"
+											onclick="StartupSearchDetail('<%=showSearch.getShowID()%>'); stopEventPropagation(event);"
 											><%=showSearch.getName()%></a></td
 									></tr>
 									<tr

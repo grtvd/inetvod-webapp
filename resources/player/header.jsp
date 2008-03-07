@@ -40,11 +40,15 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 			<td align="right" valign="top">
 				<table border="0" cellpadding="0" cellspacing="0">
 					<tr>
-						<td id="HeaderLogon" style="display:none"><a class="linkCtr" onclick="StartupLogon();">Logon</a></td>
-						<td><a id="HeaderUser" class="linkNoBackCtr" href="../member/mem_overview.jsp" style="display:none"/></td>
+						<td id="HeaderLogon" class="buttonSmallCtr_normal" style="display:none"><a class="buttonSmallCtr_normal"
+							onclick="StartupLogon();">Logon</a></td>
+						<td><a id="HeaderUser" class="buttonSmallNoBackCtr"
+							onclick="document.location='../member/mem_overview.jsp';" style="display:none"/></td>
 						<td class="textSmallLbl">&nbsp;|&nbsp;</td>
-						<td id="HeaderRegister" style="display:none"><a class="linkCtr" href="../member/mem_new.jsp">Register</a></td>
-						<td id="HeaderLogout" style="display:none"><a class="linkCtr" onclick="headerLogout()">Logout</a></td>
+						<td id="HeaderRegister" class="buttonSmallCtr_normal" style="display:none"><a class="buttonSmallCtr_normal"
+							onclick="document.location='../member/mem_new.jsp';">Register</a></td>
+						<td id="HeaderLogout" class="buttonSmallCtr_normal" style="display:none"><a class="buttonSmallCtr_normal"
+							onclick="headerLogout()">Logout</a></td>
 					</tr>
 				</table>
 			</td>

@@ -1,5 +1,5 @@
 <%--
-Copyright © 2007 iNetVOD, Inc. All Rights Reserved.
+Copyright ï¿½ 2007 iNetVOD, Inc. All Rights Reserved.
 iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -41,9 +41,9 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 				for(Provider provider : providerList)
 				{
 				%>
-					<tr class="listRow"
+					<tr class="listRow" onclick="document.location='<%=SearchResultsView.buildPath(provider.getProviderID(), null)%>';"
 						><td class="listItem"><a class="listItem"
-							href="<%=SearchResultsView.buildPath(provider.getProviderID(), null)%>"
+							onclick="document.location='<%=SearchResultsView.buildPath(provider.getProviderID(), null)%>';  stopEventPropagation(event);"
 							><%=provider.getName()%></a></td
 					></tr>
 				<%

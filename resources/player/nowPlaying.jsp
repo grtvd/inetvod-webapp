@@ -38,7 +38,8 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 		<br>
 		If you already have an account, <a class="linkCtr" onclick="StartupLogon();">Logon</a> here.<br>
 		<br>
-		Otherwise, you'll need to <a class="linkCtr" href="../member/mem_new.jsp">Register</a>.
+		Otherwise, you'll need to <a class="linkCtr" onclick="document.location='../member/mem_new.jsp'; stopEventPropagation(event);"
+			>Register</a>.
 		</div>
 	<%
 	}
@@ -61,7 +62,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 					for(RentedShowSearch rentedShowSearch : rentedShowSearchList)
 					{
 					%>
-						<tr class="listRow"
+						<tr class="listRow" onclick="StartupRentedShowDetail('<%=rentedShowSearch.getRentedShowID()%>%>');"
 							><td
 								><table cellpadding="0" cellspacing="0" border="0">
 									<tr

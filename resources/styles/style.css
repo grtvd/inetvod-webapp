@@ -139,14 +139,6 @@ table
 	background: #7CC0E2;
 }
 
-.linkNoBackCtr
-{
-	color: #DAF9FC;
-	text-decoration: none;
-	cursor: hand;
-	cursor: pointer;
-}
-
 .buttonCtr_normal
 {
 	color: #DAF9FC;
@@ -180,6 +172,54 @@ a.buttonCtr_hilite
 a.buttonCtr_hilite:visited
 {
 	color: #DAF9FC;
+}
+
+.buttonSmallCtr_normal
+{
+	color: #DAF9FC;
+	font-size: 10pt;
+	text-decoration: none;
+	cursor: hand;
+	cursor: pointer;
+	padding: 3px;
+	white-space: nowrap;
+	/*border: 1px solid blue;*/
+}
+td.buttonSmallCtr_normal
+{
+	background: #0291CE;
+}
+.buttonSmallCtr_normal:hover
+{
+	background: #7CC0E2;
+}
+.buttonSmallCtr_hilite
+{
+	background: #7CC0E2;
+	font-size: 10pt;
+	color: #DAF9FC;
+	text-decoration: none;
+	padding: 3px;
+	cursor: hand;
+	cursor: pointer;
+	/*border: 1px solid blue;*/
+}
+a.buttonSmallCtr_hilite
+{
+	padding: 3px;
+}
+a.buttonSmallCtr_hilite:visited
+{
+	color: #DAF9FC;
+}
+
+.buttonSmallNoBackCtr
+{
+	font-size: 10pt;
+	color: #DAF9FC;
+	text-decoration: none;
+	cursor: hand;
+	cursor: pointer;
 }
 
 .listCtrHeader
@@ -415,6 +455,8 @@ td.checkCtr
 .listRow
 {
 	color: #DAF9FC;
+	cursor: hand;
+	cursor: pointer;
 	/*border: 1px solid blue;*/
 }
 .listRow:hover
