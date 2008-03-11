@@ -509,6 +509,41 @@ function getWindowInnerHeight()
 /******************************************************************************/
 /******************************************************************************/
 
+function getElementWidth(obj)
+{
+	if(!obj)
+		return 0;
+
+	if(window.getComputedStyle)
+	{
+		try
+		{
+			var objStyle = window.getComputedStyle(obj, null);
+			if(objStyle && objStyle.width && (objStyle.width.length > 0))
+			{
+				var pxPos = objStyle.width.lastIndexOf("px");
+				if(pxPos > 0)
+					return parseInt(objStyle.width.substring(0, pxPos));
+
+				return parseInt(objStyle.width);
+			}
+		}
+		catch(e)
+		{
+		}
+	}
+
+	if(obj.style && obj.style.pixelWidth)
+	{
+		return obj.style.pixelWidth;
+	}
+	
+	return 0;
+}
+
+/******************************************************************************/
+/******************************************************************************/
+
 /*string*/ function determineFileExtFromURL(/*string*/ url)
 {
 	if(!testStrHasLen(url))

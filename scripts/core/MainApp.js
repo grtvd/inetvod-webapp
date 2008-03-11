@@ -113,6 +113,7 @@ function MainApp()
 //	this.fScreenTitleImage = document.getElementById("ScreenTitleImage");
 
 	this.updateMainBodyDivHeight();
+	this.updateMainPopupPosition();
 	enableErrors(false);
 	window.setTimeout("MainAppIdle()", 500);
 	this.reset();
@@ -133,6 +134,18 @@ function MainApp()
 
 		var newDivHeight = getWindowInnerHeight() - extra - oAppTable.offsetTop;
 		oMainBodyDiv.style.height = newDivHeight + "px";
+	}
+}
+
+/******************************************************************************/
+
+/*vod*/ MainApp.prototype.updateMainPopupPosition = function()
+{
+	if(this.fMainPopup && this.fMainPopup.style)
+	{
+		var width = getElementWidth(this.fMainPopup);
+		if(width > 0)
+			this.fMainPopup.style.left = ((getWindowInnerWidth() / 2) - (width / 2)) + "px";
 	}
 }
 
