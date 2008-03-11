@@ -68,7 +68,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 									<tr
 										><td rowspan="2" style="padding-left:5px;"><img src="<%=rentedShowSearch.getPictureURL()
 											!= null ? rentedShowSearch.getPictureURL() : "images/no_picture.gif"%>"
-											border=0 width=48 height=48 alt=""/></td
+											border=0 width=48 alt=""/></td
 										><td class="listItem"><a class="listItem"
 											onclick="StartupRentedShowDetail('<%=rentedShowSearch.getRentedShowID()%>%>');"
 											><%=rentedShowSearch.getName()%></a></td
