@@ -71,7 +71,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 						<tr><td height="2"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
 						<tr><td id="SearchByName_Row" class="buttonCtr_normal" onclick="onMenuRowClickScript(event, this, 'StartupSearch();');"><a id="SearchByName_Link" class="buttonCtr_normal" href="#" onclick="onMenuClickScript(event, this, 'StartupSearch();'); return true;">Search By Title</a></td></tr>
 						<tr><td height="2"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
-						<tr><td id="Preferences_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a id="Preferences_Link" class="buttonCtr_normal" href="preferences.jsp" onclick="onMenuClick(event, this); return true;">Preferences</a></td></tr>
+						<tr><td id="Preferences_Row" class="buttonCtr_normal" onclick="onMenuRowClickScript(event, this, 'StartupPreferences();');"><a id="Preferences_Link" class="buttonCtr_normal" href="#" onclick="onMenuClickScript(event, this, 'StartupPreferences();'); return true;">Preferences</a></td></tr>
 					</tbody>
 				</table>
 

@@ -6,6 +6,8 @@
 AskAdultPINScreen.ScreenID = "Prefs002";
 
 AskAdultPINScreen.PINID = "Prefs002_PIN";
+AskAdultPINScreen.PINMsgID = "Prefs002_PIN_Msg";
+AskAdultPINScreen.ContinueID = "Prefs002_Continue";
 
 /******************************************************************************/
 
@@ -29,11 +31,14 @@ function AskAdultPINScreen()
 	this.ScreenTitle = "enter pin";
 	this.ScreenTitleImage = "titleEnterpin.gif";
 
-	this.fContainerControl = new ContainerControl(this.ScreenID, 200, 200);
+	this.fContainerControl = new ContainerControl(this.ScreenID, 130, 120);
 	oControl = new EditControl(AskAdultPINScreen.PINID, this.ScreenID, 6, 6);
 	this.newControl(oControl);
 	oControl.Type = ect_Numeric;
-//TODO?	oControl.AutoButton = true;
+	oControl = new TextControl(AskAdultPINScreen.PINMsgID, this.ScreenID);
+	this.newControl(oControl);
+
+	this.newControl(new ButtonControl(AskAdultPINScreen.ContinueID, this.ScreenID));
 }
 
 /******************************************************************************/
@@ -42,10 +47,13 @@ function AskAdultPINScreen()
 {
 	var data;
 
+	this.getControl(AskAdultPINScreen.PINMsgID).setText("");
+
 	data = this.getControl(AskAdultPINScreen.PINID).getText();
 	if(!testStrHasLen(data))
 	{
-		showMsg("PIN must be entered.");
+		this.getControl(AskAdultPINScreen.PINMsgID).setText("PIN must be entered.");
+		this.fContainerControl.focusControl(AskAdultPINScreen.PINID, true);
 		return;
 	}
 

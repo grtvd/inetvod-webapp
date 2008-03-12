@@ -28,8 +28,6 @@ public class PageMenuMap
 		fPageMenuMap.put(String.format("%s%s", PAGE_BASE, SearchResultsView.buildPath(null, CategoryID.Featured)), "Featured");
 		fPageMenuMap.put(String.format("%s%s", PAGE_BASE, CategorySearchView.buildPath()), "SearchByCategory");
 		fPageMenuMap.put(String.format("%s%s", PAGE_BASE, ProviderSearchView.buildPath()), "SearchByProvider");
-		fPageMenuMap.put("/player/search.jsp", "SearchByName");
-		fPageMenuMap.put("/player/preferences.jsp", "Preferences");
 	}
 
 	/* Implementation */

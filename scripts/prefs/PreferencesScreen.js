@@ -24,7 +24,6 @@ PreferencesScreen.prototype.constructor = PreferencesScreen;
 
 function PreferencesScreen()
 {
-	var oSession = MainApp.getThe().getSession();
 	var oControl;
 
 	this.ScreenID = PreferencesScreen.ScreenID;
@@ -46,6 +45,19 @@ function PreferencesScreen()
 
 /******************************************************************************/
 
+/*boolean*/ PreferencesScreen.prototype.key = function(/*int*/ key, /*Event*/ evt)
+{
+	if((key == ek_Back) || (key == ek_Escape))
+	{
+		document.location.reload();
+		return;
+	}
+
+	return Screen.prototype.key.call(this, key, evt);
+}
+
+/******************************************************************************/
+
 /*void*/ PreferencesScreen.prototype.onButton = function(/*string*/ controlID)
 {
 	if(controlID == PreferencesScreen.AccessAdultButtonID)
@@ -58,6 +70,7 @@ function PreferencesScreen()
 	{
 		MainApp.getThe().getSession().resetDataSettings();
 		MainApp.getThe().reset();
+		document.location = "../index.jsp";
 		return;
 	}
 

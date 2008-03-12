@@ -173,6 +173,15 @@ a.buttonCtr_hilite:visited
 {
 	color: #DAF9FC;
 }
+.buttonCtr_disabled
+{
+	color: darkgray;
+	padding: 5px;
+}
+td.buttonCtr_disabled
+{
+	background: #0291CE;
+}
 
 .buttonSmallCtr_normal
 {

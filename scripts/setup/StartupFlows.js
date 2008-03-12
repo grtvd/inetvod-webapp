@@ -191,3 +191,37 @@ function StartupFlow()
 
 /******************************************************************************/
 /******************************************************************************/
+
+/*void*/ function StartupPreferences()
+{
+	var oMainApp = MainApp.getThe();
+	oMainApp.openPopup();
+
+	var oSession = oMainApp.getSession();
+	oSession.loadDataSettings();
+
+	var oStartupFlow = new StartupFlow();
+
+	if(!oSession.isSystemDataLoaded())
+	{
+		oStartupFlow.Callback = StartupFlow.prototype.Preferences_afterLoadSystemData;
+		oSession.loadSystemData(oStartupFlow);
+		return;
+	}
+
+	oStartupFlow.Preferences_afterLoadSystemData(null, sc_Success, null);
+}
+
+/******************************************************************************/
+
+/*void*/ StartupFlow.prototype.Preferences_afterLoadSystemData = function(
+	/*object*/ data, /*StatusCode*/ statusCode, /*string*/ statusMessage)
+{
+	if(statusCode == sc_Success)
+		PreferencesScreen.newInstance();
+	else
+		MainApp.getThe().closePopup();
+}
+
+/******************************************************************************/
+/******************************************************************************/
