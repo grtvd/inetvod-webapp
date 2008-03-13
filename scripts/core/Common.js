@@ -565,3 +565,24 @@ function getElementWidth(obj)
 
 /******************************************************************************/
 /******************************************************************************/
+
+/*XMLHttp*/ function createXMLHttpRequest()
+{
+	var xmlHttp = null;
+
+	if (window.ActiveXObject) // IE
+	{
+		xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	else if(window.XMLHttpRequest) // Mozilla, Safari, ...
+	{
+		xmlHttp = new XMLHttpRequest();
+		if(xmlHttp.overrideMimeType)
+			xmlHttp.overrideMimeType('text/xml');
+	}
+
+	return xmlHttp;
+}
+
+/******************************************************************************/
+/******************************************************************************/
