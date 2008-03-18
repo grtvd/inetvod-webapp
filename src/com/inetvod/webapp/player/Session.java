@@ -1,13 +1,11 @@
 /**
- * Copyright © 2007 iNetVOD, Inc. All Rights Reserved.
+ * Copyright © 2007-2008 iNetVOD, Inc. All Rights Reserved.
  * iNetVOD Confidential and Proprietary.  See LEGAL.txt.
  */
 package com.inetvod.webapp.player;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,11 +13,11 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.inetvod.common.core.DateUtil;
 import com.inetvod.common.core.Logger;
 import com.inetvod.common.core.StrUtil;
 import com.inetvod.common.crypto.CryptoDigest;
 import com.inetvod.common.data.CategoryID;
+import com.inetvod.common.data.IncludeAdult;
 import com.inetvod.common.data.ManufacturerID;
 import com.inetvod.common.data.ProviderID;
 import com.inetvod.common.data.RatingID;
@@ -29,6 +27,8 @@ import com.inetvod.playerClient.request.SignonResp;
 import com.inetvod.playerClient.request.StatusCode;
 import com.inetvod.playerClient.request.SystemDataResp;
 import com.inetvod.playerClient.rqdata.CategoryList;
+import com.inetvod.playerClient.rqdata.MemberPrefs;
+import com.inetvod.playerClient.rqdata.MemberProviderList;
 import com.inetvod.playerClient.rqdata.Player;
 import com.inetvod.playerClient.rqdata.ProviderList;
 import com.inetvod.playerClient.rqdata.RatingList;
@@ -43,9 +43,7 @@ public class Session
 	private static final String UserIDCookie = "user";
 	private static final String UserPasswordCookie = "password";
 	private static final String RememberPasswordCookie = "remember";
-	private static final String GuestDataCookie = "guest";
 	private static final String SessionDataCookie = "sess";
-	private static final String SessionExpiresDataCookie = "sessexp";
 	private static final int TenYearsSecs = 315360000;
 	private static final String CookieEncoding = "UTF-8";
 	private static final String GuestUserID = "guest";
@@ -62,6 +60,10 @@ public class Session
 	private Date fSessionExpires;
 	HashMap<String, String> fCookieMap;
 	private Map<String, String[]> fParameterMap;
+
+	private MemberPrefs fMemberPrefs;
+	private MemberProviderList fMemberProviderList;
+	private boolean fCanAccessAdult;
 
 	private boolean fIsSystemDataLoaded;
 	private ProviderList fProviderList;
@@ -159,9 +161,9 @@ public class Session
 	}
 
 	private void saveCookie(String name, String value, boolean sessionOnly, Integer expireSecs, String path,
-		String domain, boolean secure) throws UnsupportedEncodingException
+		String domain, boolean secure)
 	{
-		Cookie cookie = new Cookie(name, StrUtil.hasLen(value) ? URLEncoder.encode(value, CookieEncoding) : "");
+		Cookie cookie = new Cookie(name, StrUtil.hasLen(value) ? encodeCookieValue(value) : "");
 
 		if(!sessionOnly)
 			cookie.setMaxAge((expireSecs == null) ? TenYearsSecs : expireSecs);
@@ -173,12 +175,29 @@ public class Session
 		fResponse.addCookie(cookie);
 	}
 
-	private void saveCookie(String name, String value, boolean sessionOnly) throws UnsupportedEncodingException
+	private void saveCookie(String name, String value, boolean sessionOnly)
 	{
 		saveCookie(name, value, sessionOnly, null, null, null, false);
 	}
 
-	private void deleteCookie(String name) throws UnsupportedEncodingException
+	private static String encodeCookieValue(String data)
+	{
+		String newVal = data;
+
+		if((data.indexOf(";") >= 0) || (data.indexOf(",") >= 0) || (data.indexOf(" ") >= 0)
+			|| (data.indexOf("\n") >= 0) || (data.indexOf("\r") >= 0))
+		{
+			newVal = newVal.replaceAll(";", "%3B");
+			newVal = newVal.replaceAll(",", "%2C");
+			newVal = newVal.replaceAll(" ", "%20");
+			newVal = newVal.replaceAll("\n", "%0A");
+			newVal = newVal.replaceAll("\r", "%0D");
+		}
+
+		return newVal;
+	}
+
+	private void deleteCookie(String name)
 	{
 		saveCookie(name, null, true, 0, null, null, false);
 	}
@@ -189,7 +208,7 @@ public class Session
 		fParameterMap = fRequest.getParameterMap();
 	}
 
-	private void loadDataSettings() throws ParseException
+	private void loadDataSettings() throws Exception
 	{
 		fUserID = fCookieMap.get(UserIDCookie);
 		fUserPassword = fCookieMap.get(UserPasswordCookie);
@@ -198,75 +217,66 @@ public class Session
 		if(!StrUtil.hasLen(fUserPassword))
 			fRememberPassword = false;
 
-		fGuestAccess = "true".equals(fCookieMap.get(GuestDataCookie));
-
-		fSessionData = null;
-		fSessionExpires = null;
-		String expiresStr = fCookieMap.get(SessionExpiresDataCookie);
-		if(StrUtil.hasLen(expiresStr))
+		String sessionStr = fCookieMap.get(SessionDataCookie);
+		if(StrUtil.hasLen(sessionStr))
 		{
-			Date expiresAt = DateUtil.convertFromISO8601(expiresStr);
-			if((expiresAt != null) && ((new Date()).getTime() < expiresAt.getTime()))
-			{
-				fSessionData = fCookieMap.get(SessionDataCookie);
-				fSessionExpires = expiresAt;
-			}
+			SessionStore sessionStore = SessionStore.newInstanceFromXmlString(sessionStr);
+			fGuestAccess = sessionStore.getGuestAccess();
+			fSessionData = sessionStore.getSessionData();
+			fSessionExpires = sessionStore.getSessionExpires();
+			fMemberPrefs = sessionStore.getMemberPrefs();
+			fMemberProviderList = sessionStore.getMemberProviderList();
+			fCanAccessAdult = sessionStore.getCanAccessAdult();
 		}
 
-		//TODO return StrUtil.hasLen(fUserID);
+		if((fSessionExpires == null) || ((new Date()).getTime() >= fSessionExpires.getTime()))
+		{
+			fSessionData = null;
+			fSessionExpires = null;
+		}
 	}
 
-	private void saveDataSettings(boolean guestAccess) throws UnsupportedEncodingException
+	private void saveDataSettings(boolean guestAccess) throws Exception
 	{
-		//deleteCookie("user");
-		//deleteCookie("password");
-		//deleteCookie("remember");
-
-		//saveCookie(UserIDCookie, this.fUserID, false);
-		//saveCookie(UserPasswordCookie, this.fUserPassword, !this.fRememberPassword);
-		//saveCookie(RememberPasswordCookie, this.fRememberPassword ? "true" : "false", true);
-
-		//deleteCookie("guest");
 		fGuestAccess = guestAccess;
-		saveCookie(GuestDataCookie, fGuestAccess ? "true" : "false", true);
 
-		//deleteCookie("sess");
-		//deleteCookie("sessexp");
-		saveCookie(SessionDataCookie, fSessionData, true);
-		saveCookie(SessionExpiresDataCookie, DateUtil.convertToISO8601(fSessionExpires), true);
+		SessionStore sessionStore = SessionStore.newInstance();
+		sessionStore.setGuestAccess(fGuestAccess);
+		sessionStore.setSessionData(fSessionData);
+		sessionStore.setSessionExpires(fSessionExpires);
+		sessionStore.setMemberPrefs(fMemberPrefs);
+		sessionStore.setMemberProviderList(fMemberProviderList);
+		sessionStore.setCanAccessAdult(fCanAccessAdult);
+		saveCookie(SessionDataCookie, SessionStore.toXmlString(sessionStore), true);
 	}
 
-	private void saveDataSettingsMember() throws UnsupportedEncodingException
+	private void saveDataSettingsMember() throws Exception
 	{
-		//deleteCookie("user");
-		//deleteCookie("password");
-		//deleteCookie("remember");
-
 		saveCookie(UserIDCookie, this.fUserID, false);
 		saveCookie(UserPasswordCookie, this.fUserPassword, !this.fRememberPassword);
 		saveCookie(RememberPasswordCookie, this.fRememberPassword ? "true" : "false", true);
 
-		//deleteCookie(GuestDataCookie);
 		fGuestAccess = false;
-		saveCookie(GuestDataCookie, "false", true);
 
-		//deleteCookie("sess");
-		//deleteCookie("sessexp");
-		saveCookie(SessionDataCookie, fSessionData, true);
-		saveCookie(SessionExpiresDataCookie, DateUtil.convertToISO8601(fSessionExpires), true);
+		SessionStore sessionStore = SessionStore.newInstance();
+		sessionStore.setGuestAccess(fGuestAccess);
+		sessionStore.setSessionData(fSessionData);
+		sessionStore.setSessionExpires(fSessionExpires);
+		sessionStore.setMemberPrefs(fMemberPrefs);
+		sessionStore.setMemberProviderList(fMemberProviderList);
+		sessionStore.setCanAccessAdult(fCanAccessAdult);
+		saveCookie(SessionDataCookie, SessionStore.toXmlString(sessionStore), true);
 	}
 
-	private void clearDataSettings() throws UnsupportedEncodingException
+	private void clearDataSettings()
 	{
 		deleteCookie(UserIDCookie);
 		deleteCookie(UserPasswordCookie);
 		deleteCookie(RememberPasswordCookie);
-		deleteCookie(GuestDataCookie);
 		deleteCookie(SessionDataCookie);
-		deleteCookie(SessionExpiresDataCookie);
 	}
 
-	private boolean checkSignon() throws UnsupportedEncodingException
+	private boolean checkSignon() throws Exception
 	{
 		if(StrUtil.hasLen(fSessionData))
 			return true;
@@ -289,7 +299,7 @@ public class Session
 		return false;
 	}
 
-	private boolean checkSignonMember() throws UnsupportedEncodingException
+	private boolean checkSignonMember() throws Exception
 	{
 		if(StrUtil.hasLen(fUserID) && StrUtil.hasLen(fUserPassword))
 		{
@@ -340,12 +350,11 @@ public class Session
 		{
 			fSessionData = signonResp.getSessionData();
 			fSessionExpires = signonResp.getSessionExpires();
-			//TODO
-			//this.fMemberPrefs = signonResp.MemberState.MemberPrefs;
-			//this.IncludeAdult = this.fMemberPrefs.IncludeAdult;
-			//this.CanAccessAdult = (this.IncludeAdult == ina_Always);
-			//this.fMemberProviderList = signonResp.MemberState.MemberProviderList;
-			//
+			fMemberPrefs = signonResp.getMemberState().getMemberPrefs();
+			//fIncludeAdult = fMemberPrefs.getIncludeAdult();
+			fCanAccessAdult = IncludeAdult.Always.equals(fMemberPrefs.getIncludeAdult());
+			fMemberProviderList = signonResp.getMemberState().getMemberProviderList();
+
 			//this.fIsUserLoggedOn = true;
 			return true;
 		}

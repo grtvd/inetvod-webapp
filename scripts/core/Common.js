@@ -585,4 +585,25 @@ function getElementWidth(obj)
 }
 
 /******************************************************************************/
+
+/*XMLDocument*/ function createXmlDocument(data)
+{
+	var xmlDoc = null;
+
+	if (window.ActiveXObject) // IE
+	{
+		xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+		xmlDoc.async = "false";
+		xmlDoc.loadXML(data);
+	}
+	else // others
+	{
+		var domParser = new DOMParser();
+		xmlDoc = domParser.parseFromString(data, "text/xml");
+	}
+
+	return xmlDoc;
+}
+
+/******************************************************************************/
 /******************************************************************************/

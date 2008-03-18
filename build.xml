@@ -35,6 +35,7 @@
 			</filelist>
 			<filelist dir="scripts/data">
 				<file name="Session.js" />
+				<file name="SessionStore.js" />
 				<file name="CryptoAPI.js" />
 				<file name="DataID.js" />
 				<file name="Player.js" />

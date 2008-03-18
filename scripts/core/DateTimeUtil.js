@@ -5,7 +5,7 @@
 
 
 /* DateTimeFormat */
-//var dtf_ISO8601_Date = 0;
+var dtf_ISO8601_Date = 0;			// CCYY-MM-DD
 var dtf_ISO8601_DateTime = 1;		// CCYY-MM-DDThh:mm:ss
 //var dtf_M_D_YY = 2;				// 2/3/04
 var dtf_M_D_YYYY = 3;				// 2/3/2004
@@ -44,7 +44,7 @@ var MillsPerDay = (24 * 60 * 60 * 1000);
 	var timeStr;
 	var minStr;
 
-	if(format == dtf_ISO8601_DateTime)
+	if((format == dtf_ISO8601_Date) || (format == dtf_ISO8601_DateTime))
 		showInUTC = true;
 
 	if(showInUTC)
@@ -81,6 +81,10 @@ var MillsPerDay = (24 * 60 * 60 * 1000);
 
 	switch(format)
 	{
+		case dtf_ISO8601_Date:
+			timeStr = year + "-" + prefixZeroToNum(month) + "-" + prefixZeroToNum(day);
+			break;
+
 		case dtf_ISO8601_DateTime:
 			timeStr = year + "-" + prefixZeroToNum(month) + "-" + prefixZeroToNum(day) + "T" + prefixZeroToNum(hour)
 				+ ":" + minStr + ":" + prefixZeroToNum(secs) + "Z";
@@ -247,6 +251,8 @@ var MillsPerDay = (24 * 60 * 60 * 1000);
 				return tzValue * -1;
 		}
 	}
+
+	return 0;
 }
 
 /******************************************************************************/

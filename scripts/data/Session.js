@@ -17,9 +17,7 @@ var FileExtensions_WindowsMedia = [".wmv", ".wma", ".avi", ".asf", ".mp3", ".wav
 Session.UserIDCookie = "user";
 Session.UserPasswordCookie = "password";
 Session.RememberPasswordCookie = "remember";
-Session.GuestDataCookie = "guest";
 Session.SessionDataCookie = "sess";
-Session.SessionExpiresDataCookie = "sessexp";
 Session.MemberIDCookie = "MemberId";	//TODO remove after Member code has been updated to Player
 
 /******************************************************************************/
@@ -254,7 +252,7 @@ function Session()
 
 			this.fPlayer.SerialNo = this.fDownloadServiceMgr.getPlayerSerialNo();
 		}
-		catch(e) {}
+		catch(ignore) {}
 	}
 
 	return this.fDownloadServiceMgr != null;
@@ -271,20 +269,24 @@ function Session()
 	if(!testStrHasLen(this.fUserPassword))
 		this.fRememberPassword = false;
 
-	this.fGuestAccess = (getCookie(Session.GuestDataCookie) == "true");
-
-	this.fSessionData = null;
-	this.fSessionExpires = null;
-	var expiresStr = getCookie(Session.SessionExpiresDataCookie);
-	if(testStrHasLen(expiresStr))
+	var sessionStore = SessionStore.newInstanceFromXmlString(getCookie(Session.SessionDataCookie));
+	if(sessionStore)
 	{
-		var expiresAt = ISO8601DateTimeFromString(expiresStr);
-		if((new Date()).getTime() < expiresAt)
+		this.fGuestAccess = sessionStore.GuestAccess;
+
+		if((new Date()).getTime() < sessionStore.SessionExpires)
 		{
-			this.fSessionData = getCookie(Session.SessionDataCookie);
-			this.fSessionExpires = expiresAt;
+			this.fSessionData = sessionStore.SessionData;
+			this.fSessionExpires = sessionStore.SessionExpires;
 		}
+
+		this.fMemberPrefs = sessionStore.MemberPrefs;
+		this.fMemberProviderList = sessionStore.MemberProviderList;
+
+		this.IncludeAdult = this.fMemberPrefs.IncludeAdult;
+		this.CanAccessAdult = sessionStore.CanAccessAdult;
 	}
+
 	this.fMemberID = getCookie(Session.MemberIDCookie);	//TODO remove after Member code has been updated to Player
 
 	return testStrHasLen(this.fUserID);
@@ -312,17 +314,17 @@ function Session()
 	if(this.fRememberPassword)
 		setCookie(Session.RememberPasswordCookie, "true", true);
 
-	deleteCookie(Session.GuestDataCookie);
-	if(this.fGuestAccess)
-		setCookie(Session.GuestDataCookie, "true", true);
+	var sessionStore = new SessionStore();
+	sessionStore.GuestAccess = this.fGuestAccess;
+	sessionStore.SessionData = this.fSessionData;
+	if(testStrHasLen(this.fSessionData))
+		sessionStore.SessionExpires = this.fSessionExpires;
+	sessionStore.MemberPrefs = this.fMemberPrefs;
+	sessionStore.MemberProviderList = this.fMemberProviderList;
+	sessionStore.CanAccessAdult = this.CanAccessAdult;
 
 	deleteCookie(Session.SessionDataCookie);
-	deleteCookie(Session.SessionExpiresDataCookie);
-	if(testStrHasLen(this.fSessionData))
-	{
-		setCookie(Session.SessionDataCookie, this.fSessionData, true);
-		setCookie(Session.SessionExpiresDataCookie, dateTimeToString(this.fSessionExpires, dtf_ISO8601_DateTime), true);
-	}
+	setCookie(Session.SessionDataCookie, SessionStore.toXmlString(sessionStore), true);
 
 	deleteCookie(Session.MemberIDCookie);		//TODO remove after Member code has been updated to Player
 	if(testStrHasLen(this.fMemberID))
@@ -344,10 +346,7 @@ function Session()
 
 	deleteCookie(Session.UserPasswordCookie);
 	deleteCookie(Session.RememberPasswordCookie);
-
-	deleteCookie(Session.GuestDataCookie);
 	deleteCookie(Session.SessionDataCookie);
-	deleteCookie(Session.SessionExpiresDataCookie);
 	deleteCookie(Session.MemberIDCookie);		///TODO remove after Member code has been updated to Player
 }
 
@@ -361,10 +360,7 @@ function Session()
 	deleteCookie(Session.UserIDCookie);
 	deleteCookie(Session.UserPasswordCookie);
 	deleteCookie(Session.RememberPasswordCookie);
-
-	deleteCookie(Session.GuestDataCookie);
 	deleteCookie(Session.SessionDataCookie);
-	deleteCookie(Session.SessionExpiresDataCookie);
 	deleteCookie(Session.MemberIDCookie);		///TODO remove after Member code has been updated to Player
 }
 
