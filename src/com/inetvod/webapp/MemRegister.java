@@ -37,10 +37,6 @@ public class MemRegister extends MemRegisterSetVariables
 {
 	private static final String UserIDCookie = "user";
 	private static final String UserPasswordCookie = "password";
-	private static final String RememberPasswordCookie = "remember";
-	private static final String GuestDataCookie = "guest";
-	private static final String SessionDataCookie = "sess";
-	private static final String SessionExpiresDataCookie = "sessexp";
 	private static final String MemberIDCookie = "MemberId";
 	private static final String PageRedirectCookie = "Page_Redirect";
 
@@ -134,9 +130,9 @@ public class MemRegister extends MemRegisterSetVariables
 		catch(Exception e)
 		{
 			setError_flag(true);
-			try { if(memberPrefs != null) memberPrefs.delete(); } catch(Exception e2) { }
-			try { if(memberLogon != null) memberLogon.delete(); } catch(Exception e2) { }
-			try { if(member != null) member.delete(); } catch(Exception e2) { }
+			try { if(memberPrefs != null) memberPrefs.delete(); } catch(Exception ignore) { }
+			try { if(memberLogon != null) memberLogon.delete(); } catch(Exception ignore) { }
+			try { if(member != null) member.delete(); } catch(Exception ignore) { }
 			Logger.logErr(this, "new_Member", e);
 		}
 	}
@@ -482,7 +478,7 @@ public class MemRegister extends MemRegisterSetVariables
 				setAddress_1("not supplied");
 
 			// Create instance of Credit Card from Member Account
-			String card_details = "not supplied";
+			StringBuilder card_details = new StringBuilder("not supplied");
 			CreditCard creditCard = mem_Account.getCreditCard();
 
 			if (creditCard != null)
@@ -492,15 +488,20 @@ public class MemRegister extends MemRegisterSetVariables
 				//Creating object of Card Type and fetching value
 				CreditCardType ccType = creditCard.getCCType();
 
-				if (ccType != null)
-					card_details = ccType.toString();
+				if ((ccType != null) || StrUtil.hasLen(creditCard.getCCNumber()))
+				{
+					card_details = new StringBuilder(CreditCardType.convertToString(ccType));
 
-				int str_length = Check_For_Null(creditCard.getCCNumber()).length();
-				if (str_length > 4)
-					card_details = card_details + "  ...." + Check_For_Null(creditCard.getCCNumber()).substring(str_length - 4);
+					int str_length = Check_For_Null(creditCard.getCCNumber()).length();
+					if (str_length > 4)
+					{
+						card_details.append("  ....");
+						card_details.append(Check_For_Null(creditCard.getCCNumber()).substring(str_length - 4));
+					}
+				}
 			}
 
-			setCard_number(card_details);
+			setCard_number(card_details.toString());
 
 			//Instance of Member Pref to fetch the data
 			MemberPrefs mem_Prefs = MemberPrefs.getCreate(member_id);
@@ -573,14 +574,15 @@ public class MemRegister extends MemRegisterSetVariables
 
 			RatingIDList ratingList = mem_Prefs.getIncludeRatingIDList();
 
-			String arr_List = "";
+			StringBuilder arr_List = new StringBuilder();
 			for(RatingID rating : ratingList)
 			{
-				arr_List = arr_List + "," + rating;
+				arr_List.append(",");
+				arr_List.append(rating);
 			}
 
-			arr_List += ",";
-			setRatingId(arr_List);
+			arr_List.append(",");
+			setRatingId(arr_List.toString());
 
 			MemberAccount mem_Account = MemberAccount.getCreate(member_id);
 			Date birthDate = mem_Account.getBirthDate();
