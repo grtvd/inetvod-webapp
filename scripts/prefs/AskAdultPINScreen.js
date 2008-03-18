@@ -70,6 +70,9 @@ function AskAdultPINScreen()
 {
 	if(statusCode == sc_Success)
 	{
+		var oSession = MainApp.getThe().getSession();
+		oSession.saveDataSettings();
+
 		MainApp.getThe().getScreen(PreferencesScreen.ScreenID).updateAdultAccess();
 		this.close();
 	}
