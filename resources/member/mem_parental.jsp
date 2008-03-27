@@ -1,21 +1,7 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="com.inetvod.common.core.StrUtil" %>
-<%@ page import="com.inetvod.common.data.CategoryID" %>
-<%@ page import="com.inetvod.playerClient.rqdata.Category" %>
-<%@ page import="com.inetvod.playerClient.rqdata.CategoryList" %>
-<%@ page import="com.inetvod.playerClient.rqdata.Provider" %>
-<%@ page import="com.inetvod.playerClient.rqdata.ProviderList" %>
-<%@ page import="com.inetvod.playerClient.rqdata.RentedShowSearch" %>
-<%@ page import="com.inetvod.playerClient.rqdata.RentedShowSearchList" %>
-<%@ page import="com.inetvod.playerClient.rqdata.ShowSearch" %>
-<%@ page import="com.inetvod.playerClient.rqdata.ShowSearchList" %>
 <%@ page import="com.inetvod.webapp.MemRegister" %>
-<%@ page import="com.inetvod.webapp.PageMenuMap" %>
 <%@ page import="com.inetvod.webapp.ReadXMLFile" %>
-<%@ page import="com.inetvod.webapp.player.CategorySearchView" %>
-<%@ page import="com.inetvod.webapp.player.NowPlayingView" %>
-<%@ page import="com.inetvod.webapp.player.ProviderSearchView" %>
-<%@ page import="com.inetvod.webapp.player.SearchResultsView" %>
 <%@ page contentType="text/html; charset=iso-8859-1" language="java" %>
 <%
 /**
@@ -92,8 +78,8 @@
 			//On submit will hide all the error messages
 			Hide_All_Error_Messages();
 
-			validated = true;
-			if(Check_Rating_Selected() == false)
+			var validated = true;
+			if(!Check_Rating_Selected())
 				validated = false;
 
 			//Check if Adult pin Selected
@@ -218,6 +204,19 @@
 				<td><font size="2" face="Verdana">TV-G </font>
 					<input name="cbx_Rating" type="checkbox" value="tvg"/>
 					&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center" class="ratingLabel">iTunes Ratings</td>
+			</tr>
+			<tr align="right">
+				<td><font size="2" face="Verdana">Clean</font>
+					<input name="cbx_Rating" type="checkbox" value="clean"/>
+					&nbsp;</td>
+				<td><font size="2" face="Verdana">Explicit</font>
+					<input name="cbx_Rating" type="checkbox" value="explicit"/>
+					&nbsp;</td>
+				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 			</tr>
 		</table>
