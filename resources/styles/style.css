@@ -533,7 +533,10 @@ a.listItem:visited
 
 .ads
 {
-	font-size: 7pt;
-	font-family : serif;
-	color: white;
+	background-color: #0291CE;
+	color: #DAF9FC;
+	font-size: 11px;
+	font-weight: normal;
+	font-family: Tahoma, sans-serif;
+	border: thin solid #7CC0E2;
 }
