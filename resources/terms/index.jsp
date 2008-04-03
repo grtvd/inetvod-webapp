@@ -69,7 +69,7 @@ commercial reasons. You may not access any of the iNetVOD Services APIs
 directly. You may not take the results from any iNetVOD page and reformat and
 display them. If you want to make commercial use of the iNetVOD Services, you
 must enter into an agreement with iNetVOD to do so in advance. Please
-<a href="http://stormmp.com/contact">contact us</a> for more information.</p>
+<a href="http://inetvod.com/contact">contact us</a> for more information.</p>
 
 <h3>No Automated Querying</h3>
 
