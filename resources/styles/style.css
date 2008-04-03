@@ -139,6 +139,22 @@ table
 	background: #7CC0E2;
 }
 
+.linkTinyNoBkCtr
+{
+	font-size: 9pt;
+	text-decoration: none;
+	cursor: hand;
+	cursor: pointer;
+}
+.linkTinyNoBkCtr:hover
+{
+	text-decoration: underline;
+}
+a.linkTinyNoBkCtr:visited
+{
+	color: #DAF9FC;
+}
+
 .buttonCtr_normal
 {
 	color: #DAF9FC;

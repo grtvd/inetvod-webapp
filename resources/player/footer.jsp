@@ -1,5 +1,14 @@
+<%@ page import="com.inetvod.playerClient.rqdata.Category" %>
+<%@ page import="com.inetvod.playerClient.rqdata.CategoryList" %>
+<%@ page import="com.inetvod.playerClient.rqdata.Provider" %>
+<%@ page import="com.inetvod.playerClient.rqdata.ProviderList" %>
+<%@ page import="com.inetvod.playerClient.rqdata.RentedShowSearch" %>
+<%@ page import="com.inetvod.playerClient.rqdata.RentedShowSearchList" %>
+<%@ page import="com.inetvod.playerClient.rqdata.ShowSearch" %>
+<%@ page import="com.inetvod.playerClient.rqdata.ShowSearchList" %>
+<%@ page import="com.inetvod.webapp.player.SearchResultsView" %>
 <%--
-Copyright � 2007 iNetVOD, Inc. All Rights Reserved.
+Copyright © 2007-2008 iNetVOD, Inc. All Rights Reserved.
 iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -37,6 +46,10 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 			</td>
 		</tr>
 	</table>
+
+	<table cellpadding="0" cellspacing="0" width="100%"><tr><td align="center" class="textTinyCtr"
+		>Copyright © 2008 iNetVOD | All Rights Reserved | <a href="../terms" class="linkTinyNoBkCtr">Terms</a> |
+		<a href="../privacy" class="linkTinyNoBkCtr">Privacy</a></td></tr></table>
 
 <jsp:include flush="true" page="screens.html"/>
 

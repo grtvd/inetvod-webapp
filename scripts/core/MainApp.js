@@ -128,11 +128,12 @@ function MainApp()
 
 	if(oMainBodyDiv && oAppTable)
 	{
-		var extra = 20; //border
+		var extra = 40; //border & footer
 		if (oMainBodyDiv.offsetTop == 0)
 			extra += 20;	//fudge for IE
 
 		var newDivHeight = getWindowInnerHeight() - extra - oAppTable.offsetTop;
+		oAppTable.style.height = newDivHeight + "px";
 		oMainBodyDiv.style.height = newDivHeight + "px";
 	}
 }
