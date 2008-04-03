@@ -1,21 +1,7 @@
 <%@ page import="java.util.HashMap"%>
 <%@ page import="com.inetvod.common.core.StrUtil"%>
-<%@ page import="com.inetvod.common.data.CategoryID" %>
-<%@ page import="com.inetvod.playerClient.rqdata.Category" %>
-<%@ page import="com.inetvod.playerClient.rqdata.CategoryList" %>
-<%@ page import="com.inetvod.playerClient.rqdata.Provider" %>
-<%@ page import="com.inetvod.playerClient.rqdata.ProviderList" %>
-<%@ page import="com.inetvod.playerClient.rqdata.RentedShowSearch" %>
-<%@ page import="com.inetvod.playerClient.rqdata.RentedShowSearchList" %>
-<%@ page import="com.inetvod.playerClient.rqdata.ShowSearch" %>
-<%@ page import="com.inetvod.playerClient.rqdata.ShowSearchList" %>
 <%@ page import="com.inetvod.webapp.MemRegister" %>
-<%@ page import="com.inetvod.webapp.PageMenuMap" %>
 <%@ page import="com.inetvod.webapp.ReadXMLFile" %>
-<%@ page import="com.inetvod.webapp.player.CategorySearchView" %>
-<%@ page import="com.inetvod.webapp.player.NowPlayingView" %>
-<%@ page import="com.inetvod.webapp.player.ProviderSearchView" %>
-<%@ page import="com.inetvod.webapp.player.SearchResultsView" %>
 <%@ page contentType="text/html; charset=iso-8859-1" language="java" %>
 <%
 /**
@@ -278,8 +264,8 @@
 	<td align="right"><span class="contentRed">*</span><input type="checkbox" id="cbx_Policy" name="cbx_Policy"
 		value="1"/>&nbsp;</td>
 	<td align="left"><font size="2">I have read and agree to iNetVOD&rsquo;s <a target="_blank"
-		href="http://www.inetvod.com/termsofservice.htm">Terms of Service</a> and <a target="_blank"
-		href="http://www.inetvod.com/privacypolicy.htm">Privacy Policy</a>.</font></td>
+		href="../terms">Terms of Service</a> and <a target="_blank"
+		href="../privacy">Privacy Policy</a>.</font></td>
 </tr>
 <tr>
 	<td></td>

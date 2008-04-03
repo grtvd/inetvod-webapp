@@ -68,6 +68,22 @@ h2
 	padding-bottom: 0px
 }
 
+h3
+{
+	/*background: url( 'images/design_elements/h2.gif' ) no-repeat left;*/
+	width: 90%;
+	font-variant: small-caps;
+	color: #002651;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 11pt;
+	font-family: Arial, Verdana, sans-serif;
+	padding-left: 2px;
+	padding-right: 2px;
+	padding-top: 2px;
+	padding-bottom: 0px
+}
+
 .leftside
 {
 	background: #002651;
