@@ -2,6 +2,10 @@
 <%@ page import="com.inetvod.common.core.StrUtil" %>
 <%@ page import="com.inetvod.webapp.MemRegister" %>
 <%@ page import="com.inetvod.webapp.ReadXMLFile" %>
+<%--
+Copyright © 2006-2008 iNetVOD, Inc. All Rights Reserved.
+iNetVOD Confidential and Proprietary.  See LEGAL.txt.
+--%>
 <div align="center">
 <table border="0" cellpadding="0" cellspacing="0" width="760">
 	<tr><td><a href="../index.jsp"><img src="../player/images/logo.gif" alt="Storm Media Player" border="0"/></a></td>
@@ -10,7 +14,8 @@
 				<tr>
 					<td id="HeaderLogon" class="buttonSmallCtr_normal" style="display:none"><a class="buttonSmallCtr_normal"
 						onclick="document.location='../member/mem_logon.jsp';">Logon</a></td>
-					<td id="HeaderUser" class="textSmallCtr"/>
+					<td><a id="HeaderUser" class="buttonSmallNoBackCtr"
+						onclick="document.location='../member/mem_overview.jsp';" style="display:none"/></td>
 					<td class="textSmallLbl">&nbsp;|&nbsp;</td>
 					<td id="HeaderRegister" class="buttonSmallCtr_normal" style="display:none"><a class="buttonSmallCtr_normal"
 						onclick="document.location='../member/mem_new.jsp';">Register</a></td>

@@ -166,3 +166,19 @@ h3
 	padding-top: 10px;
 	padding-bottom: 0px
 }
+
+.footerLink
+{
+	text-decoration: none;
+	color: #DAF9FC;
+	cursor: hand;
+	cursor: pointer;
+}
+a.footerLink:hover
+{
+	text-decoration: underline;
+}
+a.footerLink:visited
+{
+	color: #DAF9FC;
+}

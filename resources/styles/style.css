@@ -143,6 +143,7 @@ table
 {
 	font-size: 9pt;
 	text-decoration: none;
+	color: #DAF9FC;
 	cursor: hand;
 	cursor: pointer;
 }
@@ -245,6 +246,14 @@ a.buttonSmallCtr_hilite:visited
 	text-decoration: none;
 	cursor: hand;
 	cursor: pointer;
+}
+.buttonSmallNoBackCtr:hover
+{
+	text-decoration: underline;
+}
+a.buttonSmallNoBackCtr:visited
+{
+	color: #DAF9FC;
 }
 
 .listCtrHeader
