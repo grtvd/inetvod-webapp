@@ -1,21 +1,3 @@
-<%@ page import="java.util.HashMap" %>
-<%@ page import="com.inetvod.common.core.StrUtil" %>
-<%@ page import="com.inetvod.common.data.CategoryID" %>
-<%@ page import="com.inetvod.playerClient.rqdata.Category" %>
-<%@ page import="com.inetvod.playerClient.rqdata.CategoryList" %>
-<%@ page import="com.inetvod.playerClient.rqdata.Provider" %>
-<%@ page import="com.inetvod.playerClient.rqdata.ProviderList" %>
-<%@ page import="com.inetvod.playerClient.rqdata.RentedShowSearch" %>
-<%@ page import="com.inetvod.playerClient.rqdata.RentedShowSearchList" %>
-<%@ page import="com.inetvod.playerClient.rqdata.ShowSearch" %>
-<%@ page import="com.inetvod.playerClient.rqdata.ShowSearchList" %>
-<%@ page import="com.inetvod.webapp.MemRegister" %>
-<%@ page import="com.inetvod.webapp.PageMenuMap" %>
-<%@ page import="com.inetvod.webapp.ReadXMLFile" %>
-<%@ page import="com.inetvod.webapp.player.CategorySearchView" %>
-<%@ page import="com.inetvod.webapp.player.NowPlayingView" %>
-<%@ page import="com.inetvod.webapp.player.ProviderSearchView" %>
-<%@ page import="com.inetvod.webapp.player.SearchResultsView" %>
 <%@ page contentType="text/html; charset=iso-8859-1" language="java" %>
 <%
 /**
@@ -116,9 +98,8 @@
 			</td>
 			<td valign="top" class="contentBody">
 				<form action="mem_logon_update_save.jsp" method="post" name="inet">
-					<noscript>
-						<h1><font color="#FF0000">Your browser does not support JavaScript! Please enabale Javascript
-							and try again...</font></h1>
+					<noscript class="error">
+						This site requires JavaScript. If your browser supports JavaScript, please enable and try again...
 					</noscript>
 					<table border="0" cellpadding="1" cellspacing="0" style="display:none;"
 						width="520" id="tbl_Register">

@@ -35,9 +35,8 @@
 			</td>
 			<td valign="top" class="contentWithoutBorder">
 				<form action="#" method="post" name="inet">
-					<noscript>
-						<h1><font color="#FF0000">Your browser does not support JavaScript! Please enabale Javascript
-							and try again...</font></h1>
+					<noscript class="error">
+						This site requires JavaScript. If your browser supports JavaScript, please enable and try again...
 					</noscript>
 					<table border="0" cellpadding="1" cellspacing="0" width="100%" id="tbl_Register">
 						<tr valign="top">

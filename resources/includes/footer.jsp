@@ -1,7 +1,3 @@
-<%@ page import="java.util.HashMap" %>
-<%@ page import="com.inetvod.common.core.StrUtil" %>
-<%@ page import="com.inetvod.webapp.MemRegister" %>
-<%@ page import="com.inetvod.webapp.ReadXMLFile" %>
 <%--
 Copyright © 2006-2008 iNetVOD, Inc. All Rights Reserved.
 iNetVOD Confidential and Proprietary.  See LEGAL.txt.

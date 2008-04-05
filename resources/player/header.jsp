@@ -4,14 +4,6 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.inetvod.common.data.CategoryID" %>
-<%@ page import="com.inetvod.playerClient.rqdata.Category" %>
-<%@ page import="com.inetvod.playerClient.rqdata.CategoryList" %>
-<%@ page import="com.inetvod.playerClient.rqdata.Provider" %>
-<%@ page import="com.inetvod.playerClient.rqdata.ProviderList" %>
-<%@ page import="com.inetvod.playerClient.rqdata.RentedShowSearch" %>
-<%@ page import="com.inetvod.playerClient.rqdata.RentedShowSearchList" %>
-<%@ page import="com.inetvod.playerClient.rqdata.ShowSearch" %>
-<%@ page import="com.inetvod.playerClient.rqdata.ShowSearchList" %>
 <%@ page import="com.inetvod.webapp.PageMenuMap" %>
 <%@ page import="com.inetvod.webapp.player.CategorySearchView" %>
 <%@ page import="com.inetvod.webapp.player.NowPlayingView" %>
@@ -77,4 +69,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 
 			</td>
 			<td valign="top" class="mainbody">
+				<noscript class="error">
+					This site requires JavaScript. If your browser supports JavaScript, please enable and try again...
+				</noscript>
 				<div id="MainBodyDiv" style="overflow:auto;">
