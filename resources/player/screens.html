@@ -12,18 +12,18 @@
 <div id="Startup004" style="position:absolute; display:none;">
 <table cellpadding=0 cellspacing=0 border=0 width=470>
 	<tr><td class="textCtr">
-		Please enter your registered Email and your chosen Password:<br>
+		<span id="Startup004_Prompt">Please enter your registered Email and your chosen Password:</span><br>
 		<br>
 	</td></tr>
 	<tr><td align="center"
 		><table cellpadding=0 cellspacing=6 border=0 width="400"
-			><tr><td class="textLbl" width="170"><span class="required">*</span>Email:</td
+			><tr><td class="textLbl" width="170"><span class="required">*</span><span id="Startup004_UserID_Label">Email:</span></td
 				><td><input id="Startup004_UserID" type="text" class="editCtr_normal" size="20" maxlength="64"
 			></td></tr
 			><tr><td></td
 				><td><span id="Startup004_UserID_Msg" class="required"></span
 			></td></tr
-			><tr><td class="textLbl"><span class="required">*</span>Password:</td
+			><tr><td class="textLbl"><span class="required">*</span><span id="Startup004_UserPassword_Label">Password:</span></td
 				><td><input id="Startup004_UserPassword" type="password" class="editCtr_normal" size="10" maxlength="16"
 			></td></tr
 			><tr><td></td
@@ -45,7 +45,10 @@
 	<tr><td>
 		<br>
 		<br>
-		<span class="required">*Required</span>
+		<table cellpadding="0" cellspacing="0" border="0" width="100%"
+			><tr><td align="left"><span class="required">*Required</span></td
+			><td align="right"><a id="Startup004_LogonUsing" class="buttonSmallNoBackCtr">Logon using Logon ID/PIN</a
+				></td></tr></table>
 	</td></tr>
 </table>
 </div>

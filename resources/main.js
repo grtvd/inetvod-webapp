@@ -204,6 +204,13 @@ function validateStrHasLen(str, method)
 }
 
 /******************************************************************************/
+
+function testStrIsAllNumbers(str)
+{
+	return /^\d+$/.test(str);
+}
+
+/******************************************************************************/
 /******************************************************************************/
 
 function getClassNameBase(curr)
@@ -2496,6 +2503,14 @@ function EditControl(/*string*/ controlID, /*string*/ screenID, /*int*/ fieldSiz
 /*void*/ EditControl.prototype.setText = function(/*string*/ text)
 {
 	this.fUIObj.value = (testStrHasLen(text) ? text : "");
+}
+
+/******************************************************************************/
+
+/*void*/ EditControl.prototype.setFieldSize = function(/*int*/ fieldSize, /*int*/ maxLength)
+{
+	this.fUIObj.size = fieldSize;
+	this.fUIObj.maxLength = maxLength;
 }
 
 /******************************************************************************/
@@ -7470,12 +7485,16 @@ function StartupFlow()
 
 LogonScreen.ScreenID = "Startup004";
 
+LogonScreen.PromptID = "Startup004_Prompt";
+LogonScreen.UserIDLabelID = "Startup004_UserID_Label";
 LogonScreen.UserIDID = "Startup004_UserID";
 LogonScreen.UserIDMsgID = "Startup004_UserID_Msg";
+LogonScreen.UserPasswordLabelID = "Startup004_UserPassword_Label";
 LogonScreen.UserPasswordID = "Startup004_UserPassword";
 LogonScreen.UserPasswordMsgID = "Startup004_UserPassword_Msg";
 LogonScreen.RememberPasswordID = "Startup00_RememberPassword";
 LogonScreen.ContinueID = "Startup004_Continue";
+LogonScreen.LogonUsingID = "Startup004_LogonUsing";
 
 /******************************************************************************/
 
@@ -7504,10 +7523,21 @@ function LogonScreen(/*object*/ callerCallback)
 
 	var oSession = MainApp.getThe().getSession();
 
+	this.fShowEmail = true;
+	if (testStrHasLen(oSession.getUserID()) && testStrIsAllNumbers(oSession.getUserID()))
+		this.fShowEmail = false;
+
+	oControl = new TextControl(LogonScreen.PromptID, this.ScreenID);
+	this.newControl(oControl);
+
+	oControl = new TextControl(LogonScreen.UserIDLabelID, this.ScreenID);
+	this.newControl(oControl);
 	oControl = new EditControl(LogonScreen.UserIDID, this.ScreenID, 20, 64)
-	oControl.setText(oSession.getUserID());
 	this.newControl(oControl);
 	oControl = new TextControl(LogonScreen.UserIDMsgID, this.ScreenID);
+	this.newControl(oControl);
+
+	oControl = new TextControl(LogonScreen.UserPasswordLabelID, this.ScreenID);
 	this.newControl(oControl);
 	oControl = new EditControl(LogonScreen.UserPasswordID, this.ScreenID, 10, 16);
 	this.newControl(oControl);
@@ -7518,6 +7548,43 @@ function LogonScreen(/*object*/ callerCallback)
 	this.newControl(oControl);
 
 	this.newControl(new ButtonControl(LogonScreen.ContinueID, this.ScreenID));
+
+	this.newControl(new ButtonControl(LogonScreen.LogonUsingID, this.ScreenID));
+	this.onButtonLogonUsing();
+
+	this.getControl(LogonScreen.UserIDID).setText(oSession.getUserID());
+}
+
+/******************************************************************************/
+
+/*void*/ LogonScreen.prototype.onButtonLogonUsing = function()
+{
+	this.getControl(LogonScreen.PromptID).setText(this.fShowEmail
+		? "Please enter your registered Email and your chosen Password:"
+		: "Please enter your registered Logon ID and your chosen PIN:");
+
+	this.getControl(LogonScreen.UserIDLabelID).setText(this.fShowEmail ? "Email:" : "Logon ID:");
+	var oControl = this.getControl(LogonScreen.UserIDID)
+	if(this.fShowEmail)
+		oControl.setFieldSize(20, 64);
+	else
+		oControl.setFieldSize(9, 9);
+	oControl.setText("");
+	oControl.Type = this.fShowEmail ? ect_AlphaNumeric : ect_Numeric;
+	this.getControl(LogonScreen.UserIDMsgID).setText("");
+
+	this.getControl(LogonScreen.UserPasswordLabelID).setText(this.fShowEmail ? "Password:" : "PIN:");
+	oControl = this.getControl(LogonScreen.UserPasswordID)
+	if(this.fShowEmail)
+		oControl.setFieldSize(10, 16);
+	else
+		oControl.setFieldSize(6, 6);
+	oControl.setText("");
+	oControl.Type = this.fShowEmail ? ect_AlphaNumeric : ect_Numeric;
+	this.getControl(LogonScreen.UserPasswordMsgID).setText("");
+
+	this.getControl(LogonScreen.LogonUsingID).setText(this.fShowEmail
+		? "Logon using Logon ID/PIN" : "Logon using Email/Password");
 }
 
 /******************************************************************************/
@@ -7537,32 +7604,42 @@ function LogonScreen(/*object*/ callerCallback)
 
 /*void*/ LogonScreen.prototype.onButton = function(/*string*/ controlID)
 {
-	this.getControl(LogonScreen.UserIDMsgID).setText("");
-	this.getControl(LogonScreen.UserPasswordMsgID).setText("");
-
-	var userID = this.getControl(LogonScreen.UserIDID).getText();
-	if(!testStrHasLen(userID))
+	if((controlID == LogonScreen.ContinueID) || (controlID == LogonScreen.UserIDID)
+		|| (controlID == LogonScreen.UserPasswordID))
 	{
-		this.getControl(LogonScreen.UserIDMsgID).setText("Email must be entered.");
-		this.fContainerControl.focusControl(LogonScreen.UserIDID, true);
-		return;
-	}
+		this.getControl(LogonScreen.UserIDMsgID).setText("");
+		this.getControl(LogonScreen.UserPasswordMsgID).setText("");
 
-	var userPassword = this.getControl(LogonScreen.UserPasswordID).getText();
-	if(!testStrHasLen(userPassword))
+		var userID = this.getControl(LogonScreen.UserIDID).getText();
+		if(!testStrHasLen(userID))
+		{
+			this.getControl(LogonScreen.UserIDMsgID).setText((this.fShowEmail ? "Email" : "Logon ID") + " must be entered.");
+			this.focusControl(LogonScreen.UserIDID, true);
+			return;
+		}
+
+		var userPassword = this.getControl(LogonScreen.UserPasswordID).getText();
+		if(!testStrHasLen(userPassword))
+		{
+			this.getControl(LogonScreen.UserPasswordMsgID).setText((this.fShowEmail ? "Password" : "PIN") + " must be entered.");
+			this.focusControl(LogonScreen.UserPasswordID, true);
+			return;
+		}
+
+		var rememberPassword = this.getControl(LogonScreen.RememberPasswordID).getChecked();
+
+		var oSession = MainApp.getThe().getSession();
+
+		this.Callback = LogonScreen.prototype.afterSignon;
+		oSession.signon(this, userID, userPassword, rememberPassword);
+	}
+	else if(controlID == LogonScreen.LogonUsingID)
 	{
-		this.getControl(LogonScreen.UserPasswordMsgID).setText("Password must be entered.");
-		this.fContainerControl.focusControl(LogonScreen.UserPasswordID, true);
-		return;
+		this.fShowEmail = !this.fShowEmail;
+		this.onButtonLogonUsing();
+		this.focusControl(LogonScreen.UserIDID, true);
 	}
-
-	var rememberPassword = this.getControl(LogonScreen.RememberPasswordID).getChecked();
-
-	var oSession = MainApp.getThe().getSession();
-
-	this.Callback = LogonScreen.prototype.afterSignon;
-	oSession.signon(this, userID, userPassword, rememberPassword);
-
+	//else
 	//Screen.prototype.onButton.call(this, controlID);
 }
 

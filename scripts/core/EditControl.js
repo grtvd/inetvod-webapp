@@ -58,6 +58,14 @@ function EditControl(/*string*/ controlID, /*string*/ screenID, /*int*/ fieldSiz
 
 /******************************************************************************/
 
+/*void*/ EditControl.prototype.setFieldSize = function(/*int*/ fieldSize, /*int*/ maxLength)
+{
+	this.fUIObj.size = fieldSize;
+	this.fUIObj.maxLength = maxLength;
+}
+
+/******************************************************************************/
+
 /*Array*/ EditControl.prototype.getValidCharArray = function(/*EditControlType*/ editControlType)
 {
 	var invalidAlphaUpper = false;
