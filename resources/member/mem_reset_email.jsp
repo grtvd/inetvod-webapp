@@ -99,7 +99,7 @@
 						</tr>
 						<tr>
 							<td colspan="2" class="contentWithoutBorder">Please enter the email address that you
-								registered with iNetVOD :</td>
+								registered with Storm Media Player:</td>
 						</tr>
 
 						<tr>

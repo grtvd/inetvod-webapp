@@ -321,7 +321,7 @@ public class Session
 	private void showRequestError(String message)
 	{
 		if(!StrUtil.hasLen(message))
-			setError("An error occurred trying to communicate with the iNetVOD servers. Please try again.");
+			setError("An error occurred trying to communicate with the Storm servers. Please try again.");
 		else
 			setError(message);
 	}

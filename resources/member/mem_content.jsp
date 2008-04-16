@@ -141,8 +141,8 @@
 						<tr valign="top">
 							<td colspan="2" class="contentWithoutBorder">
 								Internet-based video content can be delivered in 1 of 2 ways: downloading and streaming.
-								Each method has benefits and drawbacks. If instructed to do so, the iNetVOD Service can
-								filter out content based on its delivery method.</td>
+								Each method has benefits and drawbacks. If instructed to do so, the Storm Media Player
+								can filter out content based on its delivery method.</td>
 						</tr>
 
 						<tr valign="top">

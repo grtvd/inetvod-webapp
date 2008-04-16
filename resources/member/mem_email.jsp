@@ -120,9 +120,10 @@
 						</tr>
 						<tr>
 							<td colspan="2" class="contentWithoutBorder">
-								Your email address will only be used to log on to the iNetVOD web site and for account
-								maintenance communication. Your email address will be held in strict confidence and will
-								not be sold or given to any outside companies without your prior consent:</td>
+								Your email address will only be used to log on to the StormMediaPlayer.com web site and
+								for account maintenance communication. Your email address will be held in strict
+								confidence and will not be sold or given to any outside companies without your prior
+								consent:</td>
 						</tr>
 
 						<tr>

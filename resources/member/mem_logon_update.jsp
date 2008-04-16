@@ -112,7 +112,7 @@
 						</tr>
 						<tr>
 							<td colspan="2" class="contentWithoutBorder">
-								To simplify access to the iNetVOD Service from remote-controlled devices, your account
+								To simplify access to the Storm Media Player from remote-controlled devices, your account
 								is assigned a 9-digit, numeric only Logon ID.</td>
 						</tr>
 

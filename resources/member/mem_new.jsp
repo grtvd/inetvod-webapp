@@ -148,9 +148,9 @@
 </tr>
 <tr>
 	<td colspan="2" class="contentWithoutBorder">
-		Please tell us your email address. Your email address will only be used to log on to the iNetVOD
-		web site and for account maintenance communication. Your email address will be held in strict
-		confidence and will not be sold or given to any outside companies without your prior consent:</td>
+		Please tell us your email address. Your email address will only be used to log on to the StormMediaPlayer.com
+		web site and for account maintenance communication. Your email address will be held in strict confidence and
+		will not be sold or given to any outside companies without your prior consent:</td>
 </tr>
 <tr>
 	<td width="33%" align="right"><font size="2"><span class="contentRed">*</span>Email&nbsp;</font></td>
@@ -254,7 +254,7 @@
 	<td align="left">&nbsp;</td>
 </tr>
 <tr>
-	<td colspan="2" align="left" class="contentWithoutBorder">By using the iNetVOD website and services, you are
+	<td colspan="2" align="left" class="contentWithoutBorder">By using the Storm website and services, you are
 		agreeing to iNetVOD&rsquo;s Terms of Service and Privacy Policy.</td>
 </tr>
 <tr>

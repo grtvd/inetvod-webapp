@@ -200,8 +200,8 @@ function Call_Validator()
 </tr>
 <tr>
 	<td colspan="2" align="left" class="contentWithoutBorder">(Optional) Please tell us your address (some content
-		providers may require this information). This
-		should be the location from where the iNetVOD Service will be accessed:</td>
+		providers may require this information). This should be the location from where the Storm Media Player will be
+		accessed:</td>
 </tr>
 <tr>
 	<td align="right" nowrap><font size="2">Address Line 1&nbsp;</font></td>

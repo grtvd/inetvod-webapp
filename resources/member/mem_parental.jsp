@@ -134,7 +134,7 @@
 </tr>
 <tr valign="top">
 	<td colspan="2" class="contentWithoutBorder">
-		The iNetVOD Service can filter out undesirable content by using the MPAA movie ratings, TV
+		The Storm Media Player can filter out undesirable content by using the MPAA movie ratings, TV
 		ratings, and other information provided by the content provider. When searching, content not
 		matching the filter criteria will not be seen in the search results.</td>
 </tr>

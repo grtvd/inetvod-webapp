@@ -176,9 +176,9 @@
 </tr>
 <tr valign="top">
 	<td colspan="2" class="contentWithoutBorder">
-		(Optional) In order to purchase Pay-Per-Content through the iNetVOD System, your credit card
-		will need to be on file with the specific content provider or on file with iNetVOD. If stored with
-		iNetVOD, upon your consent of a rental purchase, your credit card information will be securely
+		(Optional) In order to purchase Pay-Per-Content through the Storm Media Player, your credit card
+		will need to be on file with the specific content provider or stored here with your account. If stored
+		here, upon your consent of a rental purchase, your credit card information will be securely
 		transmitted to the specific content provider.</td>
 </tr>
 <tr>
