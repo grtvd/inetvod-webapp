@@ -114,14 +114,15 @@
 						<tr>
 							<td colspan="2" class="linkHeading"><a href="mem_card.jsp">:: Credit Card Information</a>
 							</td>
-							<td colspan="2" class="linkHeading"><a href="mem_content.jsp">:: Content Formats</a></td>
+							<!--<td colspan="2" class="linkHeading"><a href="mem_content.jsp">:: Content Formats</a></td>-->
+							<td colspan="2">&nbsp;</td>
 						</tr>
 						<tr>
 							<td align="right"><font size="2">Card&nbsp;</font></td>
 							<td><font size="2"><%= newMember
 								.Check_For_Null(newMember.getCard_number())%></font></td>
-							<td colspan="2"><font size="2">&nbsp;&nbsp;&nbsp;<%= newMember
-								.Check_For_Null(newMember.getParental_details()) %></font></td>
+							<td colspan="2"><!--<font size="2">&nbsp;&nbsp;&nbsp;<%--= newMember
+								.Check_For_Null(newMember.getParental_details()) --%></font>--></td>
 						</tr>
 					</table>
 				</form>

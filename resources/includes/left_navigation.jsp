@@ -51,10 +51,10 @@
 		<a id="card" href="../member/mem_card.jsp">Credit Card</a><br/>
 		<a id="logon" href="../member/mem_logon_update.jsp">Player Logon</a> <br/>
 		<a id="parent" href="../member/mem_parental.jsp">Parental Controls</a> <br/>
-		<a id="cont" href="../member/mem_content.jsp">Content Formats</a><br/>
+		<%--<a id="cont" href="../member/mem_content.jsp">Content Formats</a><br/>
 		<br>
 		<font color="red"><a id="download" href="http://www.inetvod.com/download" style="color:red;"
-			>DOWNLOAD</a></font></p></td></tr>
+			>DOWNLOAD</a></font>--%></p></td></tr>
 	<script type="text/javascript">
 		var page = '<%= request.getParameter("link")%>';
 		document.getElementById(page).style.backgroundColor = "#7CC0E2";

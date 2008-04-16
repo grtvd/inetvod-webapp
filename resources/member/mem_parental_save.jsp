@@ -52,7 +52,7 @@
 	if("new".equals(redirect_Page))
 	{
 %>
-<script type="text/javascript">location.href = "mem_content.jsp"</script>
+<script type="text/javascript">location.href = "mem_logon_update.jsp"</script>
 <%
 	}
 
