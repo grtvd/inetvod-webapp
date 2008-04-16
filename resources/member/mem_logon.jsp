@@ -49,7 +49,7 @@
 				ShowGeneralError("Your password was successfully updated.");
 
 			var email = '<%=userID%>';
-			if(email.length > 0)
+			if((email.length > 0) && !testStrIsAllNumbers(email))
 				document.getElementById("tbx_Email").value = email;
 			document.getElementById("tbx_RememberPassword").checked = <%=rememberPassword ? "true" : "false"%>;
 
