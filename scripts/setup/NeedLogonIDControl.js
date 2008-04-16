@@ -5,6 +5,7 @@
 
 NeedLogonIDControl.ControlID = "Setup001_NeedLogonIDControl";
 
+NeedLogonIDControl.RegisterID = "Setup001_NeedLogonIDControl_Register";
 NeedLogonIDControl.HaveLogonID = "Setup001_NeedLogonIDControl_HaveLogon";
 
 /******************************************************************************/
@@ -13,6 +14,7 @@ NeedLogonIDControl.newInstance = function()
 {
 	var containerControl = new NeedLogonIDControl(NeedLogonIDControl.ControlID, 0, 0);
 
+	containerControl.newControl(new ButtonControl(NeedLogonIDControl.RegisterID, SetupScreen.ScreenID));
 	containerControl.newControl(new ButtonControl(NeedLogonIDControl.HaveLogonID, SetupScreen.ScreenID));
 
 	return containerControl;

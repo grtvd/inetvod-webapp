@@ -239,6 +239,18 @@ a.buttonSmallCtr_hilite:visited
 	color: #DAF9FC;
 }
 
+.buttonUnderlineCtr
+{
+	color: #DAF9FC;
+	text-decoration: underline;
+	cursor: hand;
+	cursor: pointer;
+}
+a.buttonUnderlineCtr:visited
+{
+	color: #DAF9FC;
+}
+
 .buttonSmallNoBackCtr
 {
 	font-size: 10pt;

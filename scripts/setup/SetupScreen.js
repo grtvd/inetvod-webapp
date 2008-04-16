@@ -152,7 +152,12 @@ function SetupScreen(/*object*/ callerCallback)
 	}
 	else if(this.fCurStep == ss_NeedLogonIDStep)
 	{
-		if(controlID == NeedLogonIDControl.HaveLogonID)
+		if (controlID == NeedLogonIDControl.RegisterID)
+		{
+			window.open("/register");
+			return;
+		}
+		else if(controlID == NeedLogonIDControl.HaveLogonID)
 		{
 			if(this.closeStep(true))
 				this.openStep(ss_HaveLogonIDStep);
@@ -161,9 +166,16 @@ function SetupScreen(/*object*/ callerCallback)
 	}
 	else if(this.fCurStep == ss_HaveLogonIDStep)
 	{
-		if(controlID == HaveLogonIDControl.ContinueID)
+		if((controlID == HaveLogonIDControl.UserIDID)
+			|| (controlID == HaveLogonIDControl.UserPasswordID)
+			|| (controlID == HaveLogonIDControl.ContinueID))
 		{
 			this.doSetupSignon();
+			return;
+		}
+		else if(controlID == HaveLogonIDControl.LogonUsingID)
+		{
+			this.doSwitchLogonUsing();
 			return;
 		}
 	}
@@ -218,6 +230,17 @@ function SetupScreen(/*object*/ callerCallback)
 	{
 		this.CallerCallback();
 	}
+}
+
+/******************************************************************************/
+
+/*void*/ SetupScreen.prototype.doSwitchLogonUsing = function()
+{
+	var oContainerControl = this.getControl(this.fStepControlID);
+
+	oContainerControl.fShowEmail = !oContainerControl.fShowEmail;
+	oContainerControl.onButtonLogonUsing();
+	oContainerControl.focusControl(HaveLogonIDControl.UserIDID, true);
 }
 
 /******************************************************************************/

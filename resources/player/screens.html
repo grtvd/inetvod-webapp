@@ -61,19 +61,19 @@
 <div id="Setup001_AskSignedUpControl" style="position:relative; display:none">
 <table cellpadding=0 cellspacing=0 border=0 width=465>
 	<tr><td id="Setup001_AskSignedUpControl_WelecomeText" class="textCtr">
-		Use of iNetVOD requires a FREE one-time registration before accessing the service.<br>
+		In order to keep track of your shows, you must first setup an account.<br>
 		<br>
-		Are you already registered with iNetVOD?<br>
+		Do you already have an account?<br>
 		<br>
 	</td></tr>
 	<tr><td align="center"
 		><table cellpadding=0 cellspacing=6 border=0
 			><tr><td id="Setup001_AskSignedUpControl_AlreadyRegistered_Frame" class="buttonCtr_normal"
 				><a id="Setup001_AskSignedUpControl_AlreadyRegistered" class="buttonCtr_normal"
-				>Yes, I am already registered</a></td></tr
+				>Yes, I have an account</a></td></tr
 			><tr><td id="Setup001_AskSignedUpControl_NotRegistered_Frame" class="buttonCtr_normal"
 				><a id="Setup001_AskSignedUpControl_NotRegistered" class="buttonCtr_normal"
-				>No, I am not yet registered</a></td></tr
+				>No, I do not have an account</a></td></tr
 		></table
 	></td></tr>
 </table>
@@ -84,17 +84,17 @@
 <div id="Setup001_NeedLogonIDControl" style="position:relative; display:none">
 <table cellpadding=0 cellspacing=0 border=0 width=465>
 	<tr><td id="Setup001_NeedLogonIDControl_RegisterText" class="textCtr">
-		You may register for iNetVOD by visiting www.inetvod.com/register.<!-- or by calling 1-800-999-9999.--><br>
+		You may create an account at <a id="Setup001_NeedLogonIDControl_Register"
+		class="buttonUnderlineCtr">stormmediaplayer.com/register</a>.<br>
 		<br>
-		Upon registering, you will be assigned a Logon ID.  Proceed once you
-		have your Logon ID.<br>
+		Proceed once you have created an account.<br>
 		<br>
 	</td></tr>
 	<tr><td align="center"
 		><table cellpadding=0 cellspacing=6 border=0
 			><tr><td id="Setup001_NeedLogonIDControl_HaveLogon_Frame" class="buttonCtr_normal"
 				><a id="Setup001_NeedLogonIDControl_HaveLogon" class="buttonCtr_normal"
-				>I have my Logon ID</a></td></tr
+				>I have an account</a></td></tr
 		></table
 	></td></tr>
 </table>
@@ -103,21 +103,27 @@
 <!-- *********************************************************************** -->
 
 <div id="Setup001_HaveLogonIDControl" style="position:relative; display:none">
-<table cellpadding=0 cellspacing=0 border=0 width=465>
-	<tr><td id="Setup001_HaveLogonIDControl_DescriptionID" class="textCtr">
-		Please enter your registered Logon ID and your chosen PIN:<br>
+<table cellpadding=0 cellspacing=0 border=0 width=470>
+	<tr><td class="textCtr">
+		<span id="Setup001_HaveLogonIDControl_Prompt">Please enter your registered Email and your chosen Password:</span><br>
 		<br>
 	</td></tr>
 	<tr><td align="center"
-		><table cellpadding=0 cellspacing=6 border=0
-			><tr><td class="textLbl">Logon ID:</td
-				><td><input id="Setup001_HaveLogonIDControl_Logon" type="text" class="editCtr_normal" size="9" maxlength="9"
+		><table cellpadding=0 cellspacing=6 border=0 width="400"
+			><tr><td class="textLbl" width="170"><span class="required">*</span><span id="Setup001_HaveLogonIDControl_UserID_Label">Email:</span></td
+				><td><input id="Setup001_HaveLogonIDControl_UserID" type="text" class="editCtr_normal" size="20" maxlength="64"
 			></td></tr
-			><tr><td class="textLbl">PIN:</td
-				><td><input id="Setup001_HaveLogonIDControl_PIN" type="password" class="editCtr_normal" size="6" maxlength="6"
+			><tr><td></td
+				><td><span id="Setup001_HaveLogonIDControl_UserID_Msg" class="required"></span
 			></td></tr
-			><tr><td class="textLbl" >Remember PIN:</td
-				><td><input id="Setup001_HaveLogonIDControl_RememberPIN" type="checkbox" class="checkCtr_normal"
+			><tr><td class="textLbl"><span class="required">*</span><span id="Setup001_HaveLogonIDControl_UserPassword_Label">Password:</span></td
+				><td><input id="Setup001_HaveLogonIDControl_UserPassword" type="password" class="editCtr_normal" size="10" maxlength="16"
+			></td></tr
+			><tr><td></td
+				><td><span id="Setup001_HaveLogonIDControl_UserPassword_Msg" class="required"></span
+			></td></tr
+			><tr><td class="textLbl">Remember Me:</td
+				><td><input id="Setup001_HaveLogonIDControl_RememberPassword" type="checkbox" class="checkCtr_normal"
 			></td></tr
 		></table>
 		<br>
@@ -129,6 +135,14 @@
 				><a id="Setup001_HaveLogonIDControl_Continue" class="buttonCtr_normal">Continue</a></td></tr
 		></table
 	></td></tr>
+	<tr><td>
+		<br>
+		<br>
+		<table cellpadding="0" cellspacing="0" border="0" width="100%"
+			><tr><td align="left"><span class="required">*Required</span></td
+			><td align="right"><a id="Setup001_HaveLogonIDControl_LogonUsing" class="buttonSmallNoBackCtr">Logon using Logon ID/PIN</a
+				></td></tr></table>
+	</td></tr>
 </table>
 </div>
 
