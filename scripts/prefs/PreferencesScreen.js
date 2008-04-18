@@ -29,6 +29,7 @@ function PreferencesScreen()
 	this.ScreenID = PreferencesScreen.ScreenID;
 	this.ScreenTitle = "prefs";
 	this.ScreenTitleImage = "titlePrefs.gif";
+	this.fNeedReload = false;
 
 	this.fContainerControl = new ContainerControl(this.ScreenID, 122, 182);
 
@@ -49,7 +50,10 @@ function PreferencesScreen()
 {
 	if((key == ek_Back) || (key == ek_Escape))
 	{
-		document.location.reload();
+		if (this.fNeedReload)
+			document.location.reload();
+		else
+			MainApp.getThe().closePopup();
 		return;
 	}
 
@@ -62,6 +66,7 @@ function PreferencesScreen()
 {
 	if(controlID == PreferencesScreen.AccessAdultButtonID)
 	{
+		this.fNeedReload = true;	//TODO move logic to set only if user enters correct pin.
 		AskAdultPINScreen.newInstance();
 		return;
 	}
