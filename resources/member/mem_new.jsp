@@ -213,8 +213,8 @@
 	<td align="left">&nbsp;</td>
 </tr>
 <tr>
-	<td colspan="2" align="left" class="contentWithoutBorder">Please choose a secrete question and answer.
-		Should you loose your password, you will be required to provide the answer to your secrete question
+	<td colspan="2" align="left" class="contentWithoutBorder">Please choose a secret question and answer.
+		Should you lose your password, you will be required to provide the answer to your secret question
 		before your password can be reset.</td>
 </tr>
 <tr>
