@@ -51,9 +51,9 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 							><td
 								><table cellpadding="0" cellspacing="0" border="0">
 									<tr
-										><td rowspan="2" style="padding-left:5px;"><img src="<%=showSearch.getPictureURL()
-											!= null ? showSearch.getPictureURL() : "images/no_picture.gif"%>"
-											border=0 width=48 alt=""/></td
+										><td rowspan="2" width="48" height="48" style="padding-left:5px;"><img
+											src="<%=showSearch.getPictureURL() != null ? showSearch.getPictureURL()
+											: "images/no_picture.gif"%>" border=0 width=48 alt=""/></td
 										><td class="listItem"><a class="listItem"
 											onclick="StartupSearchDetail('<%=showSearch.getShowID()%>'); stopEventPropagation(event);"
 											><%=showSearch.getName()%></a></td
