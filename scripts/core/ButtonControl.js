@@ -19,11 +19,23 @@ function ButtonControl(/*string*/ controlID, /*string*/ screenID)
 	this.fUIObj.onclick = MainAppOnMouseClick;
 	this.fUIObj.onfocus = MainAppOnFocus;
 	this.fUIObj.onblur = MainAppOnBlur;
-	this.fUIObjFrame = document.getElementById(controlID + "_Frame");
+	this.fUIObjLink = null;
+	var oLinkList = this.fUIObj.getElementsByTagName("a");
+	if ((oLinkList != null) && (oLinkList.length > 0))
+	{
+		this.fUIObjLink = oLinkList[0];
+		this.fUIObjLink.onmouseover = MainAppOnMouseOver;
+		this.fUIObjLink.onclick = MainAppOnMouseClick;
+		this.fUIObjLink.onfocus = MainAppOnFocus;
+		this.fUIObjLink.onblur = MainAppOnBlur;
+	}
+	else
+	{
+	}
 
 	checkClassName(this.fUIObj, 'normal');
-	if(this.fUIObjFrame != null)
-		checkClassName(this.fUIObjFrame, 'normal');
+	if(this.fUIObjLink != null)
+		checkClassName(this.fUIObjLink, 'normal');
 
 	this.fFocused = false;
 	this.setFocus(false);
@@ -33,7 +45,10 @@ function ButtonControl(/*string*/ controlID, /*string*/ screenID)
 
 /*void*/ ButtonControl.prototype.setText = function(/*string*/ text)
 {
-	this.fUIObj.innerHTML = text;
+	if(this.fUIObjLink != null)
+		this.fUIObjLink.innerHTML = text;
+	else
+		this.fUIObj.innerHTML = text;
 }
 
 /******************************************************************************/
@@ -42,8 +57,8 @@ function ButtonControl(/*string*/ controlID, /*string*/ screenID)
 {
 	this.fEnabled = enable;
 	checkClassName(this.fUIObj, this.fEnabled ? (this.fFocused ? 'hilite' : 'normal') : 'disabled');
-	if(this.fUIObjFrame != null)
-		checkClassName(this.fUIObjFrame, this.fEnabled ? (this.fFocused ? 'hilite' : 'normal') : 'disabled');
+	if(this.fUIObjLink != null)
+		checkClassName(this.fUIObjLink, this.fEnabled ? (this.fFocused ? 'hilite' : 'normal') : 'disabled');
 }
 
 /******************************************************************************/
@@ -51,7 +66,14 @@ function ButtonControl(/*string*/ controlID, /*string*/ screenID)
 /*void*/ ButtonControl.prototype.setFocus = function(/*boolean*/ set)
 {
 	if(set)
-		this.fUIObj.focus();
+	{
+		if(this.fUIObjLink != null)
+		{
+			this.fUIObjLink.focus();
+		}
+		else
+			this.fUIObj.focus();
+	}
 }
 
 /******************************************************************************/
@@ -60,8 +82,8 @@ function ButtonControl(/*string*/ controlID, /*string*/ screenID)
 {
 	var wasFocused = this.fFocused;
 	checkClassName(this.fUIObj, 'hilite');
-	if(this.fUIObjFrame != null)
-		checkClassName(this.fUIObjFrame, 'hilite');
+	if(this.fUIObjLink != null)
+		checkClassName(this.fUIObjLink, 'hilite');
 	this.fFocused = true;
 	if(!wasFocused)
 		this.getScreen().onFocus(this.ControlID);
@@ -72,11 +94,24 @@ function ButtonControl(/*string*/ controlID, /*string*/ screenID)
 /*void*/ ButtonControl.prototype.blurEvent = function(/*string*/ controlID)
 {
 	checkClassName(this.fUIObj, 'normal');
-	if(this.fUIObjFrame != null)
-		checkClassName(this.fUIObjFrame, 'normal');
+	if(this.fUIObjLink != null)
+		checkClassName(this.fUIObjLink, 'normal');
 	this.fFocused = false;
 }
 
+/******************************************************************************/
+
+/*boolean*/ ButtonControl.prototype.hasControl = function(/*string*/ controlID)
+{
+	if(this.ControlID == controlID)
+		return true;
+
+	if(this.fUIObjLink != null)
+		if(this.fUIObjLink.id == controlID)
+			return true;
+
+	return false;
+}
 /******************************************************************************/
 
 /*boolean*/ ButtonControl.prototype.key = function(/*int*/ key, /*Event*/ evt)

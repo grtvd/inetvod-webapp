@@ -182,10 +182,6 @@ td.buttonCtr_normal
 	cursor: hand;
 	cursor: pointer;
 }
-a.buttonCtr_hilite
-{
-	padding: 5px;
-}
 a.buttonCtr_hilite:visited
 {
 	color: #DAF9FC;
@@ -221,7 +217,6 @@ td.buttonSmallCtr_normal
 }
 .buttonSmallCtr_hilite
 {
-	background: #7CC0E2;
 	font-size: 10pt;
 	color: #DAF9FC;
 	text-decoration: none;
@@ -230,9 +225,9 @@ td.buttonSmallCtr_normal
 	cursor: pointer;
 	/*border: 1px solid blue;*/
 }
-a.buttonSmallCtr_hilite
+td.buttonSmallCtr_hilite
 {
-	padding: 3px;
+	background: #7CC0E2;
 }
 a.buttonSmallCtr_hilite:visited
 {
