@@ -14,6 +14,7 @@ LogonScreen.UserPasswordID = "Startup004_UserPassword";
 LogonScreen.UserPasswordMsgID = "Startup004_UserPassword_Msg";
 LogonScreen.RememberPasswordID = "Startup00_RememberPassword";
 LogonScreen.ContinueID = "Startup004_Continue";
+LogonScreen.ForgotPasswordID = "Startup004_ForgotPassword";
 LogonScreen.LogonUsingID = "Startup004_LogonUsing";
 
 /******************************************************************************/
@@ -69,6 +70,7 @@ function LogonScreen(/*object*/ callerCallback)
 
 	this.newControl(new ButtonControl(LogonScreen.ContinueID, this.ScreenID));
 
+	this.newControl(new ButtonControl(LogonScreen.ForgotPasswordID, this.ScreenID));
 	this.newControl(new ButtonControl(LogonScreen.LogonUsingID, this.ScreenID));
 	this.onButtonLogonUsing();
 
@@ -152,6 +154,10 @@ function LogonScreen(/*object*/ callerCallback)
 
 		this.Callback = LogonScreen.prototype.afterSignon;
 		oSession.signon(this, userID, userPassword, rememberPassword);
+	}
+	else if(controlID == LogonScreen.ForgotPasswordID)
+	{
+		document.location = "../member/mem_reset_email.jsp";
 	}
 	else if(controlID == LogonScreen.LogonUsingID)
 	{

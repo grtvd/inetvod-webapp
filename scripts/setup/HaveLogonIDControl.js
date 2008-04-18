@@ -14,6 +14,7 @@ HaveLogonIDControl.UserPasswordID = "Setup001_HaveLogonIDControl_UserPassword";
 HaveLogonIDControl.UserPasswordMsgID = "Setup001_HaveLogonIDControl_UserPassword_Msg";
 HaveLogonIDControl.RememberPasswordID = "Setup001_HaveLogonIDControl_RememberPassword";
 HaveLogonIDControl.ContinueID = "Setup001_HaveLogonIDControl_Continue";
+HaveLogonIDControl.ForgotPasswordID = "Setup001_HaveLogonIDControl_ForgotPassword";
 HaveLogonIDControl.LogonUsingID = "Setup001_HaveLogonIDControl_LogonUsing";
 
 /******************************************************************************/
@@ -42,6 +43,7 @@ HaveLogonIDControl.newInstance = function()
 
 	containerControl.newControl(new ButtonControl(HaveLogonIDControl.ContinueID, SetupScreen.ScreenID));
 
+	containerControl.newControl(new ButtonControl(HaveLogonIDControl.ForgotPasswordID, SetupScreen.ScreenID));
 	containerControl.newControl(new ButtonControl(HaveLogonIDControl.LogonUsingID, SetupScreen.ScreenID));
 	containerControl.onButtonLogonUsing();
 

@@ -173,6 +173,10 @@ function SetupScreen(/*object*/ callerCallback)
 			this.doSetupSignon();
 			return;
 		}
+		else if(controlID == HaveLogonIDControl.ForgotPasswordID)
+		{
+			document.location = "../member/mem_reset_email.jsp";
+		}
 		else if(controlID == HaveLogonIDControl.LogonUsingID)
 		{
 			this.doSwitchLogonUsing();
