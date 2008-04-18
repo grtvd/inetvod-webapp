@@ -2367,11 +2367,23 @@ function ButtonControl(/*string*/ controlID, /*string*/ screenID)
 	this.fUIObj.onclick = MainAppOnMouseClick;
 	this.fUIObj.onfocus = MainAppOnFocus;
 	this.fUIObj.onblur = MainAppOnBlur;
-	this.fUIObjFrame = document.getElementById(controlID + "_Frame");
+	this.fUIObjLink = null;
+	var oLinkList = this.fUIObj.getElementsByTagName("a");
+	if ((oLinkList != null) && (oLinkList.length > 0))
+	{
+		this.fUIObjLink = oLinkList[0];
+		this.fUIObjLink.onmouseover = MainAppOnMouseOver;
+		this.fUIObjLink.onclick = MainAppOnMouseClick;
+		this.fUIObjLink.onfocus = MainAppOnFocus;
+		this.fUIObjLink.onblur = MainAppOnBlur;
+	}
+	else
+	{
+	}
 
 	checkClassName(this.fUIObj, 'normal');
-	if(this.fUIObjFrame != null)
-		checkClassName(this.fUIObjFrame, 'normal');
+	if(this.fUIObjLink != null)
+		checkClassName(this.fUIObjLink, 'normal');
 
 	this.fFocused = false;
 	this.setFocus(false);
@@ -2381,7 +2393,10 @@ function ButtonControl(/*string*/ controlID, /*string*/ screenID)
 
 /*void*/ ButtonControl.prototype.setText = function(/*string*/ text)
 {
-	this.fUIObj.innerHTML = text;
+	if(this.fUIObjLink != null)
+		this.fUIObjLink.innerHTML = text;
+	else
+		this.fUIObj.innerHTML = text;
 }
 
 /******************************************************************************/
@@ -2390,8 +2405,8 @@ function ButtonControl(/*string*/ controlID, /*string*/ screenID)
 {
 	this.fEnabled = enable;
 	checkClassName(this.fUIObj, this.fEnabled ? (this.fFocused ? 'hilite' : 'normal') : 'disabled');
-	if(this.fUIObjFrame != null)
-		checkClassName(this.fUIObjFrame, this.fEnabled ? (this.fFocused ? 'hilite' : 'normal') : 'disabled');
+	if(this.fUIObjLink != null)
+		checkClassName(this.fUIObjLink, this.fEnabled ? (this.fFocused ? 'hilite' : 'normal') : 'disabled');
 }
 
 /******************************************************************************/
@@ -2399,7 +2414,14 @@ function ButtonControl(/*string*/ controlID, /*string*/ screenID)
 /*void*/ ButtonControl.prototype.setFocus = function(/*boolean*/ set)
 {
 	if(set)
-		this.fUIObj.focus();
+	{
+		if(this.fUIObjLink != null)
+		{
+			this.fUIObjLink.focus();
+		}
+		else
+			this.fUIObj.focus();
+	}
 }
 
 /******************************************************************************/
@@ -2408,8 +2430,8 @@ function ButtonControl(/*string*/ controlID, /*string*/ screenID)
 {
 	var wasFocused = this.fFocused;
 	checkClassName(this.fUIObj, 'hilite');
-	if(this.fUIObjFrame != null)
-		checkClassName(this.fUIObjFrame, 'hilite');
+	if(this.fUIObjLink != null)
+		checkClassName(this.fUIObjLink, 'hilite');
 	this.fFocused = true;
 	if(!wasFocused)
 		this.getScreen().onFocus(this.ControlID);
@@ -2420,11 +2442,24 @@ function ButtonControl(/*string*/ controlID, /*string*/ screenID)
 /*void*/ ButtonControl.prototype.blurEvent = function(/*string*/ controlID)
 {
 	checkClassName(this.fUIObj, 'normal');
-	if(this.fUIObjFrame != null)
-		checkClassName(this.fUIObjFrame, 'normal');
+	if(this.fUIObjLink != null)
+		checkClassName(this.fUIObjLink, 'normal');
 	this.fFocused = false;
 }
 
+/******************************************************************************/
+
+/*boolean*/ ButtonControl.prototype.hasControl = function(/*string*/ controlID)
+{
+	if(this.ControlID == controlID)
+		return true;
+
+	if(this.fUIObjLink != null)
+		if(this.fUIObjLink.id == controlID)
+			return true;
+
+	return false;
+}
 /******************************************************************************/
 
 /*boolean*/ ButtonControl.prototype.key = function(/*int*/ key, /*Event*/ evt)
@@ -7494,6 +7529,7 @@ LogonScreen.UserPasswordID = "Startup004_UserPassword";
 LogonScreen.UserPasswordMsgID = "Startup004_UserPassword_Msg";
 LogonScreen.RememberPasswordID = "Startup00_RememberPassword";
 LogonScreen.ContinueID = "Startup004_Continue";
+LogonScreen.ForgotPasswordID = "Startup004_ForgotPassword";
 LogonScreen.LogonUsingID = "Startup004_LogonUsing";
 
 /******************************************************************************/
@@ -7549,6 +7585,7 @@ function LogonScreen(/*object*/ callerCallback)
 
 	this.newControl(new ButtonControl(LogonScreen.ContinueID, this.ScreenID));
 
+	this.newControl(new ButtonControl(LogonScreen.ForgotPasswordID, this.ScreenID));
 	this.newControl(new ButtonControl(LogonScreen.LogonUsingID, this.ScreenID));
 	this.onButtonLogonUsing();
 
@@ -7632,6 +7669,10 @@ function LogonScreen(/*object*/ callerCallback)
 
 		this.Callback = LogonScreen.prototype.afterSignon;
 		oSession.signon(this, userID, userPassword, rememberPassword);
+	}
+	else if(controlID == LogonScreen.ForgotPasswordID)
+	{
+		document.location = "../member/mem_reset_email.jsp";
 	}
 	else if(controlID == LogonScreen.LogonUsingID)
 	{
@@ -7853,6 +7894,10 @@ function SetupScreen(/*object*/ callerCallback)
 			this.doSetupSignon();
 			return;
 		}
+		else if(controlID == HaveLogonIDControl.ForgotPasswordID)
+		{
+			document.location = "../member/mem_reset_email.jsp";
+		}
 		else if(controlID == HaveLogonIDControl.LogonUsingID)
 		{
 			this.doSwitchLogonUsing();
@@ -8027,6 +8072,7 @@ HaveLogonIDControl.UserPasswordID = "Setup001_HaveLogonIDControl_UserPassword";
 HaveLogonIDControl.UserPasswordMsgID = "Setup001_HaveLogonIDControl_UserPassword_Msg";
 HaveLogonIDControl.RememberPasswordID = "Setup001_HaveLogonIDControl_RememberPassword";
 HaveLogonIDControl.ContinueID = "Setup001_HaveLogonIDControl_Continue";
+HaveLogonIDControl.ForgotPasswordID = "Setup001_HaveLogonIDControl_ForgotPassword";
 HaveLogonIDControl.LogonUsingID = "Setup001_HaveLogonIDControl_LogonUsing";
 
 /******************************************************************************/
@@ -8055,6 +8101,7 @@ HaveLogonIDControl.newInstance = function()
 
 	containerControl.newControl(new ButtonControl(HaveLogonIDControl.ContinueID, SetupScreen.ScreenID));
 
+	containerControl.newControl(new ButtonControl(HaveLogonIDControl.ForgotPasswordID, SetupScreen.ScreenID));
 	containerControl.newControl(new ButtonControl(HaveLogonIDControl.LogonUsingID, SetupScreen.ScreenID));
 	containerControl.onButtonLogonUsing();
 
@@ -9853,6 +9900,7 @@ function PreferencesScreen()
 	this.ScreenID = PreferencesScreen.ScreenID;
 	this.ScreenTitle = "prefs";
 	this.ScreenTitleImage = "titlePrefs.gif";
+	this.fNeedReload = false;
 
 	this.fContainerControl = new ContainerControl(this.ScreenID, 122, 182);
 
@@ -9873,7 +9921,10 @@ function PreferencesScreen()
 {
 	if((key == ek_Back) || (key == ek_Escape))
 	{
-		document.location.reload();
+		if (this.fNeedReload)
+			document.location.reload();
+		else
+			MainApp.getThe().closePopup();
 		return;
 	}
 
@@ -9886,6 +9937,7 @@ function PreferencesScreen()
 {
 	if(controlID == PreferencesScreen.AccessAdultButtonID)
 	{
+		this.fNeedReload = true;	//TODO move logic to set only if user enters correct pin.
 		AskAdultPINScreen.newInstance();
 		return;
 	}
