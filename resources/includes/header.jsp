@@ -10,7 +10,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 				<tr>
 					<td id="HeaderLogon" class="buttonSmallCtr_normal" style="display:none"><a class="buttonSmallCtr_normal"
 						onclick="document.location='../member/mem_logon.jsp';">Logon</a></td>
-					<td><a id="HeaderUser" class="buttonSmallNoBackCtr"
+					<td><a id="HeaderUser" class="buttonSmallUnderlineCtr" title="Account Overview"
 						onclick="document.location='../member/mem_overview.jsp';" style="display:none"/></td>
 					<td class="textSmallLbl">&nbsp;|&nbsp;</td>
 					<td id="HeaderRegister" class="buttonSmallCtr_normal" style="display:none"><a class="buttonSmallCtr_normal"
