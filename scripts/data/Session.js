@@ -40,6 +40,7 @@ function Session()
 
 	this.fNetworkURL = "http://" + location.hostname + "/inetvod/playerapi/xml";
 	this.fCryptoAPIURL = "http://" + location.hostname + "/inetvod/cryptoapi";
+	this.fExtraAPIURL = "http://" + location.hostname + "/inetvod/extraapi";
 	this.CanPingServer = false;
 
 	this.fPlayer = null;
@@ -89,6 +90,13 @@ function Session()
 /*string*/ Session.prototype.getCryptoAPIURL = function()
 {
 	return this.fCryptoAPIURL;
+}
+
+/******************************************************************************/
+
+/*string*/ Session.prototype.getExtraAPIURL = function()
+{
+	return this.fExtraAPIURL;
 }
 
 /******************************************************************************/

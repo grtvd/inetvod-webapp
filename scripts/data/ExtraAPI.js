@@ -1,29 +1,35 @@
-/* CryptoAPI.js */
+/* ExtraAPI.js */
 
 /******************************************************************************/
 /******************************************************************************/
 
-CryptoAPI.newInstance = function()
+ExtraAPI.SUCCESS_RESULT = "OK";
+ExtraAPI.FAILED_RESULT = "FAIL";
+
+ExtraAPI.ADD_CONTENT_DUPLICATE_RESULT = "DUP";
+
+/******************************************************************************/
+
+ExtraAPI.newInstance = function()
 {
-	return new CryptoAPI();
+	return new ExtraAPI();
 }
 
 /******************************************************************************/
 
-function CryptoAPI()
+function ExtraAPI()
 {
 }
 
 /******************************************************************************/
 
-/*string*/ CryptoAPI.prototype.digest = function(/*string*/ data)
+/*string*/ ExtraAPI.prototype.addContent = function(/*string*/ url)
 {
 	var session = MainApp.getThe().getSession();
 	var httpRequestor = HTTPRequestor.newInstance();
 
-	return httpRequestor.sendGet(session.getCryptoAPIURL() + "/digest/" + data);
+	return httpRequestor.sendRequest(session.getExtraAPIURL() + "/ac", url);
 }
 
 /******************************************************************************/
 /******************************************************************************/
-

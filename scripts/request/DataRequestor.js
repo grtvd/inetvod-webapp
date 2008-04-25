@@ -66,6 +66,7 @@ function DataRequestor(/*string*/ sessionData)
 
 /*Streamable*/ DataRequestor.prototype.sendRequest = function(/*Streamable*/ payload)
 {
+	var session = MainApp.getThe().getSession();
 	var httpRequestor = HTTPRequestor.newInstance();
 
 	// build the request header
@@ -75,7 +76,7 @@ function DataRequestor(/*string*/ sessionData)
 	var dataWriter = new XmlDataWriter();
 	dataWriter.writeObject("INetVODPlayerRqst", request);
 
-	var response = httpRequestor.sendRequest(dataWriter.toString());
+	var response = httpRequestor.sendRequest(session.getNetworkURL(), dataWriter.toString());
 	var dataReader = new XmlDataReader(response);
 
 	var requestable = dataReader.readObject("INetVODPlayerResp", INetVODPlayerResp);
@@ -89,6 +90,7 @@ function DataRequestor(/*string*/ sessionData)
 {
 	try
 	{
+		var session = MainApp.getThe().getSession();
 		var httpRequestor = HTTPRequestor.newInstance();
 
 		// build the request header
@@ -100,7 +102,7 @@ function DataRequestor(/*string*/ sessionData)
 
 		this.Callback = DataRequestor.prototype.parseResponse;
 		this.CallerCallback = callbackObj;
-		httpRequestor.sendRequestAsync(dataWriter.toString(), this);
+		httpRequestor.sendRequestAsync(session.getNetworkURL(), dataWriter.toString(), this);
 	}
 	catch(e)
 	{

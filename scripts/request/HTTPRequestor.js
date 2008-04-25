@@ -16,12 +16,12 @@ function HTTPRequestor()
 
 /******************************************************************************/
 
-/*string*/ HTTPRequestor.prototype.sendRequest = function(/*string*/ request)
+/*string*/ HTTPRequestor.prototype.sendRequest = function(/*string*/ url,
+	/*string*/ request)
 {
-	var session = MainApp.getThe().getSession();
 
 	var xmlHttp = createXMLHttpRequest();
-	xmlHttp.open("POST", session.getNetworkURL(), false);
+	xmlHttp.open("POST", url, false);
 	xmlHttp.setRequestHeader("Content-Type", "text/xml;charset=UTF-8");
 	xmlHttp.send(request);
 
@@ -30,8 +30,8 @@ function HTTPRequestor()
 
 /******************************************************************************/
 
-/*void*/ HTTPRequestor.prototype.sendRequestAsync = function(/*string*/ request,
-	/*object*/ callbackObj)
+/*void*/ HTTPRequestor.prototype.sendRequestAsync = function(/*string*/ url,
+	/*string*/ request, /*object*/ callbackObj)
 {
 	try
 	{
@@ -39,11 +39,11 @@ function HTTPRequestor()
 
 		var xmlHttp = createXMLHttpRequest();
 		xmlHttp.onreadystatechange = function() { HTTPRequestor_checkRequest(xmlHttp, callbackObj); };
-		xmlHttp.open("POST", session.getNetworkURL(), true);
+		xmlHttp.open("POST", url, true);
 		xmlHttp.setRequestHeader("Content-Type", "text/xml;charset=UTF-8");
 		xmlHttp.send(request);
 	}
-	catch(e)
+	catch(ignore)
 	{
 		HTTPRequestor_callback(callbackObj, null);
 	}
@@ -64,7 +64,7 @@ function HTTPRequestor()
 				return;
 			}
 		}
-		catch(e)
+		catch(ignore)
 		{
 		}
 
@@ -82,7 +82,7 @@ function HTTPRequestor()
 		{
 			callbackObj.Callback(data);
 		}
-		catch(e)
+		catch(ignore)
 		{
 		}
 	}
@@ -90,12 +90,10 @@ function HTTPRequestor()
 
 /******************************************************************************/
 
-/*string*/ HTTPRequestor.prototype.sendGet = function(/*string*/ request)
+/*string*/ HTTPRequestor.prototype.sendGet = function(/*string*/ url)
 {
-	var session = MainApp.getThe().getSession();
-
 	var xmlHttp = createXMLHttpRequest();
-	xmlHttp.open("GET", session.getCryptoAPIURL() + request, false);
+	xmlHttp.open("GET", url, false);
 	xmlHttp.send(null);
 
 	return xmlHttp.responseText;
