@@ -37,6 +37,7 @@
 				<file name="Session.js" />
 				<file name="SessionStore.js" />
 				<file name="CryptoAPI.js" />
+				<file name="ExtraAPI.js" />
 				<file name="DataID.js" />
 				<file name="Player.js" />
 				<file name="MemberState.js" />
