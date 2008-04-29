@@ -6,24 +6,19 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 				</div>
 			</td>
 
-			<td align="center" valign="top" width="180">
+			<td align="center" valign="top" width="160">
 
-
-				<table width="160" height="400" class="ads">
-					<tr>
-						<td>Ads by Google</td>
-					</tr>
-					<tr>
-						<td height="7">&nbsp;</td>
-					</tr>
-					<tr>
-						<td nowrap="nowrap">Coming Soon</td>
-					</tr>
-					<tr>
-						<td height="99%">&nbsp;</td>
-					</tr>
-				</table>
-
+<script type="text/javascript"><!--
+google_ad_client = "pub-2930473990632766";
+/* 120x600, created 4/25/08 */
+google_ad_slot = "3462357939";
+google_ad_width = 120;
+google_ad_height = 600;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
 
 			</td>
 		</tr>
