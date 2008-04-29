@@ -211,6 +211,33 @@ function testStrIsAllNumbers(str)
 }
 
 /******************************************************************************/
+
+function ltrim(str)
+{
+	if(!isString(str))
+		return str;
+
+	return str.replace( /^\s*/, "" )
+}
+
+/******************************************************************************/
+
+function rtrim(str)
+{
+	if(!isString(str))
+		return str;
+
+	return str.replace( /\s*$/, "" );
+}
+
+/******************************************************************************/
+
+function trim(str)
+{
+	return rtrim(ltrim(str));
+}
+
+/******************************************************************************/
 /******************************************************************************/
 
 function getClassNameBase(curr)
@@ -4269,6 +4296,7 @@ function Session()
 
 	this.fNetworkURL = "http://" + location.hostname + "/inetvod/playerapi/xml";
 	this.fCryptoAPIURL = "http://" + location.hostname + "/inetvod/cryptoapi";
+	this.fExtraAPIURL = "http://" + location.hostname + "/inetvod/extraapi";
 	this.CanPingServer = false;
 
 	this.fPlayer = null;
@@ -4318,6 +4346,13 @@ function Session()
 /*string*/ Session.prototype.getCryptoAPIURL = function()
 {
 	return this.fCryptoAPIURL;
+}
+
+/******************************************************************************/
+
+/*string*/ Session.prototype.getExtraAPIURL = function()
+{
+	return this.fExtraAPIURL;
 }
 
 /******************************************************************************/
@@ -5292,14 +5327,50 @@ function CryptoAPI()
 
 /*string*/ CryptoAPI.prototype.digest = function(/*string*/ data)
 {
+	var session = MainApp.getThe().getSession();
 	var httpRequestor = HTTPRequestor.newInstance();
 
-	return httpRequestor.sendGet("/digest/" + data);
+	return httpRequestor.sendGet(session.getCryptoAPIURL() + "/digest/" + data);
 }
 
 /******************************************************************************/
 /******************************************************************************/
 
+/* ExtraAPI.js */
+
+/******************************************************************************/
+/******************************************************************************/
+
+ExtraAPI.SUCCESS_RESULT = "OK";
+ExtraAPI.FAILED_RESULT = "FAIL";
+
+ExtraAPI.ADD_CONTENT_DUPLICATE_RESULT = "DUP";
+
+/******************************************************************************/
+
+ExtraAPI.newInstance = function()
+{
+	return new ExtraAPI();
+}
+
+/******************************************************************************/
+
+function ExtraAPI()
+{
+}
+
+/******************************************************************************/
+
+/*string*/ ExtraAPI.prototype.addContent = function(/*string*/ url)
+{
+	var session = MainApp.getThe().getSession();
+	var httpRequestor = HTTPRequestor.newInstance();
+
+	return httpRequestor.sendRequest(session.getExtraAPIURL() + "/ac", url);
+}
+
+/******************************************************************************/
+/******************************************************************************/
 /* DataID.js */
 
 /******************************************************************************/
@@ -6060,12 +6131,12 @@ function HTTPRequestor()
 
 /******************************************************************************/
 
-/*string*/ HTTPRequestor.prototype.sendRequest = function(/*string*/ request)
+/*string*/ HTTPRequestor.prototype.sendRequest = function(/*string*/ url,
+	/*string*/ request)
 {
-	var session = MainApp.getThe().getSession();
 
 	var xmlHttp = createXMLHttpRequest();
-	xmlHttp.open("POST", session.getNetworkURL(), false);
+	xmlHttp.open("POST", url, false);
 	xmlHttp.setRequestHeader("Content-Type", "text/xml;charset=UTF-8");
 	xmlHttp.send(request);
 
@@ -6074,8 +6145,8 @@ function HTTPRequestor()
 
 /******************************************************************************/
 
-/*void*/ HTTPRequestor.prototype.sendRequestAsync = function(/*string*/ request,
-	/*object*/ callbackObj)
+/*void*/ HTTPRequestor.prototype.sendRequestAsync = function(/*string*/ url,
+	/*string*/ request, /*object*/ callbackObj)
 {
 	try
 	{
@@ -6083,11 +6154,11 @@ function HTTPRequestor()
 
 		var xmlHttp = createXMLHttpRequest();
 		xmlHttp.onreadystatechange = function() { HTTPRequestor_checkRequest(xmlHttp, callbackObj); };
-		xmlHttp.open("POST", session.getNetworkURL(), true);
+		xmlHttp.open("POST", url, true);
 		xmlHttp.setRequestHeader("Content-Type", "text/xml;charset=UTF-8");
 		xmlHttp.send(request);
 	}
-	catch(e)
+	catch(ignore)
 	{
 		HTTPRequestor_callback(callbackObj, null);
 	}
@@ -6108,7 +6179,7 @@ function HTTPRequestor()
 				return;
 			}
 		}
-		catch(e)
+		catch(ignore)
 		{
 		}
 
@@ -6126,7 +6197,7 @@ function HTTPRequestor()
 		{
 			callbackObj.Callback(data);
 		}
-		catch(e)
+		catch(ignore)
 		{
 		}
 	}
@@ -6134,12 +6205,10 @@ function HTTPRequestor()
 
 /******************************************************************************/
 
-/*string*/ HTTPRequestor.prototype.sendGet = function(/*string*/ request)
+/*string*/ HTTPRequestor.prototype.sendGet = function(/*string*/ url)
 {
-	var session = MainApp.getThe().getSession();
-
 	var xmlHttp = createXMLHttpRequest();
-	xmlHttp.open("GET", session.getCryptoAPIURL() + request, false);
+	xmlHttp.open("GET", url, false);
 	xmlHttp.send(null);
 
 	return xmlHttp.responseText;
@@ -6215,6 +6284,7 @@ function DataRequestor(/*string*/ sessionData)
 
 /*Streamable*/ DataRequestor.prototype.sendRequest = function(/*Streamable*/ payload)
 {
+	var session = MainApp.getThe().getSession();
 	var httpRequestor = HTTPRequestor.newInstance();
 
 	// build the request header
@@ -6224,7 +6294,7 @@ function DataRequestor(/*string*/ sessionData)
 	var dataWriter = new XmlDataWriter();
 	dataWriter.writeObject("INetVODPlayerRqst", request);
 
-	var response = httpRequestor.sendRequest(dataWriter.toString());
+	var response = httpRequestor.sendRequest(session.getNetworkURL(), dataWriter.toString());
 	var dataReader = new XmlDataReader(response);
 
 	var requestable = dataReader.readObject("INetVODPlayerResp", INetVODPlayerResp);
@@ -6238,6 +6308,7 @@ function DataRequestor(/*string*/ sessionData)
 {
 	try
 	{
+		var session = MainApp.getThe().getSession();
 		var httpRequestor = HTTPRequestor.newInstance();
 
 		// build the request header
@@ -6249,7 +6320,7 @@ function DataRequestor(/*string*/ sessionData)
 
 		this.Callback = DataRequestor.prototype.parseResponse;
 		this.CallerCallback = callbackObj;
-		httpRequestor.sendRequestAsync(dataWriter.toString(), this);
+		httpRequestor.sendRequestAsync(session.getNetworkURL(), dataWriter.toString(), this);
 	}
 	catch(e)
 	{
