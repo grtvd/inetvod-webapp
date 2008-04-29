@@ -98,13 +98,14 @@
 				<p>You want more content! So do we but we need your help. Here is what you can do:</p>
 
 				<ul>
-					<li>Get all your friends to register for Storm.  We have talked to many content providers and
+					<li>Get all your friends to register for Storm. The more registered users we have, the more
+						premium content we can get. We have talked to many online video sites and
 						they're all looking at our install base.<br/><br/></li>
 
-					<li>Tell your favorite content providers to support Storm. Pay-per-view, subscription, and of course
+					<li>Tell your favorite online video sites to support Storm. Pay-per-view, subscription, and of course
 						free content is supported by Storm.<br/><br/></li>
 
-					<li>Add your favorite video/audio RSS podcast to Storm. We're adding podcasts as fast as possible,
+					<li>Add your favorite video/audio RSS podcasts to Storm. We're adding podcasts as fast as possible,
 						but you can help by adding your favorite podcasts here.
 
 						<p>Enter RSS URL:<br/>

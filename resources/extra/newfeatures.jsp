@@ -49,7 +49,16 @@
 
 				<h2>New Features</h2>
 
-				<p>Coming Soon!</p>
+				<h3>Coming Soon</h3>
+
+				<ul>
+					<li>Storm Download Service - a background service that constantly monitors your 'My Shows' list,
+					downloading shows as soon as they are added.  Downloaded shows allow for local playback the native
+					media players.<br><br></li>
+
+					<li>Storm for Windows Media Center - a plug-in module allowing access to all of the features of
+						Storm using a remote-control interface.</li>
+				</ul>
 
 			</td>
 		</tr>
