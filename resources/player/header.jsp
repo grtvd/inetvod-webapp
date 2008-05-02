@@ -79,8 +79,8 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 				</table>
 
 			</td>
-			<td valign="top" class="mainbody">
-				<noscript class="error">
-					This site requires JavaScript. If your browser supports JavaScript, please enable and try again...
-				</noscript>
-				<div id="MainBodyDiv" style="overflow:auto;">
+			<td valign="top">
+				<div id="MainBodyDiv" class="mainbody" style="height:600px; overflow:auto;">
+					<noscript class="error">
+						This site requires JavaScript. If your browser supports JavaScript, please enable and try again...
+					</noscript>

@@ -4,6 +4,10 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 				</div>
+
+				<table cellpadding="0" cellspacing="0" width="100%"><tr><td align="center" class="textTinyCtr"
+					>Copyright © 2008 iNetVOD | All Rights Reserved | <a href="../terms" class="linkTinyNoBkCtr">Terms</a> |
+					<a href="../privacy" class="linkTinyNoBkCtr">Privacy</a></td></tr></table>
 			</td>
 
 			<td align="center" valign="top" width="160">
@@ -23,10 +27,6 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 			</td>
 		</tr>
 	</table>
-
-	<table cellpadding="0" cellspacing="0" width="100%"><tr><td align="center" class="textTinyCtr"
-		>Copyright © 2008 iNetVOD | All Rights Reserved | <a href="../terms" class="linkTinyNoBkCtr">Terms</a> |
-		<a href="../privacy" class="linkTinyNoBkCtr">Privacy</a></td></tr></table>
 
 <jsp:include flush="true" page="screens.html"/>
 
