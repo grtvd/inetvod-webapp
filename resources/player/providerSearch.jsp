@@ -41,9 +41,9 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 				for(Provider provider : providerList)
 				{
 				%>
-					<tr class="listRow" onclick="document.location='<%=SearchResultsView.buildPath(provider.getProviderID(), null)%>';"
+					<tr class="listRow" onclick="document.location='<%=SearchResultsView.buildPath(request, provider.getProviderID(), null)%>';"
 						><td class="listItem"><a class="listItem"
-							onclick="document.location='<%=SearchResultsView.buildPath(provider.getProviderID(), null)%>';  stopEventPropagation(event);"
+							onclick="document.location='<%=SearchResultsView.buildPath(request, provider.getProviderID(), null)%>';  stopEventPropagation(event);"
 							><%=provider.getName()%></a></td
 					></tr>
 				<%

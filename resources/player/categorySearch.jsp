@@ -40,9 +40,9 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 				for(Category category : categoryList)
 				{
 				%>
-					<tr class="listRow" onclick="document.location='<%=SearchResultsView.buildPath(null, category.getCategoryID())%>';"
+					<tr class="listRow" onclick="document.location='<%=SearchResultsView.buildPath(request, null, category.getCategoryID())%>';"
 						><td class="listItem"><a class="listItem"
-							onclick="document.location='<%=SearchResultsView.buildPath(null, category.getCategoryID())%>'; stopEventPropagation(event);"
+							onclick="document.location='<%=SearchResultsView.buildPath(request, null, category.getCategoryID())%>'; stopEventPropagation(event);"
 							><%=category.getName()%></a></td
 					></tr>
 				<%

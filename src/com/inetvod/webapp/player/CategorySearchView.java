@@ -4,10 +4,12 @@
  */
 package com.inetvod.webapp.player;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class CategorySearchView
 {
 	/* Constants */
-	private static final String PAGE = "categorySearch.jsp";
+	private static final String PAGE = "/player/categorySearch.jsp";
 
 	/* Construction */
 	public void load(Session session)
@@ -20,6 +22,13 @@ public class CategorySearchView
 	}
 
 	/* Implementation */
+	public static String buildPath(HttpServletRequest httpServletRequest)
+	{
+		if (httpServletRequest != null)
+			return httpServletRequest.getContextPath() + buildPath();
+		return buildPath();
+	}
+
 	public static String buildPath()
 	{
 		return PAGE;

@@ -44,14 +44,17 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 						</tr></table></td></tr>
 					<tr><td height="27" align="left" valign="bottom"><table border="0" cellpadding="0" cellspacing="0"><tr>
 						<td class="textSmallLbl">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-						<td class="buttonSmallCtr_normal"><a href="../extra/addcontent.jsp"
-							class="buttonSmallCtr_normal">Add Content</a></td>
+						<td id="AddContent_Row" class="buttonSmallCtr_normal" onclick="onMenuRowClick(event, this);"><a
+							id="AddContent_Link" class="buttonSmallCtr_normal" href="../extra/addcontent.jsp"
+							onclick="onMenuClick(event, this); return true;">Add Content</a></td>
 						<td class="textSmallLbl">&nbsp;|&nbsp;</td>
-						<td class="buttonSmallCtr_normal"><a href="../extra/newfeatures.jsp"
-							class="buttonSmallCtr_normal">New Features</a></td>
+						<td id="NewFeatures_Row" class="buttonSmallCtr_normal" onclick="onMenuRowClick(event, this);"><a
+							id="NewFeatures_Link" class="buttonSmallCtr_normal" href="../extra/newfeatures.jsp"
+							onclick="onMenuClick(event, this); return true;">New Features</a></td>
 						<td class="textSmallLbl">&nbsp;|&nbsp;</td>
-						<td class="buttonSmallCtr_normal"><a href="../extra/developers.jsp"
-							class="buttonSmallCtr_normal">Developers</a></td>
+						<td id="Developers_Row" class="buttonSmallCtr_normal" onclick="onMenuRowClick(event, this);"><a
+							id="Developers_Link" class="buttonSmallCtr_normal" href="../extra/developers.jsp"
+							onclick="onMenuClick(event, this); return true;">Developers</a></td>
 						</tr></table></td></tr>
 				</table>
 			</td>
@@ -64,17 +67,29 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 			<td align="left" valign="top" width="170">
 				<table cellpadding="0" cellspacing="0" border="0" width="100%">
 					<tbody>
-						<tr><td id="NowPlaying_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a id="NowPlaying_Link" class="buttonCtr_normal" href="<%=NowPlayingView.buildPath()%>" onclick="onMenuClick(event, this); return true;">My Shows</a></td></tr>
+						<tr><td id="NowPlaying_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a
+							id="NowPlaying_Link" class="buttonCtr_normal" href="<%=NowPlayingView.buildPath(request)%>"
+							onclick="onMenuClick(event, this); return true;">My Shows</a></td></tr>
 						<tr><td height="2"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
-						<tr><td id="Featured_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a id="Featured_Link" class="buttonCtr_normal" href="<%=SearchResultsView.buildPath(null, CategoryID.Featured)%>" onclick="onMenuClick(event, this); return true;">Featured</a></td></tr>
+						<tr><td id="Featured_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a
+							id="Featured_Link" class="buttonCtr_normal" href="<%=SearchResultsView.buildPath(request, null, CategoryID.Featured)%>"
+							onclick="onMenuClick(event, this); return true;">Featured</a></td></tr>
 						<tr><td height="2"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
-						<tr><td id="SearchByCategory_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a id="SearchByCategory_Link" class="buttonCtr_normal" href="<%=CategorySearchView.buildPath()%>" onclick="onMenuClick(event, this); return true;">Search By Category</a></td></tr>
+						<tr><td id="SearchByCategory_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a
+							id="SearchByCategory_Link" class="buttonCtr_normal" href="<%=CategorySearchView.buildPath(request)%>"
+							onclick="onMenuClick(event, this); return true;">Search By Category</a></td></tr>
 						<tr><td height="2"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
-						<tr><td id="SearchByProvider_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a id="SearchByProvider_Link" class="buttonCtr_normal" href="<%=ProviderSearchView.buildPath()%>" onclick="onMenuClick(event, this); return true;">Search By Provider</a></td></tr>
+						<tr><td id="SearchByProvider_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a
+							id="SearchByProvider_Link" class="buttonCtr_normal" href="<%=ProviderSearchView.buildPath(request)%>"
+							onclick="onMenuClick(event, this); return true;">Search By Provider</a></td></tr>
 						<tr><td height="2"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
-						<tr><td id="SearchByName_Row" class="buttonCtr_normal" onclick="onMenuRowClickScript(event, this, 'StartupSearch();');"><a id="SearchByName_Link" class="buttonCtr_normal" href="#" onclick="onMenuClickScript(event, this, 'StartupSearch();'); return true;">Search By Title</a></td></tr>
+						<tr><td id="SearchByName_Row" class="buttonCtr_normal" onclick="onMenuRowClickScript(event, this, 'StartupSearch();');"><a
+							id="SearchByName_Link" class="buttonCtr_normal" href="#"
+							onclick="onMenuClickScript(event, this, 'StartupSearch();'); return true;">Search By Title</a></td></tr>
 						<tr><td height="2"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
-						<tr><td id="Preferences_Row" class="buttonCtr_normal" onclick="onMenuRowClickScript(event, this, 'StartupPreferences();');"><a id="Preferences_Link" class="buttonCtr_normal" href="#" onclick="onMenuClickScript(event, this, 'StartupPreferences();'); return true;">Preferences</a></td></tr>
+						<tr><td id="Preferences_Row" class="buttonCtr_normal" onclick="onMenuRowClickScript(event, this, 'StartupPreferences();');"><a
+							id="Preferences_Link" class="buttonCtr_normal" href="#"
+							onclick="onMenuClickScript(event, this, 'StartupPreferences();'); return true;">Preferences</a></td></tr>
 					</tbody>
 				</table>
 

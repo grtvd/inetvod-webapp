@@ -16,7 +16,7 @@ import com.inetvod.webapp.player.SearchResultsView;
 public class PageMenuMap
 {
 	/* Constants */
-	private static final String PAGE_BASE = "/player/";
+	private static final String PAGE_EXTRA_BASE = "/extra/";
 
 	/* Fields */
 	private static HashMap<String, String> fPageMenuMap;
@@ -24,10 +24,13 @@ public class PageMenuMap
 	static
 	{
 		fPageMenuMap = new HashMap<String,String>();
-		fPageMenuMap.put(String.format("%s%s", PAGE_BASE, NowPlayingView.buildPath()), "NowPlaying");
-		fPageMenuMap.put(String.format("%s%s", PAGE_BASE, SearchResultsView.buildPath(null, CategoryID.Featured)), "Featured");
-		fPageMenuMap.put(String.format("%s%s", PAGE_BASE, CategorySearchView.buildPath()), "SearchByCategory");
-		fPageMenuMap.put(String.format("%s%s", PAGE_BASE, ProviderSearchView.buildPath()), "SearchByProvider");
+		fPageMenuMap.put(NowPlayingView.buildPath(), "NowPlaying");
+		fPageMenuMap.put(SearchResultsView.buildPath(null, CategoryID.Featured), "Featured");
+		fPageMenuMap.put(CategorySearchView.buildPath(), "SearchByCategory");
+		fPageMenuMap.put(ProviderSearchView.buildPath(), "SearchByProvider");
+		fPageMenuMap.put(String.format("%s%s", PAGE_EXTRA_BASE, "addcontent.jsp"), "AddContent");
+		fPageMenuMap.put(String.format("%s%s", PAGE_EXTRA_BASE, "newfeatures.jsp"), "NewFeatures");
+		fPageMenuMap.put(String.format("%s%s", PAGE_EXTRA_BASE, "developers.jsp"), "Developers");
 	}
 
 	/* Implementation */

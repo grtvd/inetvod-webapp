@@ -86,7 +86,7 @@ function SearchScreen()
 			return;
 		}
 
-		var url = "searchResults.jsp?" + SearchScreen.SEARCH_PARAM + "=" + encodeURIComponent(this.fSearchData.Search);
+		var url = "../player/searchResults.jsp?" + SearchScreen.SEARCH_PARAM + "=" + encodeURIComponent(this.fSearchData.Search);
 		if(this.fSearchData.ProviderID != Provider.AllProvidersID)
 			url += "&" + SearchScreen.PROVIDERID_PARAM + "=" + this.fSearchData.ProviderID;
 		if(this.fSearchData.CategoryID != Category.AllCategoriesID)

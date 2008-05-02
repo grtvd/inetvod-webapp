@@ -4,12 +4,14 @@
  */
 package com.inetvod.webapp.player;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.inetvod.playerClient.rqdata.RentedShowSearchList;
 
 public class NowPlayingView
 {
 	/* Constants */
-	private static final String PAGE = "nowPlaying.jsp";
+	private static final String PAGE = "/player/nowPlaying.jsp";
 
 	/* Fields */
 	private RentedShowSearchList fRentedShowSearchList;
@@ -30,6 +32,13 @@ public class NowPlayingView
 	}
 
 	/* Implementation */
+	public static String buildPath(HttpServletRequest httpServletRequest)
+	{
+		if (httpServletRequest != null)
+			return httpServletRequest.getContextPath() + buildPath();
+		return buildPath();
+	}
+
 	public static String buildPath()
 	{
 		return PAGE;

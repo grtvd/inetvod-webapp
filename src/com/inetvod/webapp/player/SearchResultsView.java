@@ -4,6 +4,8 @@
  */
 package com.inetvod.webapp.player;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.inetvod.common.core.StrUtil;
 import com.inetvod.common.data.CategoryID;
 import com.inetvod.common.data.ProviderID;
@@ -13,7 +15,7 @@ import com.inetvod.playerClient.rqdata.ShowSearchList;
 public class SearchResultsView
 {
 	/* Constants */
-	private static final String PAGE = "searchResults.jsp";
+	private static final String PAGE = "/player/searchResults.jsp";
 	private static final String SEARCH_PARAM = "search";
 	private static final String PROVIDERID_PARAM = "provderid";
 	private static final String CATEGORYID_PARAM = "categoryid";
@@ -59,6 +61,13 @@ public class SearchResultsView
 	}
 
 	/* Implementation */
+	public static String buildPath(HttpServletRequest httpServletRequest, ProviderID providerID, CategoryID categoryID)
+	{
+		if (httpServletRequest != null)
+			return httpServletRequest.getContextPath() + buildPath(providerID, categoryID);
+		return buildPath(providerID, categoryID);
+	}
+
 	public static String buildPath(ProviderID providerID, CategoryID categoryID)
 	{
 		if((providerID == null) && (categoryID == null))
