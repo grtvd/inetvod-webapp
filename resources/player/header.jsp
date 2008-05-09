@@ -73,15 +73,15 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 						<tr><td height="2"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
 						<tr><td id="Featured_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a
 							id="Featured_Link" class="buttonCtr_normal" href="<%=SearchResultsView.buildPath(request, null, CategoryID.Featured)%>"
-							onclick="onMenuClick(event, this); return true;">Featured</a></td></tr>
+							onclick="onMenuClick(event, this); return true;">New Releases</a></td></tr>
 						<tr><td height="2"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
 						<tr><td id="SearchByCategory_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a
 							id="SearchByCategory_Link" class="buttonCtr_normal" href="<%=CategorySearchView.buildPath(request)%>"
-							onclick="onMenuClick(event, this); return true;">Search By Category</a></td></tr>
+							onclick="onMenuClick(event, this); return true;"><span style="white-space:nowrap;">List By Category</span></a></td></tr>
 						<tr><td height="2"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
 						<tr><td id="SearchByProvider_Row" class="buttonCtr_normal" onclick="onMenuRowClick(event, this);"><a
 							id="SearchByProvider_Link" class="buttonCtr_normal" href="<%=ProviderSearchView.buildPath(request)%>"
-							onclick="onMenuClick(event, this); return true;">Search By Provider</a></td></tr>
+							onclick="onMenuClick(event, this); return true;">List By Provider</a></td></tr>
 						<tr><td height="2"><img src="../images/spacer.gif" border=0 width=1 height=1 alt=""/></td></tr>
 						<tr><td id="SearchByName_Row" class="buttonCtr_normal" onclick="onMenuRowClickScript(event, this, 'StartupSearch();');"><a
 							id="SearchByName_Link" class="buttonCtr_normal" href="#"
