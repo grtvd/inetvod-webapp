@@ -54,7 +54,7 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 	if(testStrHasLen(rentedShow.PictureURL))
 		oControl.setSource(rentedShow.PictureURL);
 	else
-		oControl.setSource("images/no_picture.gif");
+		oControl.setSource("images/no_picture_80.gif");
 	this.newControl(oControl);
 
 	this.newControl(new ButtonControl(RentedShowDetailScreen.WatchNowID, this.ScreenID));

@@ -53,7 +53,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 									<tr
 										><td rowspan="2" width="48" height="48" style="padding-left:5px;"><img
 											src="<%=showSearch.getPictureURL() != null ? showSearch.getPictureURL()
-											: "images/no_picture.gif"%>" border=0 width=48 alt=""/></td
+											: "images/no_picture_48.gif"%>" border=0 width=48 alt=""/></td
 										><td class="listItem"><a class="listItem"
 											onclick="StartupSearchDetail('<%=showSearch.getShowID()%>'); stopEventPropagation(event);"
 											><%=showSearch.getName()%></a></td

@@ -52,7 +52,7 @@ function SearchDetailScreen(/*RentedShow*/ showDetail)
 	if(testStrHasLen(showDetail.PictureURL))
 		oControl.setSource(showDetail.PictureURL);
 	else
-		oControl.setSource("images/no_picture.gif");
+		oControl.setSource("images/no_picture_80.gif");
 	this.newControl(oControl);
 
 	oControl = new ButtonControl(SearchDetailScreen.RentNowID, this.ScreenID);
