@@ -38,9 +38,9 @@ function Session()
 	this.fDownloadServiceMgr = null;
 	this.checkInstall();
 
-	this.fNetworkURL = "http://" + location.hostname + "/inetvod/playerapi/xml";
-	this.fCryptoAPIURL = "http://" + location.hostname + "/inetvod/cryptoapi";
-	this.fExtraAPIURL = "http://" + location.hostname + "/inetvod/extraapi";
+	this.fNetworkURL = location.protocol + "//" + location.hostname + "/inetvod/playerapi/xml";
+	this.fCryptoAPIURL = location.protocol + "//" + location.hostname + "/inetvod/cryptoapi";
+	this.fExtraAPIURL = location.protocol + "//" + location.hostname + "/inetvod/extraapi";
 	this.CanPingServer = false;
 
 	this.fPlayer = null;
