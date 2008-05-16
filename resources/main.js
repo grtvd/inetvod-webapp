@@ -4294,9 +4294,9 @@ function Session()
 	this.fDownloadServiceMgr = null;
 	this.checkInstall();
 
-	this.fNetworkURL = "http://" + location.hostname + "/inetvod/playerapi/xml";
-	this.fCryptoAPIURL = "http://" + location.hostname + "/inetvod/cryptoapi";
-	this.fExtraAPIURL = "http://" + location.hostname + "/inetvod/extraapi";
+	this.fNetworkURL = location.protocol + "//" + location.hostname + "/inetvod/playerapi/xml";
+	this.fCryptoAPIURL = location.protocol + "//" + location.hostname + "/inetvod/cryptoapi";
+	this.fExtraAPIURL = location.protocol + "//" + location.hostname + "/inetvod/extraapi";
 	this.CanPingServer = false;
 
 	this.fPlayer = null;
@@ -8710,7 +8710,7 @@ function SearchDetailScreen(/*RentedShow*/ showDetail)
 	if(testStrHasLen(showDetail.PictureURL))
 		oControl.setSource(showDetail.PictureURL);
 	else
-		oControl.setSource("images/no_picture.gif");
+		oControl.setSource("images/no_picture_80.gif");
 	this.newControl(oControl);
 
 	oControl = new ButtonControl(SearchDetailScreen.RentNowID, this.ScreenID);
@@ -9727,7 +9727,7 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 	if(testStrHasLen(rentedShow.PictureURL))
 		oControl.setSource(rentedShow.PictureURL);
 	else
-		oControl.setSource("images/no_picture.gif");
+		oControl.setSource("images/no_picture_80.gif");
 	this.newControl(oControl);
 
 	this.newControl(new ButtonControl(RentedShowDetailScreen.WatchNowID, this.ScreenID));
