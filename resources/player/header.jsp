@@ -28,7 +28,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 </head>
 <body onload="runOnLoad();">
 	<table border="0" cellpadding="0" cellspacing="0" width="100%">
-		<tr><td width="160" height="54"><img src="../player/images/logo.gif" alt="Storm Media Player"
+		<tr><td width="160" height="54"><img src="../images/logo.gif" alt="Storm Media Player"
 			title="Storm Media Player (tm) - Beta"/></td>
 			<td>
 				<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
