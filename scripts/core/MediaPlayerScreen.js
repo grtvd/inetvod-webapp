@@ -70,6 +70,9 @@ function MediaPlayerScreen(/*string*/ url, /*string*/ useApp)
 	if(Application_WindowsMediaPlayer == this.fUseApp)
 		return "playWindowsMedia.jsp?url=" + this.fURL;
 
+	if(Application_InternetExplorer == this.fUseApp)
+		return this.fURL;
+
 	return null;
 }
 

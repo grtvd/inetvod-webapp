@@ -13,6 +13,7 @@ var Application_InternetExplorer = "ie";
 
 var FileExtensions_QuickTime = [".mov", ".mp4", ".m4v", ".m4a"];
 var FileExtensions_WindowsMedia = [".wmv", ".wma", ".avi", ".asf", ".mp3", ".wav"];
+var FileExtensions_InternetExplorer = [".swf"];
 
 Session.UserIDCookie = "user";
 Session.UserPasswordCookie = "password";
@@ -970,6 +971,9 @@ function Session()
 
 	if(arrayIndexOf(FileExtensions_WindowsMedia, fileExt) >= 0)
 		return Application_WindowsMediaPlayer;
+
+	if(arrayIndexOf(FileExtensions_InternetExplorer, fileExt) >= 0)
+		return Application_InternetExplorer;
 
 	return null;
 }
