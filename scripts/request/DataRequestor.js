@@ -76,8 +76,8 @@ function DataRequestor(/*string*/ sessionData)
 	var dataWriter = new XmlDataWriter();
 	dataWriter.writeObject("INetVODPlayerRqst", request);
 
-	var response = httpRequestor.sendRequest(session.getNetworkURL(), dataWriter.toString());
-	var dataReader = new XmlDataReader(response);
+	var xmlHttp = httpRequestor.sendRequest(session.getNetworkURL(), dataWriter.toString());
+	var dataReader = new XmlDataReader(xmlHttp.responseXML);
 
 	var requestable = dataReader.readObject("INetVODPlayerResp", INetVODPlayerResp);
 	return this.parseHeader(requestable);
@@ -113,13 +113,13 @@ function DataRequestor(/*string*/ sessionData)
 
 /******************************************************************************/
 
-/*void*/ DataRequestor.prototype.parseResponse = function(/*Streamable*/ response)
+/*void*/ DataRequestor.prototype.parseResponse = function(/*XMLHttpRequest*/ xmlHttp)
 {
 	try
 	{
-		if(response)
+		if(xmlHttp)
 		{
-			var dataReader = new XmlDataReader(response);
+			var dataReader = new XmlDataReader(xmlHttp.responseXML);
 			var requestable = dataReader.readObject("INetVODPlayerResp", INetVODPlayerResp);
 			this.callbackCaller(this.parseHeader(requestable));
 		}

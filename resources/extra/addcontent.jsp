@@ -20,23 +20,9 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 			var url = trim(oEdit.value);
 			if(testStrHasLen(url))
 			{
-				var result = ExtraAPI.FAILED_RESULT;
-
-				try
-				{
-					oSubmit.disabled = true;
-					result = ExtraAPI.newInstance().addContent(url);
-				}
-				catch(ignore)
-				{
-				}
-				oSubmit.disabled = false;
-				if (result == ExtraAPI.SUCCESS_RESULT)
-					oMsg.innerHTML = "Thank you, your podcast has been accepted and will be processed in a short while. Please check back later and feel free to add additional podcasts.";
-				else if (result == ExtraAPI.ADD_CONTENT_DUPLICATE_RESULT)
-					oMsg.innerHTML = "Thank you, this podcast has already been added. Please feel free to add additional podcasts.";
-				else
-					oErr.innerHTML = "Sorry, there was an error processing your request. Please check your URL and try again."
+				oSubmit.disabled = true;
+				oMsg.innerHTML = "Processing, please wait...";
+				ExtraAPI.newInstance().addContent(url, onSubmitCallback);
 			}
 			else
 			{
@@ -44,6 +30,26 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 				oEdit.focus();
 			}
 			return false;
+		}
+
+		function onSubmitCallback(xmlHttp)
+		{
+			var oSubmit = document.getElementById("AddContent_Submit");
+			var oEdit = document.getElementById("AddContent_URL");
+			var oMsg = document.getElementById("AddContent_Msg");
+			var oErr = document.getElementById("AddContent_Err");
+
+			oSubmit.disabled = false;
+			oMsg.innerHTML = "";
+			oErr.innerHTML = "";
+
+			var result = xmlHttp.responseText;
+			if (result == ExtraAPI.SUCCESS_RESULT)
+				oMsg.innerHTML = "Thank you, your podcast has been accepted and will be processed in a short while. Please check back later and feel free to add additional podcasts.";
+			else if (result == ExtraAPI.ADD_CONTENT_DUPLICATE_RESULT)
+				oMsg.innerHTML = "Thank you, this podcast has already been added. Please feel free to add additional podcasts.";
+			else
+				oErr.innerHTML = "Sorry, there was an error processing your request. Please check your URL and try again."
 		}
 
 		function resetForNewURL()
@@ -73,7 +79,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 						onkeydown="resetForNewURL()"/>&nbsp;
 					<input id="AddContent_Submit" type="submit" value="Submit" onclick="return onSubmit()"/><br/>
 					<span id="AddContent_Err" class="required"></span>
-					<span id="AddContent_Msg" style="color:blue;"></span>
+					<span id="AddContent_Msg"></span>
 				</p>
 			</li>
 		</ul>

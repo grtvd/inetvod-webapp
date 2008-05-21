@@ -16,7 +16,7 @@ function HTTPRequestor()
 
 /******************************************************************************/
 
-/*string*/ HTTPRequestor.prototype.sendRequest = function(/*string*/ url,
+/*XMLHttpRequest*/ HTTPRequestor.prototype.sendRequest = function(/*string*/ url,
 	/*string*/ request)
 {
 
@@ -25,7 +25,7 @@ function HTTPRequestor()
 	xmlHttp.setRequestHeader("Content-Type", "text/xml;charset=UTF-8");
 	xmlHttp.send(request);
 
-	return xmlHttp.responseText;
+	return xmlHttp;
 }
 
 /******************************************************************************/
@@ -60,7 +60,7 @@ function HTTPRequestor()
 		{
 			if(xmlHttp.status == 200)
 			{
-				HTTPRequestor_callback(callbackObj, xmlHttp.responseXML);
+				HTTPRequestor_callback(callbackObj, xmlHttp);
 				return;
 			}
 		}
@@ -76,27 +76,39 @@ function HTTPRequestor()
 
 /*void*/ function HTTPRequestor_callback(/*object*/ callbackObj, /*object*/ data)
 {
-	if(callbackObj && callbackObj.Callback)
+	if(isObject(callbackObj) && isFunction(callbackObj.Callback))
 	{
 		try
 		{
 			callbackObj.Callback(data);
 		}
-		catch(ignore)
+		catch(e)
 		{
+			showError("HTTPRequestor_callback", e);
+		}
+	}
+	else if(isFunction(callbackObj))
+	{
+		try
+		{
+			callbackObj(data);
+		}
+		catch(e)
+		{
+			showError("HTTPRequestor_callback", e);
 		}
 	}
 }
 
 /******************************************************************************/
 
-/*string*/ HTTPRequestor.prototype.sendGet = function(/*string*/ url)
+/*XMLHttpRequest*/ HTTPRequestor.prototype.sendGet = function(/*string*/ url)
 {
 	var xmlHttp = createXMLHttpRequest();
 	xmlHttp.open("GET", url, false);
 	xmlHttp.send(null);
 
-	return xmlHttp.responseText;
+	return xmlHttp;
 }
 
 /******************************************************************************/

@@ -23,12 +23,12 @@ function ExtraAPI()
 
 /******************************************************************************/
 
-/*string*/ ExtraAPI.prototype.addContent = function(/*string*/ url)
+/*string*/ ExtraAPI.prototype.addContent = function(/*string*/ url, /*object*/ callbackObj)
 {
 	var session = MainApp.getThe().getSession();
 	var httpRequestor = HTTPRequestor.newInstance();
 
-	return httpRequestor.sendRequest(session.getExtraAPIURL() + "/ac", url);
+	httpRequestor.sendRequestAsync(session.getExtraAPIURL() + "/ac", url, callbackObj);
 }
 
 /******************************************************************************/

@@ -21,7 +21,7 @@ function CryptoAPI()
 	var session = MainApp.getThe().getSession();
 	var httpRequestor = HTTPRequestor.newInstance();
 
-	return httpRequestor.sendGet(session.getCryptoAPIURL() + "/digest/" + data);
+	return httpRequestor.sendGet(session.getCryptoAPIURL() + "/digest/" + data).responseText;
 }
 
 /******************************************************************************/
