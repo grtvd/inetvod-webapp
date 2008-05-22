@@ -3660,9 +3660,9 @@ function XmlDataWriter()
 /*string*/ XmlDataWriter.prototype.escapeString = function(str)
 {
 	if(str.indexOf("&") >= 0)
-		str = str.replace("&", "&amp;");
+		str = str.replace(/\&/g, "&amp;");
 	if(str.indexOf("<") >= 0)
-		str = str.replace("<", "&lt;");
+		str = str.replace(/</g, "&lt;");
 
 	return str;
 }
@@ -5337,7 +5337,7 @@ function CryptoAPI()
 	var session = MainApp.getThe().getSession();
 	var httpRequestor = HTTPRequestor.newInstance();
 
-	return httpRequestor.sendGet(session.getCryptoAPIURL() + "/digest/" + data);
+	return httpRequestor.sendGet(session.getCryptoAPIURL() + "/digest/" + data).responseText;
 }
 
 /******************************************************************************/
@@ -5368,12 +5368,57 @@ function ExtraAPI()
 
 /******************************************************************************/
 
-/*string*/ ExtraAPI.prototype.addContent = function(/*string*/ url)
+/*string*/ ExtraAPI.prototype.addContent = function(/*string*/ url, /*object*/ callbackObj)
 {
 	var session = MainApp.getThe().getSession();
 	var httpRequestor = HTTPRequestor.newInstance();
 
-	return httpRequestor.sendRequest(session.getExtraAPIURL() + "/ac", url);
+	httpRequestor.sendRequestAsync(session.getExtraAPIURL() + "/ac", url, callbackObj);
+}
+
+/******************************************************************************/
+
+/*string*/ ExtraAPI.prototype.sendFeedback = function(/*string*/ subject, /*string*/ body,
+	/*object*/ callbackObj)
+{
+	var session = MainApp.getThe().getSession();
+	var httpRequestor = HTTPRequestor.newInstance();
+
+	var feedbackData = new FeedbackData();
+	feedbackData.MemberUserID = session.getUserID();
+	feedbackData.Subject = subject;
+	feedbackData.Body = body;
+
+	var dataWriter = new XmlDataWriter();
+	dataWriter.writeObject(FeedbackData.Name, feedbackData);
+
+	httpRequestor.sendRequestAsync(session.getExtraAPIURL() + "/fb", dataWriter.toString(), callbackObj);
+}
+
+/******************************************************************************/
+/******************************************************************************/
+
+FeedbackData.Name = "feedbackdata";
+FeedbackData.MemberUserIDMaxLength = 64;
+FeedbackData.SubjectMaxLength = 128;
+FeedbackData.BodyMaxLength = 8192;
+
+/******************************************************************************/
+
+function FeedbackData()
+{
+	this.MemberUserID = null;
+	this.Subject = null;
+	this.Body = null;
+}
+
+/******************************************************************************/
+
+/*void*/ FeedbackData.prototype.writeTo = function(/*DataWriter*/ writer)
+{
+	writer.writeString("memberuserid", this.MemberUserID, FeedbackData.MemberUserIDMaxLength);
+	writer.writeString("subject", this.Subject, FeedbackData.SubjectMaxLength);
+	writer.writeString("body", this.Body, FeedbackData.BodyMaxLength);
 }
 
 /******************************************************************************/
@@ -6138,7 +6183,7 @@ function HTTPRequestor()
 
 /******************************************************************************/
 
-/*string*/ HTTPRequestor.prototype.sendRequest = function(/*string*/ url,
+/*XMLHttpRequest*/ HTTPRequestor.prototype.sendRequest = function(/*string*/ url,
 	/*string*/ request)
 {
 
@@ -6147,7 +6192,7 @@ function HTTPRequestor()
 	xmlHttp.setRequestHeader("Content-Type", "text/xml;charset=UTF-8");
 	xmlHttp.send(request);
 
-	return xmlHttp.responseText;
+	return xmlHttp;
 }
 
 /******************************************************************************/
@@ -6182,7 +6227,7 @@ function HTTPRequestor()
 		{
 			if(xmlHttp.status == 200)
 			{
-				HTTPRequestor_callback(callbackObj, xmlHttp.responseXML);
+				HTTPRequestor_callback(callbackObj, xmlHttp);
 				return;
 			}
 		}
@@ -6198,27 +6243,39 @@ function HTTPRequestor()
 
 /*void*/ function HTTPRequestor_callback(/*object*/ callbackObj, /*object*/ data)
 {
-	if(callbackObj && callbackObj.Callback)
+	if(isObject(callbackObj) && isFunction(callbackObj.Callback))
 	{
 		try
 		{
 			callbackObj.Callback(data);
 		}
-		catch(ignore)
+		catch(e)
 		{
+			showError("HTTPRequestor_callback", e);
+		}
+	}
+	else if(isFunction(callbackObj))
+	{
+		try
+		{
+			callbackObj(data);
+		}
+		catch(e)
+		{
+			showError("HTTPRequestor_callback", e);
 		}
 	}
 }
 
 /******************************************************************************/
 
-/*string*/ HTTPRequestor.prototype.sendGet = function(/*string*/ url)
+/*XMLHttpRequest*/ HTTPRequestor.prototype.sendGet = function(/*string*/ url)
 {
 	var xmlHttp = createXMLHttpRequest();
 	xmlHttp.open("GET", url, false);
 	xmlHttp.send(null);
 
-	return xmlHttp.responseText;
+	return xmlHttp;
 }
 
 /******************************************************************************/
@@ -6301,8 +6358,8 @@ function DataRequestor(/*string*/ sessionData)
 	var dataWriter = new XmlDataWriter();
 	dataWriter.writeObject("INetVODPlayerRqst", request);
 
-	var response = httpRequestor.sendRequest(session.getNetworkURL(), dataWriter.toString());
-	var dataReader = new XmlDataReader(response);
+	var xmlHttp = httpRequestor.sendRequest(session.getNetworkURL(), dataWriter.toString());
+	var dataReader = new XmlDataReader(xmlHttp.responseXML);
 
 	var requestable = dataReader.readObject("INetVODPlayerResp", INetVODPlayerResp);
 	return this.parseHeader(requestable);
@@ -6338,13 +6395,13 @@ function DataRequestor(/*string*/ sessionData)
 
 /******************************************************************************/
 
-/*void*/ DataRequestor.prototype.parseResponse = function(/*Streamable*/ response)
+/*void*/ DataRequestor.prototype.parseResponse = function(/*XMLHttpRequest*/ xmlHttp)
 {
 	try
 	{
-		if(response)
+		if(xmlHttp)
 		{
-			var dataReader = new XmlDataReader(response);
+			var dataReader = new XmlDataReader(xmlHttp.responseXML);
 			var requestable = dataReader.readObject("INetVODPlayerResp", INetVODPlayerResp);
 			this.callbackCaller(this.parseHeader(requestable));
 		}
