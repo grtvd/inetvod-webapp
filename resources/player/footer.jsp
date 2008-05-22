@@ -7,7 +7,8 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 
 				<table cellpadding="0" cellspacing="0" width="100%"><tr><td align="center" class="textTinyCtr"
 					>Copyright © 2008 iNetVOD | All Rights Reserved | <a href="../terms" class="linkTinyNoBkCtr">Terms</a> |
-					<a href="../privacy" class="linkTinyNoBkCtr">Privacy</a></td></tr></table>
+					<a href="../privacy" class="linkTinyNoBkCtr">Privacy</a> |
+					<a href="../extra/feedback.jsp" class="linkTinyNoBkCtr">Feedback</a></td></tr></table>
 			</td>
 
 			<td align="center" valign="top" width="160">

@@ -38,9 +38,9 @@ function XmlDataWriter()
 /*string*/ XmlDataWriter.prototype.escapeString = function(str)
 {
 	if(str.indexOf("&") >= 0)
-		str = str.replace("&", "&amp;");
+		str = str.replace(/\&/g, "&amp;");
 	if(str.indexOf("<") >= 0)
-		str = str.replace("<", "&lt;");
+		str = str.replace(/</g, "&lt;");
 
 	return str;
 }
