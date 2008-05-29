@@ -5,6 +5,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.inetvod.playerClient.rqdata.RentedShowSearch" %>
 <%@ page import="com.inetvod.playerClient.rqdata.RentedShowSearchList" %>
+<%@ page import="com.inetvod.common.core.EncodeUtil" %>
 <jsp:useBean id="sess" class="com.inetvod.webapp.player.Session" scope="request"/>
 <jsp:useBean id="nowPlayingView" class="com.inetvod.webapp.player.NowPlayingView" scope="request"/>
 
@@ -15,6 +16,14 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 
 <jsp:include flush="true" page="header.jsp"/>
 
+<script type="text/javascript" src="nowPlaying.js"></script>
+<script type="text/javascript">
+	function postRunOnLoad()
+	{
+		LoadNowPlayingViewData("<%=EncodeUtil.encodeJSLiteral(nowPlayingView.getNowPlayingViewDataXml())%>");
+		SetNowPlayingImages();
+	}
+</script>
 <%
 	if(sess.hasMessage())
 	{
@@ -59,17 +68,17 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 				</thead>
 				<tbody>
 				<%
+					int pos = 0;
 					for(RentedShowSearch rentedShowSearch : rentedShowSearchList)
 					{
 					%>
 						<tr class="listRow" onclick="StartupRentedShowDetail('<%=rentedShowSearch.getRentedShowID()%>%>');"
-							><td
+							><td><span id="<%=rentedShowSearch.getRentedShowID()%>" style="display:none;"><%=pos%></span
 								><table cellpadding="0" cellspacing="0" border="0">
 									<tr
 										><td rowspan="2" width="48" height="48" style="padding-left:5px;"><img
-											src="<%=rentedShowSearch.getPictureURL() != null
-											? rentedShowSearch.getPictureURL() : "images/no_picture_48.gif"%>" border=0
-											width=48 alt=""/></td
+											id="Show002_ShowList_<%=pos%>_Picture" src="images/no_picture_48.gif"
+											border=0 width=48 alt=""/></td
 										><td class="listItem"><a class="listItem"
 											onclick="StartupRentedShowDetail('<%=rentedShowSearch.getRentedShowID()%>%>'); stopEventPropagation(event);"
 											><%=rentedShowSearch.getName()%></a></td
@@ -83,6 +92,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 							><td class="listSmallItem"><%=rentedShowSearch.buildAvailableUtilStr()%></td
 						></tr>
 					<%
+						pos++;
 					}
 				%>
 				</tbody>
