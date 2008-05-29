@@ -5,6 +5,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.inetvod.playerClient.rqdata.ShowSearch" %>
 <%@ page import="com.inetvod.playerClient.rqdata.ShowSearchList" %>
+<%@ page import="com.inetvod.common.core.EncodeUtil" %>
 <jsp:useBean id="sess" class="com.inetvod.webapp.player.Session" scope="request"/>
 <jsp:useBean id="searchResultsView" class="com.inetvod.webapp.player.SearchResultsView" scope="request"/>
 
@@ -15,6 +16,14 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 
 <jsp:include flush="true" page="header.jsp"/>
 
+<script type="text/javascript" src="searchResults.js"></script>
+<script type="text/javascript">
+	function postRunOnLoad()
+	{
+		LoadSearchResultsViewData("<%=EncodeUtil.encodeJSLiteral(searchResultsView.getSearchResultsViewDataXml())%>");
+		SetSearchResultsImages();
+	}
+</script>
 <%
 	if(sess.hasMessage())
 	{
@@ -44,16 +53,17 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 				</thead>
 				<tbody>
 				<%
+					int pos = 0;
 					for(ShowSearch showSearch : showSearchList)
 					{
 					%>
 						<tr class="listRow" onclick="StartupSearchDetail('<%=showSearch.getShowID()%>');"
-							><td
+							><td><span id="<%=showSearch.getShowID()%>" style="display:none;"><%=pos%></span
 								><table cellpadding="0" cellspacing="0" border="0">
 									<tr
 										><td rowspan="2" width="48" height="48" style="padding-left:5px;"><img
-											src="<%=showSearch.getPictureURL() != null ? showSearch.getPictureURL()
-											: "images/no_picture_48.gif"%>" border=0 width=48 alt=""/></td
+											id="Search003_ShowList_<%=pos%>_Picture" src="images/no_picture_48.gif" border=0
+											width=48 alt=""/></td
 										><td class="listItem"><a class="listItem"
 											onclick="StartupSearchDetail('<%=showSearch.getShowID()%>'); stopEventPropagation(event);"
 											><%=showSearch.getName()%></a></td
@@ -68,6 +78,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 							><td class="listSmallItem"><%=showSearch.buildCostStr()%></td
 						></tr>
 					<%
+						pos++;
 					}
 				%>
 				</tbody>

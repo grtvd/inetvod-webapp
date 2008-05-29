@@ -1,11 +1,12 @@
 /**
- * Copyright © 2007 iNetVOD, Inc. All Rights Reserved.
+ * Copyright © 2007-2008 iNetVOD, Inc. All Rights Reserved.
  * iNetVOD Confidential and Proprietary.  See LEGAL.txt.
  */
 package com.inetvod.webapp.player;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.inetvod.common.core.Logger;
 import com.inetvod.common.core.StrUtil;
 import com.inetvod.common.data.CategoryID;
 import com.inetvod.common.data.ProviderID;
@@ -22,9 +23,11 @@ public class SearchResultsView
 	private static final String RATINGID_PARAM = "ratingid";
 
 	/* Fields */
+	private String fSearchResultsViewDataXml;
 	private ShowSearchList fShowSearchList;
 
 	/* Getters and Setters */
+	public String getSearchResultsViewDataXml() { return fSearchResultsViewDataXml; }
 	public ShowSearchList getShowSearchList() { return fShowSearchList; }
 
 	/* Construction */
@@ -58,6 +61,16 @@ public class SearchResultsView
 		}
 
 		fShowSearchList = session.showSearch(search, providerID, categoryID, ratingID);
+		try
+		{
+			fSearchResultsViewDataXml = SearchResultsViewData.toXmlString(SearchResultsViewData.newInstance(
+				fShowSearchList));
+		}
+		catch(Exception e)
+		{
+			Logger.logWarn(this, "load", e);
+			session.setError(null);
+		}
 	}
 
 	/* Implementation */

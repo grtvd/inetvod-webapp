@@ -23,6 +23,8 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 
 			initMenu('<%=PageMenuMap.mapMenuFromPage(request.getServletPath(), request.getQueryString())%>');
 			headerCheckFields();
+
+			window.setTimeout("tryit(\"postRunOnLoad()\")", 1);
 		}
 	</script>
 </head>
