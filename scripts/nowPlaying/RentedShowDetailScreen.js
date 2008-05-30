@@ -36,7 +36,7 @@ RentedShowDetailScreen.prototype.constructor = RentedShowDetailScreen;
 
 /******************************************************************************/
 
-function RentedShowDetailScreen(/*RentedShowSearch*/ rentedShowSearch)
+function RentedShowDetailScreen(/*RentedShowSearch or RentedShow*/ rentedShowSearch)
 {
 	var oSession = MainApp.getThe().getSession();
 	var oControl;
@@ -44,7 +44,10 @@ function RentedShowDetailScreen(/*RentedShowSearch*/ rentedShowSearch)
 
 	this.fRentedShowID = rentedShowSearch.RentedShowID;
 	this.fRentedShowSearch = rentedShowSearch;
-	this.fRentedShow = null;
+	if(testStrHasLen(rentedShowSearch.Description))
+		this.fRentedShow = rentedShowSearch;
+	else
+		this.fRentedShow = null;
 	this.ScreenID = RentedShowDetailScreen.ScreenID;
 	this.ScreenTitle = "playing";
 	this.ScreenTitleImage = "titlePlaying.gif";
@@ -134,8 +137,13 @@ function RentedShowDetailScreen(/*RentedShowSearch*/ rentedShowSearch)
 	oControl.setText(tempStr);
 	this.newControl(oControl);
 
-	this.Callback = RentedShowDetailScreen.prototype.afterRentedShow;
-	oSession.rentedShow(this, this.fRentedShowID);
+	if (this.fRentedShow == null)
+	{
+		this.Callback = RentedShowDetailScreen.prototype.afterRentedShow;
+		oSession.rentedShow(this, this.fRentedShowID);
+	}
+	else
+		this.afterRentedShow(this.fRentedShow, sc_Success, null);
 }
 
 /******************************************************************************/
