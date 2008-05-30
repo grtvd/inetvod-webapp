@@ -22,6 +22,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 	{
 		LoadSearchResultsViewData("<%=EncodeUtil.encodeJSLiteral(searchResultsView.getSearchResultsViewDataXml())%>");
 		SetSearchResultsImages();
+		StartupLoadSystemData();
 	}
 </script>
 <%

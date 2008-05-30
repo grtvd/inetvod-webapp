@@ -22,6 +22,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 	{
 		LoadNowPlayingViewData("<%=EncodeUtil.encodeJSLiteral(nowPlayingView.getNowPlayingViewDataXml())%>");
 		SetNowPlayingImages();
+		StartupLoadSystemData();
 	}
 </script>
 <%

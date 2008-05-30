@@ -19,6 +19,16 @@ function StartupInitMember()
 }
 
 /******************************************************************************/
+
+function StartupLoadSystemData()
+{
+	var oSession = MainApp.getThe().getSession();
+
+	if(!oSession.isSystemDataLoaded())
+		oSession.loadSystemData();
+}
+
+/******************************************************************************/
 /******************************************************************************/
 
 function StartupFlow()
