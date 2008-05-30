@@ -24,9 +24,9 @@ RentedShowDetailScreen.DeleteNowID = "Show003_DeleteNow";
 
 /******************************************************************************/
 
-RentedShowDetailScreen.newInstance = function(/*RentedShow*/ rentedShow)
+RentedShowDetailScreen.newInstance = function(/*RentedShowSearch*/ rentedShowSearch)
 {
-	return MainApp.getThe().openScreen(new RentedShowDetailScreen(rentedShow));
+	return MainApp.getThe().openScreen(new RentedShowDetailScreen(rentedShowSearch));
 }
 
 /******************************************************************************/
@@ -36,13 +36,15 @@ RentedShowDetailScreen.prototype.constructor = RentedShowDetailScreen;
 
 /******************************************************************************/
 
-function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
+function RentedShowDetailScreen(/*RentedShowSearch*/ rentedShowSearch)
 {
 	var oSession = MainApp.getThe().getSession();
 	var oControl;
 	var tempStr;
 
-	this.fRentedShow = rentedShow;
+	this.fRentedShowID = rentedShowSearch.RentedShowID;
+	this.fRentedShowSearch = rentedShowSearch;
+	this.fRentedShow = null;
 	this.ScreenID = RentedShowDetailScreen.ScreenID;
 	this.ScreenTitle = "playing";
 	this.ScreenTitleImage = "titlePlaying.gif";
@@ -51,8 +53,8 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 	this.fContainerControl = new ContainerControl(this.ScreenID, 22, 80);
 
 	oControl = new ImageControl(RentedShowDetailScreen.PictureID, this.ScreenID);
-	if(testStrHasLen(rentedShow.PictureURL))
-		oControl.setSource(rentedShow.PictureURL);
+	if(testStrHasLen(this.fRentedShowSearch.PictureURL))
+		oControl.setSource(this.fRentedShowSearch.PictureURL);
 	else
 		oControl.setSource("images/no_picture_80.gif");
 	this.newControl(oControl);
@@ -65,20 +67,20 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 	this.newControl(oControl);
 
 	oControl = new TextControl(RentedShowDetailScreen.NameID, this.ScreenID);
-	oControl.setText(this.fRentedShow.Name);
+	oControl.setText(this.fRentedShowSearch.Name);
 	this.newControl(oControl);
 
 	tempStr = "";
-	if(testStrHasLen(this.fRentedShow.EpisodeName) || testStrHasLen(this.fRentedShow.EpisodeNumber))
+	if(testStrHasLen(this.fRentedShowSearch.EpisodeName) || testStrHasLen(this.fRentedShowSearch.EpisodeNumber))
 	{
-		if(testStrHasLen(this.fRentedShow.EpisodeName))
+		if(testStrHasLen(this.fRentedShowSearch.EpisodeName))
 		{
-			tempStr = '"' + this.fRentedShow.EpisodeName + '"';
-			if(testStrHasLen(this.fRentedShow.EpisodeNumber))
-				tempStr += " (" + this.fRentedShow.EpisodeNumber + ")";
+			tempStr = '"' + this.fRentedShowSearch.EpisodeName + '"';
+			if(testStrHasLen(this.fRentedShowSearch.EpisodeNumber))
+				tempStr += " (" + this.fRentedShowSearch.EpisodeNumber + ")";
 		}
 		else
-			tempStr = "Episode: " + this.fRentedShow.EpisodeNumber;
+			tempStr = "Episode: " + this.fRentedShowSearch.EpisodeNumber;
 
 	}
 	oControl = new TextControl(RentedShowDetailScreen.EpisodeID, this.ScreenID);
@@ -86,65 +88,110 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 	this.newControl(oControl);
 
 	oControl = new TextControl(RentedShowDetailScreen.DescriptionID, this.ScreenID);
-	oControl.setText(this.fRentedShow.Description);
+	oControl.setText("&nbsp;");
 	this.newControl(oControl);
 
-	tempStr = "n/a";
-	if(this.fRentedShow.ReleasedOn)
-		tempStr = dateTimeToString(this.fRentedShow.ReleasedOn, dtf_M_D_YYYY, true);
-	else if(this.fRentedShow.ReleasedYear)
-		tempStr = this.fRentedShow.ReleasedYear.toString();
 	oControl = new TextControl(RentedShowDetailScreen.ReleasedID, this.ScreenID);
-	oControl.setText(tempStr);
+	oControl.setText("");
 	this.newControl(oControl);
 
-	tempStr = "n/a";
-	if(this.fRentedShow.RunningMins)
-		tempStr = this.fRentedShow.RunningMins + " mins";
 	oControl = new TextControl(RentedShowDetailScreen.RunningMinsID, this.ScreenID);
-	oControl.setText(tempStr);
+	oControl.setText("");
 	this.newControl(oControl);
 
-	tempStr = "n/a";
-	if(this.fRentedShow.RatingID)
-		tempStr = oSession.getRatingName(this.fRentedShow.RatingID)
 	oControl = new TextControl(RentedShowDetailScreen.RatingID, this.ScreenID);
-	oControl.setText(tempStr);
+	oControl.setText("");
 	this.newControl(oControl);
 
 	oControl = new TextControl(RentedShowDetailScreen.CategoryID, this.ScreenID);
-	oControl.setText(oSession.getCategoryNames(this.fRentedShow.CategoryIDList));
+	oControl.setText("");
 	this.newControl(oControl);
 
 	oControl = new TextControl(RentedShowDetailScreen.ProviderID, this.ScreenID);
-	oControl.setText(oSession.getProviderName(this.fRentedShow.ProviderID));
+	oControl.setText(oSession.getProviderName(this.fRentedShowSearch.ProviderID));
 	this.newControl(oControl);
 
 	oControl = new TextControl(RentedShowDetailScreen.CostID, this.ScreenID);
-	oControl.setText(this.fRentedShow.ShowCost.CostDisplay);
+	oControl.setText("");
 	this.newControl(oControl);
 
-	tempStr = "n/a";
 	oControl = new TextControl(RentedShowDetailScreen.RentalPeriodHoursID, this.ScreenID);
-	if(this.fRentedShow.ShowCost.RentalPeriodHours)
-		tempStr = this.fRentedShow.ShowCost.RentalPeriodHours + " hrs";
-	oControl.setText(tempStr);
+	oControl.setText("");
 	this.newControl(oControl);
 
 	oControl = new TextControl(RentedShowDetailScreen.RentedOnLabelID, this.ScreenID)
-	oControl.setText((this.fRentedShow.ShowCost.ShowCostType == sct_Free) ? "Added On:" : "Rented On:");
+	oControl.setText("Added On:");
 	this.newControl(oControl);
 
 	oControl = new TextControl(RentedShowDetailScreen.RentedOnID, this.ScreenID);
-	oControl.setText(dateTimeToString(this.fRentedShow.RentedOn, dtf_M_D_H_MM_AM));
+	oControl.setText("");
 	this.newControl(oControl);
 
 	tempStr = "n/a";
 	oControl = new TextControl(RentedShowDetailScreen.AvailableUntilID, this.ScreenID);
-	if(this.fRentedShow.AvailableUntil)
-		tempStr = dateTimeToString(this.fRentedShow.AvailableUntil, dtf_M_D_H_MM_AM);
+	if(this.fRentedShowSearch.AvailableUntil)
+		tempStr = dateTimeToString(this.fRentedShowSearch.AvailableUntil, dtf_M_D_H_MM_AM);
 	oControl.setText(tempStr);
 	this.newControl(oControl);
+
+	this.Callback = RentedShowDetailScreen.prototype.afterRentedShow;
+	oSession.rentedShow(this, this.fRentedShowID);
+}
+
+/******************************************************************************/
+
+/*void*/ RentedShowDetailScreen.prototype.afterRentedShow = function(
+	/*RentedShow*/ rentedShow, /*StatusCode*/ statusCode, /*string*/ statusMessage)
+{
+	if(statusCode == sc_Success)
+	{
+		var oSession = MainApp.getThe().getSession();
+		var oControl;
+		var tempStr;
+
+		this.fRentedShow = rentedShow;
+
+		oControl = this.findControl(RentedShowDetailScreen.DescriptionID);
+		oControl.setText(this.fRentedShow.Description);
+
+		tempStr = "n/a";
+		if(this.fRentedShow.ReleasedOn)
+			tempStr = dateTimeToString(this.fRentedShow.ReleasedOn, dtf_M_D_YYYY, true);
+		else if(this.fRentedShow.ReleasedYear)
+			tempStr = this.fRentedShow.ReleasedYear.toString();
+		oControl = this.findControl(RentedShowDetailScreen.ReleasedID);
+		oControl.setText(tempStr);
+
+		tempStr = "n/a";
+		if(this.fRentedShow.RunningMins)
+			tempStr = this.fRentedShow.RunningMins + " mins";
+		oControl = this.findControl(RentedShowDetailScreen.RunningMinsID);
+		oControl.setText(tempStr);
+
+		tempStr = "n/a";
+		if(this.fRentedShow.RatingID)
+			tempStr = oSession.getRatingName(this.fRentedShow.RatingID)
+		oControl = this.findControl(RentedShowDetailScreen.RatingID);
+		oControl.setText(tempStr);
+
+		oControl = this.findControl(RentedShowDetailScreen.CategoryID);
+		oControl.setText(oSession.getCategoryNames(this.fRentedShow.CategoryIDList));
+
+		oControl = this.findControl(RentedShowDetailScreen.CostID);
+		oControl.setText(this.fRentedShow.ShowCost.CostDisplay);
+	
+		tempStr = "n/a";
+		oControl = this.findControl(RentedShowDetailScreen.RentalPeriodHoursID);
+		if(this.fRentedShow.ShowCost.RentalPeriodHours)
+			tempStr = this.fRentedShow.ShowCost.RentalPeriodHours + " hrs";
+		oControl.setText(tempStr);
+
+		oControl = this.findControl(RentedShowDetailScreen.RentedOnLabelID)
+		oControl.setText((this.fRentedShow.ShowCost.ShowCostType == sct_Free) ? "Added On:" : "Rented On:");
+
+		oControl = this.findControl(RentedShowDetailScreen.RentedOnID);
+		oControl.setText(dateTimeToString(this.fRentedShow.RentedOn, dtf_M_D_H_MM_AM));
+	}
 }
 
 /******************************************************************************/
@@ -156,7 +203,7 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 		var oSession = MainApp.getThe().getSession();
 
 		oSession.downloadRefresh();
-		var newDownloadStatus = oSession.getDownloadRentedShowStatus(this.fRentedShow.RentedShowID);
+		var newDownloadStatus = oSession.getDownloadRentedShowStatus(this.fRentedShowID);
 
 		if(this.fDownloadStatus != newDownloadStatus)
 		{
@@ -200,13 +247,13 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 	if(controlID == RentedShowDetailScreen.WatchNowID)
 	{
 		this.Callback = RentedShowDetailScreen.prototype.afterWatchShow;
-		oSession.watchShow(this, this.fRentedShow.RentedShowID);
+		oSession.watchShow(this, this.fRentedShowID);
 		return;
 	}
 	else if(controlID == RentedShowDetailScreen.DeleteNowID)
 	{
 		this.Callback = RentedShowDetailScreen.prototype.afterReleaseShow;
-		oSession.releaseShow(this, this.fRentedShow.RentedShowID);
+		oSession.releaseShow(this, this.fRentedShowID);
 		return;
 	}
 
@@ -225,7 +272,7 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 	oSession.downloadRefresh();
 
 	var useApp = oSession.determineAppForShow(license.ShowURL);
-	var downloadStatus = oSession.getDownloadRentedShowStatus(this.fRentedShow.RentedShowID);
+	var downloadStatus = oSession.getDownloadRentedShowStatus(this.fRentedShowID);
 
 	var playLocal = false;
 
@@ -237,7 +284,7 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 
 	if(playLocal)
 	{
-		if(!oSession.playDownloadedRentedShow(this.fRentedShow.RentedShowID, useApp))
+		if(!oSession.playDownloadedRentedShow(this.fRentedShowID, useApp))
 		{
 			playLocal = false;
 			showMsg("An error occurred while trying to play locally.  Show will be streamed.");
@@ -261,7 +308,7 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 
 		//		var oNowPlayingScreen = MainApp.getThe().findScreen(NowPlayingScreen.ScreenID);
 //		if(oNowPlayingScreen != null)
-//			oNowPlayingScreen.removeRentedShow(this.fRentedShow.RentedShowID);
+//			oNowPlayingScreen.removeRentedShow(this.fRentedShowID);
 	}
 }
 

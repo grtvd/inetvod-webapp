@@ -148,10 +148,8 @@ function StartupFlow()
 /******************************************************************************/
 /******************************************************************************/
 
-/*void*/ function StartupRentedShowDetail(/*RentedShowID*/ rentedShowID)
+/*void*/ function StartupRentedShowDetail(/*RentedShowSearch*/ rentedShowSearch)
 {
-//	StartupInitialCheck("MainApp.getThe().getSession().rentedShow(StartupRentedShowDetail_afterRentedShow, '" + rentedShowID + "');");
-
 	var oMainApp = MainApp.getThe();
 	oMainApp.openPopup();
 
@@ -159,7 +157,7 @@ function StartupFlow()
 	oSession.loadDataSettings();
 
 	var oStartupFlow = new StartupFlow();
-	oStartupFlow.Data = rentedShowID;
+	oStartupFlow.Data = rentedShowSearch;
 
 	if(!oSession.isSystemDataLoaded())
 	{
@@ -169,7 +167,6 @@ function StartupFlow()
 	}
 
 	oStartupFlow.RentedShowDetail_afterLoadSystemData(null, sc_Success, null);
-
 }
 
 /******************************************************************************/
@@ -177,24 +174,10 @@ function StartupFlow()
 /*void*/ StartupFlow.prototype.RentedShowDetail_afterLoadSystemData = function(
 	/*object*/ data, /*StatusCode*/ statusCode, /*string*/ statusMessage)
 {
-	var oSession = MainApp.getThe().getSession();
-
 	if(statusCode == sc_Success)
 	{
-		this.Callback = StartupFlow.prototype.RentedShowDetail_afterRentedShow;
-		oSession.rentedShow(this, this.Data);
+		RentedShowDetailScreen.newInstance(this.Data);
 	}
-	else
-		MainApp.getThe().closePopup();
-}
-
-/******************************************************************************/
-
-/*void*/ StartupFlow.prototype.RentedShowDetail_afterRentedShow = function(
-	/*RentedShow*/ rentedShow, /*StatusCode*/ statusCode, /*string*/ statusMessage)
-{
-	if(statusCode == sc_Success)
-		RentedShowDetailScreen.newInstance(rentedShow);
 	else
 		MainApp.getThe().closePopup();
 }

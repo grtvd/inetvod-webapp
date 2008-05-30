@@ -24,6 +24,13 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 		SetNowPlayingImages();
 		StartupLoadSystemData();
 	}
+
+	function openRentedShowDetail(/*RentedShowID*/ rentedShowID)
+	{
+		var rentedShowSearch = getNowPlayingRentedShowSearch(rentedShowID);
+		if(rentedShowSearch)
+			StartupRentedShowDetail(rentedShowSearch);
+	}
 </script>
 <%
 	if(sess.hasMessage())
@@ -73,7 +80,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 					for(RentedShowSearch rentedShowSearch : rentedShowSearchList)
 					{
 					%>
-						<tr class="listRow" onclick="StartupRentedShowDetail('<%=rentedShowSearch.getRentedShowID()%>%>');"
+						<tr class="listRow" onclick="openRentedShowDetail('<%=rentedShowSearch.getRentedShowID()%>');"
 							><td><span id="<%=rentedShowSearch.getRentedShowID()%>" style="display:none;"><%=pos%></span
 								><table cellpadding="0" cellspacing="0" border="0">
 									<tr
@@ -81,7 +88,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 											id="Show002_ShowList_<%=pos%>_Picture" src="images/no_picture_48.gif"
 											border=0 width=48 alt=""/></td
 										><td class="listItem"><a class="listItem"
-											onclick="StartupRentedShowDetail('<%=rentedShowSearch.getRentedShowID()%>%>'); stopEventPropagation(event);"
+											onclick="openRentedShowDetail('<%=rentedShowSearch.getRentedShowID()%>'); stopEventPropagation(event);"
 											><%=rentedShowSearch.getName()%></a></td
 									></tr>
 									<tr

@@ -67,4 +67,13 @@ function NowPlayingViewData(reader)
 }
 
 /**********************************************************************************************************************/
+
+/*RentedShowSearch*/ function getNowPlayingRentedShowSearch(/*RentedShowID*/ rentedShowID)
+{
+	if (gNowPlayingViewData && gNowPlayingViewData.RentedShowSearchList)
+		return arrayFindItemByCmpr(gNowPlayingViewData.RentedShowSearchList, new RentedShowSearchToIDCmpr(rentedShowID));
+	return null;
+}
+
+/**********************************************************************************************************************/
 /**********************************************************************************************************************/
