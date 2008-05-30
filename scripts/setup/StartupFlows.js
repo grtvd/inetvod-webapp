@@ -97,7 +97,7 @@ function StartupFlow()
 /******************************************************************************/
 /******************************************************************************/
 
-/*void*/ function StartupSearchDetail(/*ShowID*/ showID)
+/*void*/ function StartupSearchDetail(/*ShowSearch*/ showSearch)
 {
 	var oMainApp = MainApp.getThe();
 	oMainApp.openPopup();
@@ -106,7 +106,7 @@ function StartupFlow()
 	oSession.loadDataSettings();
 
 	var oStartupFlow = new StartupFlow();
-	oStartupFlow.Data = showID;
+	oStartupFlow.Data = showSearch;
 
 	if(!oSession.isSystemDataLoaded())
 	{
@@ -123,24 +123,10 @@ function StartupFlow()
 /*void*/ StartupFlow.prototype.SearchDetail_afterLoadSystemData = function(
 	/*object*/ data, /*StatusCode*/ statusCode, /*string*/ statusMessage)
 {
-	var oSession = MainApp.getThe().getSession();
-
 	if(statusCode == sc_Success)
 	{
-		this.Callback = StartupFlow.prototype.StartupSearchDetail_afterShowDetail;
-		oSession.showDetail(this, this.Data);
+		SearchDetailScreen.newInstance(this.Data);
 	}
-	else
-		MainApp.getThe().closePopup();
-}
-
-/******************************************************************************/
-
-/*void*/ StartupFlow.prototype.StartupSearchDetail_afterShowDetail = function(
-	/*ShowDetail*/ showDetail, /*StatusCode*/ statusCode, /*string*/ statusMessage)
-{
-	if(statusCode == sc_Success)
-		SearchDetailScreen.newInstance(showDetail);
 	else
 		MainApp.getThe().closePopup();
 }

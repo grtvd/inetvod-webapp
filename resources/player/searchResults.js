@@ -67,4 +67,13 @@ function SearchResultsViewData(reader)
 }
 
 /**********************************************************************************************************************/
+
+/*ShowSearch*/ function getSearchResultsShowSearch(/*ShowID*/ showID)
+{
+	if (gSearchResultsViewData && gSearchResultsViewData.ShowSearchList)
+		return arrayFindItemByCmpr(gSearchResultsViewData.ShowSearchList, new ShowSearchToIDCmpr(showID));
+	return null;
+}
+
+/**********************************************************************************************************************/
 /**********************************************************************************************************************/

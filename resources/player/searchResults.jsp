@@ -24,6 +24,13 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 		SetSearchResultsImages();
 		StartupLoadSystemData();
 	}
+
+	function openSearchDetail(/*ShowID*/ showID)
+	{
+		var showSearch = getSearchResultsShowSearch(showID);
+		if(showSearch)
+			StartupSearchDetail(showSearch);
+	}
 </script>
 <%
 	if(sess.hasMessage())
@@ -58,7 +65,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 					for(ShowSearch showSearch : showSearchList)
 					{
 					%>
-						<tr class="listRow" onclick="StartupSearchDetail('<%=showSearch.getShowID()%>');"
+						<tr class="listRow" onclick="openSearchDetail('<%=showSearch.getShowID()%>');"
 							><td><span id="<%=showSearch.getShowID()%>" style="display:none;"><%=pos%></span
 								><table cellpadding="0" cellspacing="0" border="0">
 									<tr
@@ -66,7 +73,7 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 											id="Search003_ShowList_<%=pos%>_Picture" src="images/no_picture_48.gif" border=0
 											width=48 alt=""/></td
 										><td class="listItem"><a class="listItem"
-											onclick="StartupSearchDetail('<%=showSearch.getShowID()%>'); stopEventPropagation(event);"
+											onclick="openSearchDetail('<%=showSearch.getShowID()%>'); stopEventPropagation(event);"
 											><%=showSearch.getName()%></a></td
 									></tr>
 									<tr
