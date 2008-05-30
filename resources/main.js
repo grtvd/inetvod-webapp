@@ -5731,6 +5731,24 @@ function ShowSearch(reader)
 /******************************************************************************/
 /******************************************************************************/
 
+function ShowSearchToIDCmpr(showID)
+{
+	this.ShowID = showID;
+}
+
+/******************************************************************************/
+
+/*int*/ ShowSearchToIDCmpr.prototype.compare = function(oShowSearch)
+{
+	if(this.ShowID == oShowSearch.ShowID)
+		return 0;
+	if(this.ShowID < oShowSearch.ShowID)
+		return -1;
+	return 1;
+}
+
+/******************************************************************************/
+
 function ShowSearchByNameCmpr(lhs, rhs)
 {
 	var rc = compareStringsIgnoreCase(lhs.Name, rhs.Name);
@@ -7442,6 +7460,16 @@ function StartupInitMember()
 }
 
 /******************************************************************************/
+
+function StartupLoadSystemData()
+{
+	var oSession = MainApp.getThe().getSession();
+
+	if(!oSession.isSystemDataLoaded())
+		oSession.loadSystemData();
+}
+
+/******************************************************************************/
 /******************************************************************************/
 
 function StartupFlow()
@@ -7510,7 +7538,7 @@ function StartupFlow()
 /******************************************************************************/
 /******************************************************************************/
 
-/*void*/ function StartupSearchDetail(/*ShowID*/ showID)
+/*void*/ function StartupSearchDetail(/*ShowSearch*/ showSearch)
 {
 	var oMainApp = MainApp.getThe();
 	oMainApp.openPopup();
@@ -7519,7 +7547,7 @@ function StartupFlow()
 	oSession.loadDataSettings();
 
 	var oStartupFlow = new StartupFlow();
-	oStartupFlow.Data = showID;
+	oStartupFlow.Data = showSearch;
 
 	if(!oSession.isSystemDataLoaded())
 	{
@@ -7536,35 +7564,19 @@ function StartupFlow()
 /*void*/ StartupFlow.prototype.SearchDetail_afterLoadSystemData = function(
 	/*object*/ data, /*StatusCode*/ statusCode, /*string*/ statusMessage)
 {
-	var oSession = MainApp.getThe().getSession();
-
 	if(statusCode == sc_Success)
 	{
-		this.Callback = StartupFlow.prototype.StartupSearchDetail_afterShowDetail;
-		oSession.showDetail(this, this.Data);
+		SearchDetailScreen.newInstance(this.Data);
 	}
 	else
 		MainApp.getThe().closePopup();
 }
 
 /******************************************************************************/
-
-/*void*/ StartupFlow.prototype.StartupSearchDetail_afterShowDetail = function(
-	/*ShowDetail*/ showDetail, /*StatusCode*/ statusCode, /*string*/ statusMessage)
-{
-	if(statusCode == sc_Success)
-		SearchDetailScreen.newInstance(showDetail);
-	else
-		MainApp.getThe().closePopup();
-}
-
-/******************************************************************************/
 /******************************************************************************/
 
-/*void*/ function StartupRentedShowDetail(/*RentedShowID*/ rentedShowID)
+/*void*/ function StartupRentedShowDetail(/*RentedShowSearch*/ rentedShowSearch)
 {
-//	StartupInitialCheck("MainApp.getThe().getSession().rentedShow(StartupRentedShowDetail_afterRentedShow, '" + rentedShowID + "');");
-
 	var oMainApp = MainApp.getThe();
 	oMainApp.openPopup();
 
@@ -7572,7 +7584,7 @@ function StartupFlow()
 	oSession.loadDataSettings();
 
 	var oStartupFlow = new StartupFlow();
-	oStartupFlow.Data = rentedShowID;
+	oStartupFlow.Data = rentedShowSearch;
 
 	if(!oSession.isSystemDataLoaded())
 	{
@@ -7582,7 +7594,6 @@ function StartupFlow()
 	}
 
 	oStartupFlow.RentedShowDetail_afterLoadSystemData(null, sc_Success, null);
-
 }
 
 /******************************************************************************/
@@ -7590,24 +7601,10 @@ function StartupFlow()
 /*void*/ StartupFlow.prototype.RentedShowDetail_afterLoadSystemData = function(
 	/*object*/ data, /*StatusCode*/ statusCode, /*string*/ statusMessage)
 {
-	var oSession = MainApp.getThe().getSession();
-
 	if(statusCode == sc_Success)
 	{
-		this.Callback = StartupFlow.prototype.RentedShowDetail_afterRentedShow;
-		oSession.rentedShow(this, this.Data);
+		RentedShowDetailScreen.newInstance(this.Data);
 	}
-	else
-		MainApp.getThe().closePopup();
-}
-
-/******************************************************************************/
-
-/*void*/ StartupFlow.prototype.RentedShowDetail_afterRentedShow = function(
-	/*RentedShow*/ rentedShow, /*StatusCode*/ statusCode, /*string*/ statusMessage)
-{
-	if(statusCode == sc_Success)
-		RentedShowDetailScreen.newInstance(rentedShow);
 	else
 		MainApp.getThe().closePopup();
 }
@@ -8742,9 +8739,9 @@ SearchDetailScreen.RentNowID = "Search004_RentNow";
 
 /******************************************************************************/
 
-SearchDetailScreen.newInstance = function(/*RentedShow*/ showDetail)
+SearchDetailScreen.newInstance = function(/*ShowSearch*/ showSearch)
 {
-	return MainApp.getThe().openScreen(new SearchDetailScreen(showDetail));
+	return MainApp.getThe().openScreen(new SearchDetailScreen(showSearch));
 }
 
 /******************************************************************************/
@@ -8754,49 +8751,48 @@ SearchDetailScreen.prototype.constructor = SearchDetailScreen;
 
 /******************************************************************************/
 
-function SearchDetailScreen(/*RentedShow*/ showDetail)
+function SearchDetailScreen(/*ShowSearch*/ showSearch)
 {
 	var oSession = MainApp.getThe().getSession();
 	var oControl;
 	var tempStr;
 
-	this.fShowDetail = showDetail;
+	this.fShowID = showSearch.ShowID;
+	this.fShowSearch = showSearch;
+	this.fShowDetail = null;
 	this.ScreenID = SearchDetailScreen.ScreenID;
 	this.ScreenTitle = "search";
 	this.ScreenTitleImage = "titleSearch.gif";
 
-	var showProvider = this.fShowDetail.ShowProviderList[0];
-	var showCost = showProvider.ShowCostList[0];
-
 	this.fContainerControl = new ContainerControl(this.ScreenID, 22, 80);
 
 	oControl = new ImageControl(SearchDetailScreen.PictureID, this.ScreenID);
-	if(testStrHasLen(showDetail.PictureURL))
-		oControl.setSource(showDetail.PictureURL);
+	if(testStrHasLen(this.fShowSearch.PictureURL))
+		oControl.setSource(this.fShowSearch.PictureURL);
 	else
 		oControl.setSource("images/no_picture_80.gif");
 	this.newControl(oControl);
 
 	oControl = new ButtonControl(SearchDetailScreen.RentNowID, this.ScreenID);
-	oControl.setText((showCost.ShowCostType == sct_Free) ? "Get Now" : "Rent Now");
+	oControl.setText("Get Now");
 	this.newControl(oControl);
 
 
 	oControl = new TextControl(SearchDetailScreen.NameID, this.ScreenID);
-	oControl.setText(this.fShowDetail.Name);
+	oControl.setText(this.fShowSearch.Name);
 	this.newControl(oControl);
 
 	tempStr = "";
-	if(testStrHasLen(this.fShowDetail.EpisodeName) || testStrHasLen(this.fShowDetail.EpisodeNumber))
+	if(testStrHasLen(this.fShowSearch.EpisodeName) || testStrHasLen(this.fShowSearch.EpisodeNumber))
 	{
-		if(testStrHasLen(this.fShowDetail.EpisodeName))
+		if(testStrHasLen(this.fShowSearch.EpisodeName))
 		{
-			tempStr = '"' + this.fShowDetail.EpisodeName + '"';
-			if(testStrHasLen(this.fShowDetail.EpisodeNumber))
-				tempStr += " (" + this.fShowDetail.EpisodeNumber + ")";
+			tempStr = '"' + this.fShowSearch.EpisodeName + '"';
+			if(testStrHasLen(this.fShowSearch.EpisodeNumber))
+				tempStr += " (" + this.fShowSearch.EpisodeNumber + ")";
 		}
 		else
-			tempStr = "Episode: " + this.fShowDetail.EpisodeNumber;
+			tempStr = "Episode: " + this.fShowSearch.EpisodeNumber;
 
 	}
 	oControl = new TextControl(SearchDetailScreen.EpisodeID, this.ScreenID);
@@ -8804,54 +8800,102 @@ function SearchDetailScreen(/*RentedShow*/ showDetail)
 	this.newControl(oControl);
 
 	oControl = new TextControl(SearchDetailScreen.DescriptionID, this.ScreenID);
-	oControl.setText(this.fShowDetail.Description);
+	oControl.setText("");
 	this.newControl(oControl);
 
 	tempStr = "n/a";
-	if(this.fShowDetail.ReleasedOn)
-		tempStr = dateTimeToString(this.fShowDetail.ReleasedOn, dtf_M_D_YYYY, true);
-	else if(this.fShowDetail.ReleasedYear)
-		tempStr = this.fShowDetail.ReleasedYear.toString();
+	if(this.fShowSearch.ReleasedOn)
+		tempStr = dateTimeToString(this.fShowSearch.ReleasedOn, dtf_M_D_YYYY, true);
+	else if(this.fShowSearch.ReleasedYear)
+		tempStr = this.fShowSearch.ReleasedYear.toString();
 	oControl = new TextControl(SearchDetailScreen.ReleasedID, this.ScreenID);
 	oControl.setText(tempStr);
 	this.newControl(oControl);
 
-	tempStr = "n/a";
-	if(this.fShowDetail.RunningMins)
-		tempStr = this.fShowDetail.RunningMins + " mins";
 	oControl = new TextControl(SearchDetailScreen.RunningMinsID, this.ScreenID);
-	oControl.setText(tempStr);
+	oControl.setText("");
 	this.newControl(oControl);
 
-	tempStr = "n/a";
-	if(this.fShowDetail.RatingID)
-		tempStr = oSession.getRatingName(this.fShowDetail.RatingID)
 	oControl = new TextControl(SearchDetailScreen.RatingID, this.ScreenID);
-	oControl.setText(tempStr);
+	oControl.setText("");
 	this.newControl(oControl);
 
 	oControl = new TextControl(SearchDetailScreen.CategoryID, this.ScreenID);
-	oControl.setText(oSession.getCategoryNames(this.fShowDetail.CategoryIDList));
+	oControl.setText("");
 	this.newControl(oControl);
 
 	oControl = new TextControl(SearchDetailScreen.ProviderID, this.ScreenID);
-	oControl.setText(oSession.getProviderName(showProvider.ProviderID));
+	oControl.setText("");
 	this.newControl(oControl);
 
 	oControl = new TextControl(SearchDetailScreen.CostID, this.ScreenID);
-	oControl.setText(showCost.CostDisplay);
+	oControl.setText("");
 	this.newControl(oControl);
 
 	oControl = new TextControl(SearchDetailScreen.RentalPeriodHoursID, this.ScreenID);
-	oControl.setText(showCost.formatRental());
+	oControl.setText("");
 	this.newControl(oControl);
 
 	oControl = new TextControl(SearchDetailScreen.MultiRentalsID, this.ScreenID);
-	if((this.fShowDetail.ShowProviderList.length > 1) || (showProvider.ShowCostList.length > 1))
-		oControl.setText("* Additional rentals available.");
-	else
-		oControl.setText("");
+	oControl.setText("");
 	this.newControl(oControl);
+
+	this.Callback = SearchDetailScreen.prototype.afterShowDetail;
+	oSession.showDetail(this, this.fShowID);
+}
+
+/******************************************************************************/
+
+/*void*/ SearchDetailScreen.prototype.afterShowDetail = function(
+	/*ShowDetail*/ showDetail, /*StatusCode*/ statusCode, /*string*/ statusMessage)
+{
+	if(statusCode == sc_Success)
+	{
+		var oSession = MainApp.getThe().getSession();
+		var oControl;
+		var tempStr;
+
+		this.fShowDetail = showDetail;
+
+		var showProvider = this.fShowDetail.ShowProviderList[0];
+		var showCost = showProvider.ShowCostList[0];
+
+		oControl = this.findControl(SearchDetailScreen.RentNowID);
+		oControl.setText((showCost.ShowCostType == sct_Free) ? "Get Now" : "Rent Now");
+
+		oControl = this.findControl(SearchDetailScreen.DescriptionID);
+		oControl.setText(this.fShowDetail.Description);
+
+		tempStr = "n/a";
+		if(this.fShowDetail.RunningMins)
+			tempStr = this.fShowDetail.RunningMins + " mins";
+		oControl = this.findControl(SearchDetailScreen.RunningMinsID);
+		oControl.setText(tempStr);
+
+		tempStr = "n/a";
+		if(this.fShowDetail.RatingID)
+			tempStr = oSession.getRatingName(this.fShowDetail.RatingID)
+		oControl = this.findControl(SearchDetailScreen.RatingID);
+		oControl.setText(tempStr);
+
+		oControl = this.findControl(SearchDetailScreen.CategoryID);
+		oControl.setText(oSession.getCategoryNames(this.fShowDetail.CategoryIDList));
+
+		oControl = this.findControl(SearchDetailScreen.ProviderID);
+		oControl.setText(oSession.getProviderName(showProvider.ProviderID));
+
+		oControl = this.findControl(SearchDetailScreen.CostID);
+		oControl.setText(showCost.CostDisplay);
+
+		oControl = this.findControl(SearchDetailScreen.RentalPeriodHoursID);
+		oControl.setText(showCost.formatRental());
+
+		oControl = this.findControl(SearchDetailScreen.MultiRentalsID);
+		if((this.fShowDetail.ShowProviderList.length > 1) || (showProvider.ShowCostList.length > 1))
+			oControl.setText("* Additional rentals available.");
+		else
+			oControl.setText("");
+	}
 }
 
 /******************************************************************************/
@@ -8875,6 +8919,12 @@ function SearchDetailScreen(/*RentedShow*/ showDetail)
 
 	if(controlID == SearchDetailScreen.RentNowID)
 	{
+		if(this.fShowDetail == null)	// ShowDetail not yet loaded
+		{
+			showMsg("Sorry, the page is still loading, please try again.");
+			return;
+		}
+
 		if(!oSession.isGuestAccess())
 		{
 			RentScreen.newInstance(this.fShowDetail);
@@ -9329,7 +9379,7 @@ function RentScreen(/*ShowDetail*/ oShowDetail)
 	}
 
 	// show message last, or will have focus problems
-	showMsg("This Show has been successfully added to your Now Playing list.");
+	showMsg("This Show has been successfully added to your My Shows list.");
 }
 
 /******************************************************************************/
@@ -9761,9 +9811,9 @@ RentedShowDetailScreen.DeleteNowID = "Show003_DeleteNow";
 
 /******************************************************************************/
 
-RentedShowDetailScreen.newInstance = function(/*RentedShow*/ rentedShow)
+RentedShowDetailScreen.newInstance = function(/*RentedShowSearch*/ rentedShowSearch)
 {
-	return MainApp.getThe().openScreen(new RentedShowDetailScreen(rentedShow));
+	return MainApp.getThe().openScreen(new RentedShowDetailScreen(rentedShowSearch));
 }
 
 /******************************************************************************/
@@ -9773,13 +9823,18 @@ RentedShowDetailScreen.prototype.constructor = RentedShowDetailScreen;
 
 /******************************************************************************/
 
-function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
+function RentedShowDetailScreen(/*RentedShowSearch or RentedShow*/ rentedShowSearch)
 {
 	var oSession = MainApp.getThe().getSession();
 	var oControl;
 	var tempStr;
 
-	this.fRentedShow = rentedShow;
+	this.fRentedShowID = rentedShowSearch.RentedShowID;
+	this.fRentedShowSearch = rentedShowSearch;
+	if(testStrHasLen(rentedShowSearch.Description))
+		this.fRentedShow = rentedShowSearch;
+	else
+		this.fRentedShow = null;
 	this.ScreenID = RentedShowDetailScreen.ScreenID;
 	this.ScreenTitle = "playing";
 	this.ScreenTitleImage = "titlePlaying.gif";
@@ -9788,8 +9843,8 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 	this.fContainerControl = new ContainerControl(this.ScreenID, 22, 80);
 
 	oControl = new ImageControl(RentedShowDetailScreen.PictureID, this.ScreenID);
-	if(testStrHasLen(rentedShow.PictureURL))
-		oControl.setSource(rentedShow.PictureURL);
+	if(testStrHasLen(this.fRentedShowSearch.PictureURL))
+		oControl.setSource(this.fRentedShowSearch.PictureURL);
 	else
 		oControl.setSource("images/no_picture_80.gif");
 	this.newControl(oControl);
@@ -9802,20 +9857,20 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 	this.newControl(oControl);
 
 	oControl = new TextControl(RentedShowDetailScreen.NameID, this.ScreenID);
-	oControl.setText(this.fRentedShow.Name);
+	oControl.setText(this.fRentedShowSearch.Name);
 	this.newControl(oControl);
 
 	tempStr = "";
-	if(testStrHasLen(this.fRentedShow.EpisodeName) || testStrHasLen(this.fRentedShow.EpisodeNumber))
+	if(testStrHasLen(this.fRentedShowSearch.EpisodeName) || testStrHasLen(this.fRentedShowSearch.EpisodeNumber))
 	{
-		if(testStrHasLen(this.fRentedShow.EpisodeName))
+		if(testStrHasLen(this.fRentedShowSearch.EpisodeName))
 		{
-			tempStr = '"' + this.fRentedShow.EpisodeName + '"';
-			if(testStrHasLen(this.fRentedShow.EpisodeNumber))
-				tempStr += " (" + this.fRentedShow.EpisodeNumber + ")";
+			tempStr = '"' + this.fRentedShowSearch.EpisodeName + '"';
+			if(testStrHasLen(this.fRentedShowSearch.EpisodeNumber))
+				tempStr += " (" + this.fRentedShowSearch.EpisodeNumber + ")";
 		}
 		else
-			tempStr = "Episode: " + this.fRentedShow.EpisodeNumber;
+			tempStr = "Episode: " + this.fRentedShowSearch.EpisodeNumber;
 
 	}
 	oControl = new TextControl(RentedShowDetailScreen.EpisodeID, this.ScreenID);
@@ -9823,65 +9878,115 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 	this.newControl(oControl);
 
 	oControl = new TextControl(RentedShowDetailScreen.DescriptionID, this.ScreenID);
-	oControl.setText(this.fRentedShow.Description);
+	oControl.setText("&nbsp;");
 	this.newControl(oControl);
 
-	tempStr = "n/a";
-	if(this.fRentedShow.ReleasedOn)
-		tempStr = dateTimeToString(this.fRentedShow.ReleasedOn, dtf_M_D_YYYY, true);
-	else if(this.fRentedShow.ReleasedYear)
-		tempStr = this.fRentedShow.ReleasedYear.toString();
 	oControl = new TextControl(RentedShowDetailScreen.ReleasedID, this.ScreenID);
-	oControl.setText(tempStr);
+	oControl.setText("");
 	this.newControl(oControl);
 
-	tempStr = "n/a";
-	if(this.fRentedShow.RunningMins)
-		tempStr = this.fRentedShow.RunningMins + " mins";
 	oControl = new TextControl(RentedShowDetailScreen.RunningMinsID, this.ScreenID);
-	oControl.setText(tempStr);
+	oControl.setText("");
 	this.newControl(oControl);
 
-	tempStr = "n/a";
-	if(this.fRentedShow.RatingID)
-		tempStr = oSession.getRatingName(this.fRentedShow.RatingID)
 	oControl = new TextControl(RentedShowDetailScreen.RatingID, this.ScreenID);
-	oControl.setText(tempStr);
+	oControl.setText("");
 	this.newControl(oControl);
 
 	oControl = new TextControl(RentedShowDetailScreen.CategoryID, this.ScreenID);
-	oControl.setText(oSession.getCategoryNames(this.fRentedShow.CategoryIDList));
+	oControl.setText("");
 	this.newControl(oControl);
 
 	oControl = new TextControl(RentedShowDetailScreen.ProviderID, this.ScreenID);
-	oControl.setText(oSession.getProviderName(this.fRentedShow.ProviderID));
+	oControl.setText(oSession.getProviderName(this.fRentedShowSearch.ProviderID));
 	this.newControl(oControl);
 
 	oControl = new TextControl(RentedShowDetailScreen.CostID, this.ScreenID);
-	oControl.setText(this.fRentedShow.ShowCost.CostDisplay);
+	oControl.setText("");
 	this.newControl(oControl);
 
-	tempStr = "n/a";
 	oControl = new TextControl(RentedShowDetailScreen.RentalPeriodHoursID, this.ScreenID);
-	if(this.fRentedShow.ShowCost.RentalPeriodHours)
-		tempStr = this.fRentedShow.ShowCost.RentalPeriodHours + " hrs";
-	oControl.setText(tempStr);
+	oControl.setText("");
 	this.newControl(oControl);
 
 	oControl = new TextControl(RentedShowDetailScreen.RentedOnLabelID, this.ScreenID)
-	oControl.setText((this.fRentedShow.ShowCost.ShowCostType == sct_Free) ? "Added On:" : "Rented On:");
+	oControl.setText("Added On:");
 	this.newControl(oControl);
 
 	oControl = new TextControl(RentedShowDetailScreen.RentedOnID, this.ScreenID);
-	oControl.setText(dateTimeToString(this.fRentedShow.RentedOn, dtf_M_D_H_MM_AM));
+	oControl.setText("");
 	this.newControl(oControl);
 
 	tempStr = "n/a";
 	oControl = new TextControl(RentedShowDetailScreen.AvailableUntilID, this.ScreenID);
-	if(this.fRentedShow.AvailableUntil)
-		tempStr = dateTimeToString(this.fRentedShow.AvailableUntil, dtf_M_D_H_MM_AM);
+	if(this.fRentedShowSearch.AvailableUntil)
+		tempStr = dateTimeToString(this.fRentedShowSearch.AvailableUntil, dtf_M_D_H_MM_AM);
 	oControl.setText(tempStr);
 	this.newControl(oControl);
+
+	if (this.fRentedShow == null)
+	{
+		this.Callback = RentedShowDetailScreen.prototype.afterRentedShow;
+		oSession.rentedShow(this, this.fRentedShowID);
+	}
+	else
+		this.afterRentedShow(this.fRentedShow, sc_Success, null);
+}
+
+/******************************************************************************/
+
+/*void*/ RentedShowDetailScreen.prototype.afterRentedShow = function(
+	/*RentedShow*/ rentedShow, /*StatusCode*/ statusCode, /*string*/ statusMessage)
+{
+	if(statusCode == sc_Success)
+	{
+		var oSession = MainApp.getThe().getSession();
+		var oControl;
+		var tempStr;
+
+		this.fRentedShow = rentedShow;
+
+		oControl = this.findControl(RentedShowDetailScreen.DescriptionID);
+		oControl.setText(this.fRentedShow.Description);
+
+		tempStr = "n/a";
+		if(this.fRentedShow.ReleasedOn)
+			tempStr = dateTimeToString(this.fRentedShow.ReleasedOn, dtf_M_D_YYYY, true);
+		else if(this.fRentedShow.ReleasedYear)
+			tempStr = this.fRentedShow.ReleasedYear.toString();
+		oControl = this.findControl(RentedShowDetailScreen.ReleasedID);
+		oControl.setText(tempStr);
+
+		tempStr = "n/a";
+		if(this.fRentedShow.RunningMins)
+			tempStr = this.fRentedShow.RunningMins + " mins";
+		oControl = this.findControl(RentedShowDetailScreen.RunningMinsID);
+		oControl.setText(tempStr);
+
+		tempStr = "n/a";
+		if(this.fRentedShow.RatingID)
+			tempStr = oSession.getRatingName(this.fRentedShow.RatingID)
+		oControl = this.findControl(RentedShowDetailScreen.RatingID);
+		oControl.setText(tempStr);
+
+		oControl = this.findControl(RentedShowDetailScreen.CategoryID);
+		oControl.setText(oSession.getCategoryNames(this.fRentedShow.CategoryIDList));
+
+		oControl = this.findControl(RentedShowDetailScreen.CostID);
+		oControl.setText(this.fRentedShow.ShowCost.CostDisplay);
+	
+		tempStr = "n/a";
+		oControl = this.findControl(RentedShowDetailScreen.RentalPeriodHoursID);
+		if(this.fRentedShow.ShowCost.RentalPeriodHours)
+			tempStr = this.fRentedShow.ShowCost.RentalPeriodHours + " hrs";
+		oControl.setText(tempStr);
+
+		oControl = this.findControl(RentedShowDetailScreen.RentedOnLabelID)
+		oControl.setText((this.fRentedShow.ShowCost.ShowCostType == sct_Free) ? "Added On:" : "Rented On:");
+
+		oControl = this.findControl(RentedShowDetailScreen.RentedOnID);
+		oControl.setText(dateTimeToString(this.fRentedShow.RentedOn, dtf_M_D_H_MM_AM));
+	}
 }
 
 /******************************************************************************/
@@ -9893,7 +9998,7 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 		var oSession = MainApp.getThe().getSession();
 
 		oSession.downloadRefresh();
-		var newDownloadStatus = oSession.getDownloadRentedShowStatus(this.fRentedShow.RentedShowID);
+		var newDownloadStatus = oSession.getDownloadRentedShowStatus(this.fRentedShowID);
 
 		if(this.fDownloadStatus != newDownloadStatus)
 		{
@@ -9937,13 +10042,13 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 	if(controlID == RentedShowDetailScreen.WatchNowID)
 	{
 		this.Callback = RentedShowDetailScreen.prototype.afterWatchShow;
-		oSession.watchShow(this, this.fRentedShow.RentedShowID);
+		oSession.watchShow(this, this.fRentedShowID);
 		return;
 	}
 	else if(controlID == RentedShowDetailScreen.DeleteNowID)
 	{
 		this.Callback = RentedShowDetailScreen.prototype.afterReleaseShow;
-		oSession.releaseShow(this, this.fRentedShow.RentedShowID);
+		oSession.releaseShow(this, this.fRentedShowID);
 		return;
 	}
 
@@ -9962,7 +10067,7 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 	oSession.downloadRefresh();
 
 	var useApp = oSession.determineAppForShow(license.ShowURL);
-	var downloadStatus = oSession.getDownloadRentedShowStatus(this.fRentedShow.RentedShowID);
+	var downloadStatus = oSession.getDownloadRentedShowStatus(this.fRentedShowID);
 
 	var playLocal = false;
 
@@ -9974,7 +10079,7 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 
 	if(playLocal)
 	{
-		if(!oSession.playDownloadedRentedShow(this.fRentedShow.RentedShowID, useApp))
+		if(!oSession.playDownloadedRentedShow(this.fRentedShowID, useApp))
 		{
 			playLocal = false;
 			showMsg("An error occurred while trying to play locally.  Show will be streamed.");
@@ -9998,7 +10103,7 @@ function RentedShowDetailScreen(/*RentedShow*/ rentedShow)
 
 		//		var oNowPlayingScreen = MainApp.getThe().findScreen(NowPlayingScreen.ScreenID);
 //		if(oNowPlayingScreen != null)
-//			oNowPlayingScreen.removeRentedShow(this.fRentedShow.RentedShowID);
+//			oNowPlayingScreen.removeRentedShow(this.fRentedShowID);
 	}
 }
 
