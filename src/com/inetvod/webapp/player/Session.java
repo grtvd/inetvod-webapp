@@ -39,7 +39,7 @@ import com.inetvod.playerClient.rqdata.ShowSearchList;
 public class Session
 {
 	/* Constants */
-	public static final String fNetworkURL  = "http://localhost/inetvod/playerapi/xml"; //TODO host?
+	public static final String fNetworkURL  = "http://localhost/webapi/playerapi/xml"; //TODO host?
 	private static final String UserIDCookie = "user";
 	private static final String UserPasswordCookie = "password";
 	private static final String RememberPasswordCookie = "remember";
