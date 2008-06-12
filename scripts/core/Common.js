@@ -312,6 +312,17 @@ function checkClassName(obj, classNameExt)
 }
 
 /******************************************************************************/
+
+/*void*/ function setStyleProperty(/*object*/ oObj, /*string*/ property, /*strung*/ value)
+{
+	if(oObj && oObj.style)
+		if (oObj.style.setAttribute)	// IE
+			oObj.style.setAttribute(property, value);
+		else
+			oObj.style.setProperty(property, value, "");
+}
+
+/******************************************************************************/
 /******************************************************************************/
 
 function compareStrings(lhs, rhs)

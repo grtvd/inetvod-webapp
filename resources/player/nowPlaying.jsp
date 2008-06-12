@@ -3,8 +3,6 @@ Copyright © 2007-2008 iNetVOD, Inc. All Rights Reserved.
 iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.inetvod.playerClient.rqdata.RentedShowSearch" %>
-<%@ page import="com.inetvod.playerClient.rqdata.RentedShowSearchList" %>
 <%@ page import="com.inetvod.common.core.EncodeUtil" %>
 <jsp:useBean id="sess" class="com.inetvod.webapp.player.Session" scope="request"/>
 <jsp:useBean id="nowPlayingView" class="com.inetvod.webapp.player.NowPlayingView" scope="request"/>
@@ -20,16 +18,8 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 <script type="text/javascript">
 	function postRunOnLoad()
 	{
-		LoadNowPlayingViewData("<%=EncodeUtil.encodeJSLiteral(nowPlayingView.getNowPlayingViewDataXml())%>");
-		SetNowPlayingImages();
+		InitNowPlaying("<%=EncodeUtil.encodeJSLiteral(nowPlayingView.getNowPlayingViewDataXml())%>");
 		StartupLoadSystemData();
-	}
-
-	function openRentedShowDetail(/*RentedShowID*/ rentedShowID)
-	{
-		var rentedShowSearch = getNowPlayingRentedShowSearch(rentedShowID);
-		if(rentedShowSearch)
-			StartupRentedShowDetail(rentedShowSearch);
 	}
 </script>
 <%
@@ -62,63 +52,23 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 	}
 	else
 	{
-		RentedShowSearchList rentedShowSearchList = nowPlayingView.getRentedShowSearchList();
-		if((rentedShowSearchList != null) && (rentedShowSearchList.size() > 0))
-		{
-		%>
+	%>
 
-			<table cellspacing="0" cellpadding="3">
+		<div id="Show002_Body" style="display:none">
+			<table id="Show002_ShowList" cellspacing="0" cellpadding="3" border="0">
 				<thead>
 					<tr
-						><td class="listHeader">Show</td
+						><td
+						/><td class="listHeader">Show</td
 						><td class="listSmallHeader">Until</td
 					></tr>
 				</thead>
-				<tbody>
-				<%
-					int pos = 0;
-					for(RentedShowSearch rentedShowSearch : rentedShowSearchList)
-					{
-					%>
-						<tr class="listRow" onclick="openRentedShowDetail('<%=rentedShowSearch.getRentedShowID()%>');"
-							><td><span id="<%=rentedShowSearch.getRentedShowID()%>" style="display:none;"><%=pos%></span
-								><table cellpadding="0" cellspacing="0" border="0">
-									<tr
-										><td rowspan="2" width="48" height="48" style="padding-left:5px;"><img
-											id="Show002_ShowList_<%=pos%>_Picture" src="images/no_picture_48.gif"
-											border=0 width=48 alt=""/></td
-										><td class="listItem"><a class="listItem"
-											onclick="openRentedShowDetail('<%=rentedShowSearch.getRentedShowID()%>'); stopEventPropagation(event);"
-											><%=rentedShowSearch.getName()%></a></td
-									></tr>
-									<tr
-										><td class="listSmallWrapItem"><%=rentedShowSearch.getEpisodeName() != null
-											? rentedShowSearch.getEpisodeName() : ""%></td
-									></tr>
-								</table
-							></td
-							><td class="listSmallItem"><%=rentedShowSearch.buildAvailableUtilStr()%></td
-						></tr>
-					<%
-						pos++;
-					}
-				%>
-				</tbody>
+				<tbody id="Show002_ShowList_Body"/>
 			</table>
+		</div>
 
-		<%
-		}
-		else
-		{
-		%>
-			<div class="textCtr" style="padding:20px">Your 'My Shows' list is empty. 'My Shows' keeps track of shows
-			that you pick or rent to be downloaded or watch later.<br>
-			<br>
-			It is a good idea to keep many shows in your 'My Shows' list. This will allow new shows to
-			be downloaded while you are watching another show.
-			</div>
-		<%
-		}
+		<div id="Show002_NoShowsText" class="textCtr" style="padding:20px;"> </div>
+	<%
 	}
 %>
 

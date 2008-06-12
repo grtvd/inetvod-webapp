@@ -37,42 +37,11 @@ function NowPlayingViewData(reader)
 
 /**********************************************************************************************************************/
 
-/*void*/ function LoadNowPlayingViewData(/*XML String*/ xmlData)
+/*void*/ function InitNowPlaying(/*XML String*/ xmlData)
 {
 	gNowPlayingViewData = NowPlayingViewData.newInstanceFromXmlString(xmlData);
-}
-
-/**********************************************************************************************************************/
-
-/*void*/ function SetNowPlayingImages()
-{
 	if (gNowPlayingViewData && gNowPlayingViewData.RentedShowSearchList)
-	{
-		for(var i = 0; i < gNowPlayingViewData.RentedShowSearchList.length; i++)
-		{
-			var rentedShowSearch = gNowPlayingViewData.RentedShowSearchList[i];
-			if(testStrHasLen(rentedShowSearch.PictureURL))
-			{
-				var showPosObj = document.getElementById(rentedShowSearch.RentedShowID);
-				if(showPosObj)
-				{
-					var showPos = showPosObj.innerHTML;
-					var imageObj = document.getElementById("Show002_ShowList_" + showPos + "_Picture");
-					if(imageObj)
-						imageObj.src = rentedShowSearch.PictureURL;
-				}
-			}
-		}
-	}
-}
-
-/**********************************************************************************************************************/
-
-/*RentedShowSearch*/ function getNowPlayingRentedShowSearch(/*RentedShowID*/ rentedShowID)
-{
-	if (gNowPlayingViewData && gNowPlayingViewData.RentedShowSearchList)
-		return arrayFindItemByCmpr(gNowPlayingViewData.RentedShowSearchList, new RentedShowSearchToIDCmpr(rentedShowID));
-	return null;
+		NowPlayingScreen.newInstance(gNowPlayingViewData.RentedShowSearchList);
 }
 
 /**********************************************************************************************************************/

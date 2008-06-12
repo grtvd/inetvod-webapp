@@ -124,6 +124,7 @@
 				<file name="ConfirmChargeControl.js" />
 			</filelist>
 			<filelist dir="scripts/nowPlaying">
+				<file name="NowPlayingScreen.js" />
 				<file name="RentedShowDetailScreen.js" />
 			</filelist>
 			<filelist dir="scripts/prefs">
