@@ -626,7 +626,7 @@ function Session()
 	showDetailRqst = ShowDetailRqst.newInstance();
 	showDetailRqst.ShowID = showID;
 
-	WaitScreen.newInstance();
+	//WaitScreen.newInstance();
 	this.Callback = Session.prototype.showDetailResponse;
 	this.CallerCallback = callbackObj;
 	DataRequestor.newInstance(this.fSessionData).startRequest(showDetailRqst, this);
@@ -637,7 +637,7 @@ function Session()
 /*void*/ Session.prototype.showDetailResponse = function(/*ShowDetailResp*/ showDetailResp,
 	/*StatusCode*/ statusCode, /*string*/ statusMessage)
 {
-	WaitScreen_close();
+	//WaitScreen_close();
 	if(statusCode == sc_Success)
 	{
 		this.callbackCaller(showDetailResp.ShowDetail, statusCode, statusMessage);
@@ -833,7 +833,7 @@ function Session()
 	rentedShowRqst = RentedShowRqst.newInstance();
 	rentedShowRqst.RentedShowID = rentedShowID;
 
-	WaitScreen.newInstance();
+	//WaitScreen.newInstance();
 	this.Callback = Session.prototype.rentedShowResponse;
 	this.CallerCallback = callbackObj;
 	DataRequestor.newInstance(this.fSessionData).startRequest(rentedShowRqst, this);
@@ -844,7 +844,7 @@ function Session()
 /*void*/ Session.prototype.rentedShowResponse = function(/*RentedShowResp*/ rentedShowResp,
 	/*StatusCode*/ statusCode, /*string*/ statusMessage)
 {
-	WaitScreen_close();
+	//WaitScreen_close();
 	if(statusCode == sc_Success)
 	{
 		this.callbackCaller(rentedShowResp.RentedShow, statusCode, statusMessage);
