@@ -60,6 +60,8 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 					<tr
 						><td
 						/><td class="listHeader">Show</td
+						><td class="listSmallHeader">Date</td
+						><td class="listSmallHeader">Added</td
 						><td class="listSmallHeader">Until</td
 					></tr>
 				</thead>

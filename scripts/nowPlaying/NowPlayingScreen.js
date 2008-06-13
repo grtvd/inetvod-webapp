@@ -129,6 +129,16 @@ function NowPlayingScreen(/*Array*/ rentedShowSearchList)
 	oCell.innerHTML = rentedShowSearch.EpisodeName;
 
 
+	// cell for Released
+	oCell = oTableRow.insertCell(-1);
+	oCell.className = "listSmallItem";
+	oCell.innerHTML = this.buildReleased(rentedShowSearch.ReleasedOn, rentedShowSearch.ReleasedYear);
+
+	// cell for Added
+	oCell = oTableRow.insertCell(-1);
+	oCell.className = "listSmallItem";
+	oCell.innerHTML = this.buildRentedOn(rentedShowSearch.RentedOn);
+
 	// cell for AvailableUntil
 	oCell = oTableRow.insertCell(-1);
 	oCell.className = "listSmallItem";
@@ -144,16 +154,62 @@ function NowPlayingScreen(/*Array*/ rentedShowSearchList)
 
 /**********************************************************************************************************************/
 
+/*string*/ NowPlayingScreen.prototype.buildReleased = function(/*Date*/ releasedOn, /*int*/ releasedYear)
+{
+	var released = "";
+
+	if(releasedOn)
+	{
+		var now = new Date();
+		var totalDays = (now.getTime() - releasedOn.getTime()) / MillsPerDay;
+
+		if(totalDays < 1)
+			released = "Today";
+		else if(totalDays <= 7)
+			released = dayOfWeekToString(releasedOn.getUTCDay());
+		else if(totalDays <= 365)
+			released = dateTimeToString(releasedOn, dtf_M_D, true);
+		else
+			released = releasedOn.getUTCFullYear().toString();
+	}
+	else if(releasedYear)
+		released = releasedYear.toString();
+
+	return released;
+}
+
+/**********************************************************************************************************************/
+
+/*string*/ NowPlayingScreen.prototype.buildRentedOn = function(/*Date*/ rentedOn)
+{
+	var rented = "";
+
+	if(rentedOn != null)
+	{
+		var now = new Date();
+		var totalDays = (now.getTime() - rentedOn.getTime()) / MillsPerDay;
+
+		if(totalDays <= 1)
+			rented = dateTimeToString(rentedOn, dtf_H_MMa);
+		else if(totalDays <= 7)
+			rented = dayOfWeekToString(rentedOn.getDay(), false) + " " + dateTimeToString(rentedOn, dtf_Ha);
+		else
+			rented = dateTimeToString(rentedOn, dtf_M_D);
+	}
+
+	return rented;
+}
+
+/**********************************************************************************************************************/
+
 /*string*/ NowPlayingScreen.prototype.buildAvailableUntil = function(/*Date*/ availableUntil)
 {
 	var expires = "n/a";
-	var totalDays;
-	var now;
 
 	if(availableUntil != null)
 	{
-		now = new Date();
-		totalDays = (availableUntil.getTime() - now.getTime()) / MillsPerDay;
+		var now = new Date();
+		var totalDays = (availableUntil.getTime() - now.getTime()) / MillsPerDay;
 
 		if(totalDays < 0)
 			expires = "Expired";

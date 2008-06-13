@@ -94,8 +94,13 @@ function RentedShowDetailScreen(/*RentedShowSearch or RentedShow*/ rentedShowSea
 	oControl.setText("&nbsp;");
 	this.newControl(oControl);
 
+	tempStr = "n/a";
+	if(this.fRentedShowSearch.ReleasedOn)
+		tempStr = dateTimeToString(this.fRentedShowSearch.ReleasedOn, dtf_M_D_YYYY, true);
+	else if(this.fRentedShowSearch.ReleasedYear)
+		tempStr = this.fRentedShowSearch.ReleasedYear.toString();
 	oControl = new TextControl(RentedShowDetailScreen.ReleasedID, this.ScreenID);
-	oControl.setText("");
+	oControl.setText(tempStr);
 	this.newControl(oControl);
 
 	oControl = new TextControl(RentedShowDetailScreen.RunningMinsID, this.ScreenID);
@@ -127,7 +132,7 @@ function RentedShowDetailScreen(/*RentedShowSearch or RentedShow*/ rentedShowSea
 	this.newControl(oControl);
 
 	oControl = new TextControl(RentedShowDetailScreen.RentedOnID, this.ScreenID);
-	oControl.setText("");
+	oControl.setText(dateTimeToString(this.fRentedShowSearch.RentedOn, dtf_M_D_H_MM_AM));
 	this.newControl(oControl);
 
 	tempStr = "n/a";
@@ -163,14 +168,6 @@ function RentedShowDetailScreen(/*RentedShowSearch or RentedShow*/ rentedShowSea
 		oControl.setText(this.fRentedShow.Description);
 
 		tempStr = "n/a";
-		if(this.fRentedShow.ReleasedOn)
-			tempStr = dateTimeToString(this.fRentedShow.ReleasedOn, dtf_M_D_YYYY, true);
-		else if(this.fRentedShow.ReleasedYear)
-			tempStr = this.fRentedShow.ReleasedYear.toString();
-		oControl = this.findControl(RentedShowDetailScreen.ReleasedID);
-		oControl.setText(tempStr);
-
-		tempStr = "n/a";
 		if(this.fRentedShow.RunningMins)
 			tempStr = this.fRentedShow.RunningMins + " mins";
 		oControl = this.findControl(RentedShowDetailScreen.RunningMinsID);
@@ -196,9 +193,6 @@ function RentedShowDetailScreen(/*RentedShowSearch or RentedShow*/ rentedShowSea
 
 		oControl = this.findControl(RentedShowDetailScreen.RentedOnLabelID)
 		oControl.setText((this.fRentedShow.ShowCost.ShowCostType == sct_Free) ? "Added On:" : "Rented On:");
-
-		oControl = this.findControl(RentedShowDetailScreen.RentedOnID);
-		oControl.setText(dateTimeToString(this.fRentedShow.RentedOn, dtf_M_D_H_MM_AM));
 	}
 }
 
