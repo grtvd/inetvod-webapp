@@ -40,14 +40,20 @@ function NowPlayingScreen(/*Array*/ rentedShowSearchList)
 	this.oNoShowsText = document.getElementById(NowPlayingScreen.NoShowsTextID);
 
 	this.createShowList();
+	this.checkNoShowsTest();
 
-	setStyleDisplay(this.oBody, rentedShowSearchList.length > 0);
-	if (rentedShowSearchList.length == 0)
+	setTimeout("NowPlayingScreen.getThe().loadPictures()", 250);
+}
+
+/**********************************************************************************************************************/
+
+/*void*/ NowPlayingScreen.prototype.checkNoShowsTest = function()
+{
+	setStyleDisplay(this.oBody, this.fRentedShowSearchList.length > 0);
+	if (this.fRentedShowSearchList.length == 0)
 		this.oNoShowsText.innerHTML = "Your 'My Shows' list is empty. 'My Shows' keeps track of shows that you pick or rent to be downloaded or watch later.<br><br>It is a good idea to keep many shows in your 'My Shows' list. This will allow new shows to be downloaded while you are watching another show.";
 	else
 		this.oNoShowsText.innerHTML = "";
-
-	setTimeout("NowPlayingScreen.getThe().loadPictures()", 250);
 }
 
 /**********************************************************************************************************************/
@@ -78,7 +84,7 @@ function NowPlayingScreen(/*Array*/ rentedShowSearchList)
 
 	// span to hold RentedShowID
 	var oSpan = document.createElement("span");
-	oSpan.id = this.buildRowItemID(NowPlayingScreen.RentedShowID, pos);
+	oSpan.id = rentedShowSearch.RentedShowID;
 	oSpan.style.display = "none";
 	oCell.insertBefore(oSpan, null);
 
@@ -197,6 +203,30 @@ function NowPlayingScreen(/*Array*/ rentedShowSearchList)
 	var rentedShowSearch = arrayFindItemByCmpr(this.fRentedShowSearchList, new RentedShowSearchToIDCmpr(rentedShowID));
 	if(rentedShowSearch)
 		StartupRentedShowDetail(rentedShowSearch);
+}
+
+/**********************************************************************************************************************/
+
+/*void*/ NowPlayingScreen.prototype.removeRentedShow = function(/*RentedShowID*/ rentedShowID)
+{
+	arrayRemoveByCmpr(this.fRentedShowSearchList, new RentedShowSearchToIDCmpr(rentedShowID));
+
+	var found = false;
+	for(var i = 0; (i < this.oShowList.rows.length) && !found; i++)
+	{
+		var oRow = this.oShowList.rows.item(i);
+		var oSpans = oRow.getElementsByTagName("span");
+		for(var j = 0; (j < oSpans.length) && !found; j++)
+		{
+			if(oSpans[j].id == rentedShowID)
+			{
+				this.oShowList.deleteRow(i);
+				found = true;
+			}
+		}
+	}
+
+	this.checkNoShowsTest();
 }
 
 /**********************************************************************************************************************/

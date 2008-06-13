@@ -310,13 +310,12 @@ function RentedShowDetailScreen(/*RentedShowSearch or RentedShow*/ rentedShowSea
 {
 	if(statusCode == sc_Success)
 	{
-		document.location.reload(true);
-//		this.close();
-//		MainApp.getThe().closePopup();
+		this.close();
+		MainApp.getThe().closePopup();
 
-		//		var oNowPlayingScreen = MainApp.getThe().findScreen(NowPlayingScreen.ScreenID);
-//		if(oNowPlayingScreen != null)
-//			oNowPlayingScreen.removeRentedShow(this.fRentedShowID);
+		var oNowPlayingScreen = NowPlayingScreen.getThe();
+		if(oNowPlayingScreen != null)
+			oNowPlayingScreen.removeRentedShow(this.fRentedShowID);
 	}
 }
 
