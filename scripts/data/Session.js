@@ -75,8 +75,8 @@ function Session()
 
 	this.fPlayer.ManufacturerID = "inetvod";
 	this.fPlayer.ModelNo = "webapp";
-	this.fPlayer.SerialNo = "9876543210";
-	this.fPlayer.Version = "0.0.0001";
+	this.fPlayer.SerialNo = "1";
+	this.fPlayer.Version = "1.0.0000";
 }
 
 /******************************************************************************/
