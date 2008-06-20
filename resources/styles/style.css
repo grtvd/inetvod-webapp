@@ -497,6 +497,21 @@ td.checkCtr
 	text-align: left;
 	/*border: 1px solid blue;*/
 }
+a.listHeader
+{
+	padding-left: 0;
+	padding-right: 0;
+	cursor: hand;
+	cursor: pointer;
+}
+a.listHeader:hover
+{
+	text-decoration: underline;
+}
+a.listHeader:visited
+{
+	color: #0293CF;
+}
 .listSmallHeader
 {
 	padding-left: 10px;
@@ -504,6 +519,21 @@ td.checkCtr
 	color: #0293CF;
 	text-align: left;
 	/*border: 1px solid blue;*/
+}
+a.listSmallHeader
+{
+	padding-left: 0;
+	padding-right: 0;
+	cursor: hand;
+	cursor: pointer;
+}
+a.listSmallHeader:hover
+{
+	text-decoration: underline;
+}
+a.listSmallHeader:visited
+{
+	color: #0293CF;
 }
 
 .listRow

@@ -367,13 +367,13 @@ function compareNumbers(lhs, rhs)
 function compareDates(lhs, rhs)
 {
 	if(!lhs)
-		lhs = (new Date());
+		lhs = (new Date(0));
 	if(!rhs)
-		rhs = (new Date());
+		rhs = (new Date(0));
 
-	if(lhs == rhs)
+	if(lhs.getTime() == rhs.getTime())
 		return 0;
-	if(lhs < rhs)
+	if(lhs.getTime() < rhs.getTime())
 		return -1;
 	return 1;
 }

@@ -59,10 +59,18 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 				<thead>
 					<tr
 						><td
-						/><td class="listHeader">Show</td
-						><td class="listSmallHeader">Date</td
-						><td class="listSmallHeader">Added</td
-						><td class="listSmallHeader">Until</td
+						/><td class="listHeader"><a class="listHeader"
+							onclick="NowPlayingScreen.getThe().onButton('Show002_SortByName')">Show<img
+							id="Show002_ShowList_Head_Name_Img" src="../images/spacer.gif" alt=""/></a></td
+						><td class="listSmallHeader"><a class="listSmallHeader"
+							onclick="NowPlayingScreen.getThe().onButton('Show002_SortByReleasedOn')">Date<img
+							id="Show002_ShowList_Head_ReleasedOn_Img" src="../images/spacer.gif" alt=""/></a></td
+						><td class="listSmallHeader"><a class="listSmallHeader"
+							onclick="NowPlayingScreen.getThe().onButton('Show002_SortByRentedOn')">Added<img
+							id="Show002_ShowList_Head_RentedOn_Img" src="images/sort_asc.gif" alt=""/></a></td
+						><td class="listSmallHeader"><a class="listSmallHeader"
+							onclick="NowPlayingScreen.getThe().onButton('Show002_SortByAvailableUntil')">Until<img
+							id="Show002_ShowList_Head_AvailableUntil_Img" src="../images/spacer.gif" alt=""/></a></td
 					></tr>
 				</thead>
 				<tbody id="Show002_ShowList_Body"/>
