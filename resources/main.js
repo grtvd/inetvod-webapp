@@ -367,13 +367,13 @@ function compareNumbers(lhs, rhs)
 function compareDates(lhs, rhs)
 {
 	if(!lhs)
-		lhs = (new Date());
+		lhs = (new Date(0));
 	if(!rhs)
-		rhs = (new Date());
+		rhs = (new Date(0));
 
-	if(lhs == rhs)
+	if(lhs.getTime() == rhs.getTime())
 		return 0;
-	if(lhs < rhs)
+	if(lhs.getTime() < rhs.getTime())
 		return -1;
 	return 1;
 }
@@ -1272,6 +1272,7 @@ function MainApp()
 /*void*/ MainApp.prototype.openPopup = function()
 {
 	this.closeAllScreens();
+	this.showPopupMsg("");
 	setStyleDisplay(this.fMainPopup, true);
 }
 
@@ -1281,6 +1282,13 @@ function MainApp()
 {
 	this.closeAllScreens();
 	setStyleDisplay(this.fMainPopup, false);
+}
+
+/******************************************************************************/
+
+/*void*/ MainApp.prototype.showPopupMsg = function(msg)
+{
+	document.getElementById("MainPopup_Message").innerHTML = msg;
 }
 
 /******************************************************************************/
@@ -4345,8 +4353,8 @@ function Session()
 
 	this.fPlayer.ManufacturerID = "inetvod";
 	this.fPlayer.ModelNo = "webapp";
-	this.fPlayer.SerialNo = "9876543210";
-	this.fPlayer.Version = "0.0.0001";
+	this.fPlayer.SerialNo = "1";
+	this.fPlayer.Version = "1.0.0000";
 }
 
 /******************************************************************************/
@@ -6059,14 +6067,81 @@ function RentedShowSearchByNameCmpr(lhs, rhs)
 	if(rc != 0)
 		return rc;
 
+	return compareDates(lhs.ReleasedOn, rhs.ReleasedOn);
+}
+
+/******************************************************************************/
+
+function RentedShowSearchByNameDescCmpr(lhs, rhs)
+{
+	var rc = compareStringsIgnoreCase(rhs.Name, lhs.Name);	// reversed
+
+	if(rc != 0)
+		return rc;
+
 	return compareDates(rhs.ReleasedOn, lhs.ReleasedOn);	// reversed
+}
+
+/******************************************************************************/
+
+function RentedShowSearchByReleasedOnCmpr(lhs, rhs)
+{
+	var rc = compareDates(lhs.ReleasedOn, rhs.ReleasedOn);
+
+	if(rc != 0)
+		return rc;
+
+	return compareStringsIgnoreCase(lhs.Name, rhs.Name);
+}
+
+/******************************************************************************/
+
+function RentedShowSearchByReleasedOnDescCmpr(lhs, rhs)
+{
+	var rc = compareDates(rhs.ReleasedOn, lhs.ReleasedOn);	// reversed
+
+	if(rc != 0)
+		return rc;
+
+	return compareStringsIgnoreCase(rhs.Name, lhs.Name);	// reversed
+}
+
+/******************************************************************************/
+
+function RentedShowSearchByRentedOnCmpr(lhs, rhs)
+{
+	return compareDates(lhs.RentedOn, rhs.RentedOn);
+}
+
+/******************************************************************************/
+
+function RentedShowSearchByRentedOnDescCmpr(lhs, rhs)
+{
+	return compareDates(rhs.RentedOn, lhs.RentedOn);	// reversed
 }
 
 /******************************************************************************/
 
 function RentedShowSearchByAvailableUntilCmpr(lhs, rhs)
 {
-	return compareDates(lhs.AvailableUntil, rhs.AvailableUntil);
+	var rc = compareDates(lhs.AvailableUntil, rhs.AvailableUntil);
+
+	if(rc != 0)
+		return rc;
+
+	return RentedShowSearchByNameCmpr(lhs, rhs);
+}
+
+/******************************************************************************/
+
+function RentedShowSearchByAvailableUntilDescCmpr(lhs, rhs)
+{
+	var rc = compareDates(rhs.AvailableUntil, lhs.AvailableUntil);	// reversed
+
+	if(rc != 0)
+		return rc;
+
+	return RentedShowSearchByNameDescCmpr(lhs, rhs);
 }
 
 /******************************************************************************/
@@ -9396,7 +9471,7 @@ function RentScreen(/*ShowDetail*/ oShowDetail)
 	}
 
 	// show message last, or will have focus problems
-	showMsg("This Show has been successfully added to your My Shows list.");
+	MainApp.getThe().showPopupMsg("This Show has been successfully added to your My Shows list.");
 }
 
 /******************************************************************************/
@@ -9812,6 +9887,14 @@ NowPlayingScreen.BodyID = "Show002_Body";
 NowPlayingScreen.ShowListID = "Show002_ShowList";
 NowPlayingScreen.RentedShowID = "RentedShowID";
 NowPlayingScreen.PictureID = "PictureID";
+NowPlayingScreen.SortByNameID = "Show002_SortByName";
+NowPlayingScreen.SortByReleasedOnID = "Show002_SortByReleasedOn";
+NowPlayingScreen.SortByRentedOnID = "Show002_SortByRentedOn";
+NowPlayingScreen.SortByAvailableUntilID = "Show002_SortByAvailableUntil";
+NowPlayingScreen.HeaderNameImageID = "Show002_ShowList_Head_Name_Img";
+NowPlayingScreen.HeaderReleasedOnImageID = "Show002_ShowList_Head_ReleasedOn_Img";
+NowPlayingScreen.HeaderRentedOnImageID = "Show002_ShowList_Head_RentedOn_Img";
+NowPlayingScreen.HeaderAvailableUntilImageID = "Show002_ShowList_Head_AvailableUntil_Img";
 NowPlayingScreen.NoShowsTextID = "Show002_NoShowsText";
 
 /**********************************************************************************************************************/
@@ -9843,7 +9926,10 @@ function NowPlayingScreen(/*Array*/ rentedShowSearchList)
 	this.oShowList = document.getElementById(NowPlayingScreen.ShowListID);
 	this.oNoShowsText = document.getElementById(NowPlayingScreen.NoShowsTextID);
 
-	this.createShowList();
+	this.fSortBy = NowPlayingScreen.SortByRentedOnID;
+	this.fDescending = false;
+
+	this.createShowList(false);
 	this.checkNoShowsTest();
 
 	setTimeout("NowPlayingScreen.getThe().loadPictures()", 250);
@@ -9862,22 +9948,23 @@ function NowPlayingScreen(/*Array*/ rentedShowSearchList)
 
 /**********************************************************************************************************************/
 
-/*void*/ NowPlayingScreen.prototype.createShowList = function()
+/*void*/ NowPlayingScreen.prototype.createShowList = function(/*boolean*/ showPicture)
 {
 	this.deleteShowList();
 
+	var oTBody = this.oShowList.tBodies.item(0);
 	for(var i = 0; i < this.fRentedShowSearchList.length; i++)
 	{
 		var rentedShowSearch = this.fRentedShowSearchList[i];
-		var oRow = this.oShowList.insertRow(-1);
-		this.createOneShowListItem(oRow, i, rentedShowSearch);
+		var oRow = oTBody.insertRow(-1);
+		this.createOneShowListItem(oRow, i, rentedShowSearch, showPicture);
 	}
 }
 
 /**********************************************************************************************************************/
 
 /*void*/ NowPlayingScreen.prototype.createOneShowListItem = function(/*Element*/ oTableRow, /*int*/ pos,
-	/*RentedShowSearch*/ rentedShowSearch)
+	/*RentedShowSearch*/ rentedShowSearch, /*boolean*/ showPicture)
 {
 	oTableRow.className = "listRow";
 	oTableRow.onclick = new Function("NowPlayingScreen.getThe().openRentedShowDetail('" + rentedShowSearch.RentedShowID + "');");
@@ -9909,15 +9996,17 @@ function NowPlayingScreen(/*Array*/ rentedShowSearchList)
 	oCell.rowSpan = 2;
 	oCell.width = 48;
 	oCell.height = 48;
+	oCell.vAlign = "top";
 
 	// image for Picture
 	var oImage = document.createElement("img");
 	oImage.id = this.buildRowItemID(NowPlayingScreen.PictureID, pos);
 	oImage.border = "0";
 	setStyleProperty(oImage, "width", "48px");
-	oImage.src = "images/no_picture_48.gif";
 	oImage.alt = "";
 	oCell.insertBefore(oImage, null);
+	oImage.src = (showPicture && testStrHasLen(rentedShowSearch.PictureURL)) ? rentedShowSearch.PictureURL
+		: "images/no_picture_48.gif";
 
 	// cell for Name
 	oCell = oRow.insertCell(-1);
@@ -10036,8 +10125,60 @@ function NowPlayingScreen(/*Array*/ rentedShowSearchList)
 /*void*/ NowPlayingScreen.prototype.deleteShowList = function()
 {
 	for(var j = this.oShowList.tBodies.length - 1; j >= 0; j--)
-		for(var i = this.oShowList.tBodies[j].rows.length - 1; i >= 0; i--)
-			this.oShowList.deleteRow(i);
+		for(var i = this.oShowList.tBodies.item(j).rows.length - 1; i >= 0; i--)
+			this.oShowList.tBodies.item(j).deleteRow(i);
+}
+
+/**********************************************************************************************************************/
+
+/*void*/ NowPlayingScreen.prototype.sortSortList = function(/*string*/ controlID)
+{
+	var oSortImg = null;
+	var sortFnc;
+
+	if(this.fSortBy == NowPlayingScreen.SortByNameID)
+		oSortImg = document.getElementById(NowPlayingScreen.HeaderNameImageID);
+	else if(this.fSortBy == NowPlayingScreen.SortByReleasedOnID)
+		oSortImg = document.getElementById(NowPlayingScreen.HeaderReleasedOnImageID);
+	else if(this.fSortBy == NowPlayingScreen.SortByRentedOnID)
+		oSortImg = document.getElementById(NowPlayingScreen.HeaderRentedOnImageID);
+	else if(this.fSortBy == NowPlayingScreen.SortByAvailableUntilID)
+		oSortImg = document.getElementById(NowPlayingScreen.HeaderAvailableUntilImageID);
+
+	if(oSortImg)
+		oSortImg.src = "../images/spacer.gif";
+
+	if(controlID == NowPlayingScreen.SortByReleasedOnID)
+	{
+		this.fDescending = (this.fSortBy == NowPlayingScreen.SortByReleasedOnID) ? !this.fDescending : false;
+		this.fSortBy = NowPlayingScreen.SortByReleasedOnID;
+		sortFnc = (this.fDescending ? RentedShowSearchByReleasedOnDescCmpr : RentedShowSearchByReleasedOnCmpr);
+		oSortImg = document.getElementById(NowPlayingScreen.HeaderReleasedOnImageID);
+	}
+	else if(controlID == NowPlayingScreen.SortByRentedOnID)
+	{
+		this.fDescending = (this.fSortBy == NowPlayingScreen.SortByRentedOnID) ? !this.fDescending : false;
+		this.fSortBy = NowPlayingScreen.SortByRentedOnID;
+		sortFnc = (this.fDescending ? RentedShowSearchByRentedOnDescCmpr : RentedShowSearchByRentedOnCmpr);
+		oSortImg = document.getElementById(NowPlayingScreen.HeaderRentedOnImageID);
+	}
+	else if(controlID == NowPlayingScreen.SortByAvailableUntilID)
+	{
+		this.fDescending = (this.fSortBy == NowPlayingScreen.SortByAvailableUntilID) ? !this.fDescending : false;
+		this.fSortBy = NowPlayingScreen.SortByAvailableUntilID;
+		sortFnc = (this.fDescending ? RentedShowSearchByAvailableUntilDescCmpr : RentedShowSearchByAvailableUntilCmpr);
+		oSortImg = document.getElementById(NowPlayingScreen.HeaderAvailableUntilImageID);
+	}
+	else
+	{
+		this.fDescending = (this.fSortBy == NowPlayingScreen.SortByNameID) ? !this.fDescending : false;
+		this.fSortBy = NowPlayingScreen.SortByNameID;
+		sortFnc = (this.fDescending ? RentedShowSearchByNameDescCmpr : RentedShowSearchByNameCmpr);
+		oSortImg = document.getElementById(NowPlayingScreen.HeaderNameImageID);
+	}
+	oSortImg.src = this.fDescending ? "images/sort_desc.gif" : "images/sort_asc.gif";
+
+	this.fRentedShowSearchList.sort(sortFnc);
 }
 
 /**********************************************************************************************************************/
@@ -10087,6 +10228,18 @@ function NowPlayingScreen(/*Array*/ rentedShowSearchList)
 	}
 
 	this.checkNoShowsTest();
+}
+
+/******************************************************************************/
+
+/*void*/ NowPlayingScreen.prototype.onButton = function(/*string*/ controlID)
+{
+	if((controlID == NowPlayingScreen.SortByNameID) || (controlID == NowPlayingScreen.SortByReleasedOnID)
+		|| (controlID == NowPlayingScreen.SortByRentedOnID) || (controlID == NowPlayingScreen.SortByAvailableUntilID))
+	{
+		this.sortSortList(controlID);
+		this.createShowList(true);
+	}
 }
 
 /**********************************************************************************************************************/
