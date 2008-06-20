@@ -155,6 +155,7 @@ function MainApp()
 /*void*/ MainApp.prototype.openPopup = function()
 {
 	this.closeAllScreens();
+	this.showPopupMsg("");
 	setStyleDisplay(this.fMainPopup, true);
 }
 
@@ -164,6 +165,13 @@ function MainApp()
 {
 	this.closeAllScreens();
 	setStyleDisplay(this.fMainPopup, false);
+}
+
+/******************************************************************************/
+
+/*void*/ MainApp.prototype.showPopupMsg = function(msg)
+{
+	document.getElementById("MainPopup_Message").innerHTML = msg;
 }
 
 /******************************************************************************/

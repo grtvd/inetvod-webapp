@@ -359,7 +359,7 @@ function RentScreen(/*ShowDetail*/ oShowDetail)
 	}
 
 	// show message last, or will have focus problems
-	showMsg("This Show has been successfully added to your My Shows list.");
+	MainApp.getThe().showPopupMsg("This Show has been successfully added to your My Shows list.");
 }
 
 /******************************************************************************/

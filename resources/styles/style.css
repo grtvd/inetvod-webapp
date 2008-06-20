@@ -33,6 +33,11 @@ table
 	border-width: 3px;
 	border-style: solid;
 }
+.popupmessage
+{
+	background-color: #7CC0E2;
+	color: #DAF9FC;
+}
 .error
 {
 	color: red;
