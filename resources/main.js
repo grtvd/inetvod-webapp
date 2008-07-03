@@ -4355,6 +4355,10 @@ function Session()
 	this.fPlayer.ModelNo = "webapp";
 	this.fPlayer.SerialNo = "1";
 	this.fPlayer.Version = "1.0.0000";
+
+	this.checkInstall();
+	if (this.fDownloadServiceMgr && this.fDownloadServiceMgr.getPlayerSerialNo())
+		this.fPlayer.SerialNo = this.fDownloadServiceMgr.getPlayerSerialNo();
 }
 
 /******************************************************************************/
@@ -4535,9 +4539,7 @@ function Session()
 	{
 		try
 		{
-			this.fDownloadServiceMgr = new ActiveXObject("iNetVOD.MCE.Gateway.DownloadServiceMgr");
-
-			this.fPlayer.SerialNo = this.fDownloadServiceMgr.getPlayerSerialNo();
+			this.fDownloadServiceMgr = new ActiveXObject("iNetVOD.DLS.Gateway.DownloadServiceMgr");
 		}
 		catch(ignore) {}
 	}
