@@ -745,6 +745,34 @@ var MillsPerDay = (24 * 60 * 60 * 1000);
 
 /******************************************************************************/
 
+/*Date*/ function today()
+{
+	return dateOnly(new Date());
+}
+
+/******************************************************************************/
+
+/*Date*/ function now()
+{
+	return new Date();
+}
+
+/******************************************************************************/
+
+/*Date*/ function dateOnly(dateTime)
+{
+	if(!isDate(dateTime))
+		return null;
+
+	var year = dateTime.getFullYear();
+	var month = dateTime.getMonth();
+	var day = dateTime.getDate();
+
+	return new Date(year, month, day);
+}
+
+/******************************************************************************/
+
 /*string*/ function dateTimeToString(/*Date*/ dateTime, /*DateTimeFormat*/ format, /*boolean*/ showInUTC)
 {
 	if(!isDate(dateTime))
@@ -5739,7 +5767,7 @@ function ShowSearch(reader)
 	this.ShowID = reader.readString("ShowID", ShowIDMaxLength);
 	this.Name = reader.readString("Name", 64);
 	this.EpisodeName = reader.readString("EpisodeName", 64);
-	this.ReleasedOn = reader.readDate("ReleasedOn");
+	this.ReleasedOn = reader.readDateTime("ReleasedOn");
 	this.ReleasedYear = reader.readShort("ReleasedYear");
 	this.PictureURL = reader.readString("PictureURL", 4096);	//TODO:
 	this.ShowProviderList = reader.readList("ShowProvider", ShowProvider);
@@ -5866,7 +5894,7 @@ function ShowDetail(reader)
 	this.EpisodeName = reader.readString("EpisodeName", 64);
 	this.EpisodeNumber = reader.readString("EpisodeNumber", 32);
 
-	this.ReleasedOn = reader.readDate("ReleasedOn");
+	this.ReleasedOn = reader.readDateTime("ReleasedOn");
 	this.ReleasedYear = reader.readShort("ReleasedYear");
 	this.Description = reader.readString("Description", 4096);	//TODO:
 	this.RunningMins = reader.readShort("RunningMins");
@@ -6029,7 +6057,7 @@ function RentedShowSearch(reader)
 	this.ProviderID = reader.readString("ProviderID", ProviderIDMaxLength);
 	this.Name = reader.readString("Name", 64);
 	this.EpisodeName = reader.readString("EpisodeName", 64);
-	this.ReleasedOn = reader.readDate("ReleasedOn");
+	this.ReleasedOn = reader.readDateTime("ReleasedOn");
 	this.ReleasedYear = reader.readShort("ReleasedYear");
 	this.PictureURL = reader.readString("PictureURL", 4096);	//TODO:
 	this.RentedOn = reader.readDateTime("RentedOn");
@@ -6193,7 +6221,7 @@ function RentedShow(reader)
 	this.EpisodeName = reader.readString("EpisodeName", 64);
 	this.EpisodeNumber = reader.readString("EpisodeNumber", 32);
 
-	this.ReleasedOn = reader.readDate("ReleasedOn");
+	this.ReleasedOn = reader.readDateTime("ReleasedOn");
 	this.ReleasedYear = reader.readShort("ReleasedYear");
 	this.Description = reader.readString("Description", 4096);	//TODO:
 	this.RunningMins = reader.readShort("RunningMins");
@@ -8897,13 +8925,8 @@ function SearchDetailScreen(/*ShowSearch*/ showSearch)
 	oControl.setText("");
 	this.newControl(oControl);
 
-	tempStr = "n/a";
-	if(this.fShowSearch.ReleasedOn)
-		tempStr = dateTimeToString(this.fShowSearch.ReleasedOn, dtf_M_D_YYYY, true);
-	else if(this.fShowSearch.ReleasedYear)
-		tempStr = this.fShowSearch.ReleasedYear.toString();
 	oControl = new TextControl(SearchDetailScreen.ReleasedID, this.ScreenID);
-	oControl.setText(tempStr);
+	oControl.setText(this.buildReleased(this.fShowSearch.ReleasedOn, this.fShowSearch.ReleasedYear));
 	this.newControl(oControl);
 
 	oControl = new TextControl(SearchDetailScreen.RunningMinsID, this.ScreenID);
@@ -8990,6 +9013,31 @@ function SearchDetailScreen(/*ShowSearch*/ showSearch)
 		else
 			oControl.setText("");
 	}
+}
+
+/**********************************************************************************************************************/
+
+/*string*/ SearchDetailScreen.prototype.buildReleased = function(/*Date*/ releasedOn, /*int*/ releasedYear)
+{
+	var released = "";
+
+	if(releasedOn)
+	{
+		var totalDays = (today().getTime() - releasedOn.getTime()) / MillsPerDay;	//compare to today at midmight
+
+		if(totalDays <= 0.0)	//release after midnight
+			released = dateTimeToString(releasedOn, dtf_H_MMa);
+		else if(totalDays <= 6)
+			released = dayOfWeekToString(releasedOn.getDay()) + " " + dateTimeToString(releasedOn, dtf_Ha);
+		else if(totalDays <= 13)
+			released = dateTimeToString(releasedOn, dtf_M_D) + " " + dateTimeToString(releasedOn, dtf_Ha);
+		else
+			released = dateTimeToString(releasedOn, dtf_M_D_YYYY);
+	}
+	else if(releasedYear)
+		released = releasedYear.toString();
+
+	return released;
 }
 
 /******************************************************************************/
@@ -10055,13 +10103,12 @@ function NowPlayingScreen(/*Array*/ rentedShowSearchList)
 
 	if(releasedOn)
 	{
-		var now = new Date();
-		var totalDays = (now.getTime() - releasedOn.getTime()) / MillsPerDay;
+		var totalDays = (today().getTime() - releasedOn.getTime()) / MillsPerDay;	//compare to today at midmight
 
-		if(totalDays < 1)
+		if(totalDays <= 0.0)	//release after midnight
 			released = "Today";
-		else if(totalDays <= 7)
-			released = dayOfWeekToString(releasedOn.getUTCDay());
+		else if(totalDays <= 6)
+			released = dayOfWeekToString(releasedOn.getDay());
 		else if(totalDays <= 365)
 			released = dateTimeToString(releasedOn, dtf_M_D, true);
 		else
@@ -10342,13 +10389,8 @@ function RentedShowDetailScreen(/*RentedShowSearch or RentedShow*/ rentedShowSea
 	oControl.setText("&nbsp;");
 	this.newControl(oControl);
 
-	tempStr = "n/a";
-	if(this.fRentedShowSearch.ReleasedOn)
-		tempStr = dateTimeToString(this.fRentedShowSearch.ReleasedOn, dtf_M_D_YYYY, true);
-	else if(this.fRentedShowSearch.ReleasedYear)
-		tempStr = this.fRentedShowSearch.ReleasedYear.toString();
 	oControl = new TextControl(RentedShowDetailScreen.ReleasedID, this.ScreenID);
-	oControl.setText(tempStr);
+	oControl.setText(this.buildReleased(this.fRentedShowSearch.ReleasedOn, this.fRentedShowSearch.ReleasedYear));
 	this.newControl(oControl);
 
 	oControl = new TextControl(RentedShowDetailScreen.RunningMinsID, this.ScreenID);
@@ -10442,6 +10484,31 @@ function RentedShowDetailScreen(/*RentedShowSearch or RentedShow*/ rentedShowSea
 		oControl = this.findControl(RentedShowDetailScreen.RentedOnLabelID)
 		oControl.setText((this.fRentedShow.ShowCost.ShowCostType == sct_Free) ? "Added On:" : "Rented On:");
 	}
+}
+
+/**********************************************************************************************************************/
+
+/*string*/ RentedShowDetailScreen.prototype.buildReleased = function(/*Date*/ releasedOn, /*int*/ releasedYear)
+{
+	var released = "";
+
+	if(releasedOn)
+	{
+		var totalDays = (today().getTime() - releasedOn.getTime()) / MillsPerDay;	//compare to today at midmight
+
+		if(totalDays <= 0.0)	//release after midnight
+			released = dateTimeToString(releasedOn, dtf_H_MMa);
+		else if(totalDays <= 6)
+			released = dayOfWeekToString(releasedOn.getDay()) + " " + dateTimeToString(releasedOn, dtf_Ha);
+		else if(totalDays <= 13)
+			released = dateTimeToString(releasedOn, dtf_M_D) + " " + dateTimeToString(releasedOn, dtf_Ha);
+		else
+			released = dateTimeToString(releasedOn, dtf_M_D_YYYY);
+	}
+	else if(releasedYear)
+		released = releasedYear.toString();
+
+	return released;
 }
 
 /******************************************************************************/
