@@ -84,13 +84,8 @@ function SearchDetailScreen(/*ShowSearch*/ showSearch)
 	oControl.setText("");
 	this.newControl(oControl);
 
-	tempStr = "n/a";
-	if(this.fShowSearch.ReleasedOn)
-		tempStr = dateTimeToString(this.fShowSearch.ReleasedOn, dtf_M_D_YYYY, true);
-	else if(this.fShowSearch.ReleasedYear)
-		tempStr = this.fShowSearch.ReleasedYear.toString();
 	oControl = new TextControl(SearchDetailScreen.ReleasedID, this.ScreenID);
-	oControl.setText(tempStr);
+	oControl.setText(this.buildReleased(this.fShowSearch.ReleasedOn, this.fShowSearch.ReleasedYear));
 	this.newControl(oControl);
 
 	oControl = new TextControl(SearchDetailScreen.RunningMinsID, this.ScreenID);
@@ -177,6 +172,31 @@ function SearchDetailScreen(/*ShowSearch*/ showSearch)
 		else
 			oControl.setText("");
 	}
+}
+
+/**********************************************************************************************************************/
+
+/*string*/ SearchDetailScreen.prototype.buildReleased = function(/*Date*/ releasedOn, /*int*/ releasedYear)
+{
+	var released = "";
+
+	if(releasedOn)
+	{
+		var totalDays = (today().getTime() - releasedOn.getTime()) / MillsPerDay;	//compare to today at midmight
+
+		if(totalDays <= 0.0)	//release after midnight
+			released = dateTimeToString(releasedOn, dtf_H_MMa);
+		else if(totalDays <= 6)
+			released = dayOfWeekToString(releasedOn.getDay()) + " " + dateTimeToString(releasedOn, dtf_Ha);
+		else if(totalDays <= 13)
+			released = dateTimeToString(releasedOn, dtf_M_D) + " " + dateTimeToString(releasedOn, dtf_Ha);
+		else
+			released = dateTimeToString(releasedOn, dtf_M_D_YYYY);
+	}
+	else if(releasedYear)
+		released = releasedYear.toString();
+
+	return released;
 }
 
 /******************************************************************************/

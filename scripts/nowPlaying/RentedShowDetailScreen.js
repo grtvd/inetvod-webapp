@@ -94,13 +94,8 @@ function RentedShowDetailScreen(/*RentedShowSearch or RentedShow*/ rentedShowSea
 	oControl.setText("&nbsp;");
 	this.newControl(oControl);
 
-	tempStr = "n/a";
-	if(this.fRentedShowSearch.ReleasedOn)
-		tempStr = dateTimeToString(this.fRentedShowSearch.ReleasedOn, dtf_M_D_YYYY, true);
-	else if(this.fRentedShowSearch.ReleasedYear)
-		tempStr = this.fRentedShowSearch.ReleasedYear.toString();
 	oControl = new TextControl(RentedShowDetailScreen.ReleasedID, this.ScreenID);
-	oControl.setText(tempStr);
+	oControl.setText(this.buildReleased(this.fRentedShowSearch.ReleasedOn, this.fRentedShowSearch.ReleasedYear));
 	this.newControl(oControl);
 
 	oControl = new TextControl(RentedShowDetailScreen.RunningMinsID, this.ScreenID);
@@ -194,6 +189,31 @@ function RentedShowDetailScreen(/*RentedShowSearch or RentedShow*/ rentedShowSea
 		oControl = this.findControl(RentedShowDetailScreen.RentedOnLabelID)
 		oControl.setText((this.fRentedShow.ShowCost.ShowCostType == sct_Free) ? "Added On:" : "Rented On:");
 	}
+}
+
+/**********************************************************************************************************************/
+
+/*string*/ RentedShowDetailScreen.prototype.buildReleased = function(/*Date*/ releasedOn, /*int*/ releasedYear)
+{
+	var released = "";
+
+	if(releasedOn)
+	{
+		var totalDays = (today().getTime() - releasedOn.getTime()) / MillsPerDay;	//compare to today at midmight
+
+		if(totalDays <= 0.0)	//release after midnight
+			released = dateTimeToString(releasedOn, dtf_H_MMa);
+		else if(totalDays <= 6)
+			released = dayOfWeekToString(releasedOn.getDay()) + " " + dateTimeToString(releasedOn, dtf_Ha);
+		else if(totalDays <= 13)
+			released = dateTimeToString(releasedOn, dtf_M_D) + " " + dateTimeToString(releasedOn, dtf_Ha);
+		else
+			released = dateTimeToString(releasedOn, dtf_M_D_YYYY);
+	}
+	else if(releasedYear)
+		released = releasedYear.toString();
+
+	return released;
 }
 
 /******************************************************************************/

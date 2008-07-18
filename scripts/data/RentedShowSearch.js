@@ -29,7 +29,7 @@ function RentedShowSearch(reader)
 	this.ProviderID = reader.readString("ProviderID", ProviderIDMaxLength);
 	this.Name = reader.readString("Name", 64);
 	this.EpisodeName = reader.readString("EpisodeName", 64);
-	this.ReleasedOn = reader.readDate("ReleasedOn");
+	this.ReleasedOn = reader.readDateTime("ReleasedOn");
 	this.ReleasedYear = reader.readShort("ReleasedYear");
 	this.PictureURL = reader.readString("PictureURL", 4096);	//TODO:
 	this.RentedOn = reader.readDateTime("RentedOn");

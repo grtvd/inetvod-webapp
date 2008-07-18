@@ -29,6 +29,34 @@ var MillsPerDay = (24 * 60 * 60 * 1000);
 
 /******************************************************************************/
 
+/*Date*/ function today()
+{
+	return dateOnly(new Date());
+}
+
+/******************************************************************************/
+
+/*Date*/ function now()
+{
+	return new Date();
+}
+
+/******************************************************************************/
+
+/*Date*/ function dateOnly(dateTime)
+{
+	if(!isDate(dateTime))
+		return null;
+
+	var year = dateTime.getFullYear();
+	var month = dateTime.getMonth();
+	var day = dateTime.getDate();
+
+	return new Date(year, month, day);
+}
+
+/******************************************************************************/
+
 /*string*/ function dateTimeToString(/*Date*/ dateTime, /*DateTimeFormat*/ format, /*boolean*/ showInUTC)
 {
 	if(!isDate(dateTime))

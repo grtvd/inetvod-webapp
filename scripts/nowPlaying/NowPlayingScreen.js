@@ -174,13 +174,12 @@ function NowPlayingScreen(/*Array*/ rentedShowSearchList)
 
 	if(releasedOn)
 	{
-		var now = new Date();
-		var totalDays = (now.getTime() - releasedOn.getTime()) / MillsPerDay;
+		var totalDays = (today().getTime() - releasedOn.getTime()) / MillsPerDay;	//compare to today at midmight
 
-		if(totalDays < 1)
+		if(totalDays <= 0.0)	//release after midnight
 			released = "Today";
-		else if(totalDays <= 7)
-			released = dayOfWeekToString(releasedOn.getUTCDay());
+		else if(totalDays <= 6)
+			released = dayOfWeekToString(releasedOn.getDay());
 		else if(totalDays <= 365)
 			released = dateTimeToString(releasedOn, dtf_M_D, true);
 		else
