@@ -261,9 +261,14 @@ function Session()
 	{
 		try
 		{
-			this.fDownloadServiceMgr = new ActiveXObject("iNetVOD.DLS.Gateway.DownloadServiceMgr");
+//			this.fDownloadServiceMgr = new ActiveXObject("iNetVOD.DLS.Gateway.DownloadServiceMgr");
+			this.fDownloadServiceMgr = document.getElementById("DownloadServiceMgr");
+			this.fDownloadServiceMgr.getPlayerSerialNo();	//force test to validate, throwing execption if fails
 		}
-		catch(ignore) {}
+		catch(ignore)
+		{
+			this.fDownloadServiceMgr = null;
+		}
 	}
 
 	return this.fDownloadServiceMgr != null;

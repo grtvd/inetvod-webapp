@@ -58,6 +58,8 @@ iNetVOD Confidential and Proprietary.  See LEGAL.txt.
 						<td id="Developers_Row" class="buttonSmallCtr_normal" onclick="onMenuRowClick(event, this);"><a
 							id="Developers_Link" class="buttonSmallCtr_normal" href="../extra/developers.jsp"
 							onclick="onMenuClick(event, this); return true;">Developers</a></td>
+						<td><applet id="DownloadServiceMgr" archive="storm.gateway.jar" 
+							code="com.inetvod.dls.gateway.DownloadServiceMgr" width="0" height="0"></applet></td>
 						</tr></table></td></tr>
 				</table>
 			</td>

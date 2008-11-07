@@ -270,6 +270,7 @@ function RentedShowDetailScreen(/*RentedShowSearch or RentedShow*/ rentedShowSea
 	{
 		this.Callback = RentedShowDetailScreen.prototype.afterWatchShow;
 		oSession.watchShow(this, this.fRentedShowID);
+		oSession.downloadRefresh();
 		return;
 	}
 	else if(controlID == RentedShowDetailScreen.DeleteNowID)
@@ -291,7 +292,6 @@ function RentedShowDetailScreen(/*RentedShowSearch or RentedShow*/ rentedShowSea
 		return;
 
 	var oSession = MainApp.getThe().getSession();
-	oSession.downloadRefresh();
 
 	var useApp = oSession.determineAppForShow(license.ShowURL);
 	var downloadStatus = oSession.getDownloadRentedShowStatus(this.fRentedShowID);
