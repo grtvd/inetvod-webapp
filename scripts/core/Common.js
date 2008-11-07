@@ -18,10 +18,24 @@ function tryit(m)
 
 /******************************************************************************/
 
+function isMediaCenter()
+{
+	try
+	{
+		if(window.external.MediaCenter)
+			return true;
+	}
+	catch(ignore)
+	{
+	}
+	return false;
+}
+
+/******************************************************************************/
+
 function showMsg(msg)
 {
-
-	if(window.external && window.external.MediaCenter)
+	if(isMediaCenter())
 		window.external.MediaCenter.Dialog(msg, "", 1, 5, false);
 	else
 		alert(msg);
@@ -54,7 +68,7 @@ function showError(loc, e)
 	if(!gShowErrors)
 		return;
 
-	if(window.external && window.external.MediaCenter)
+	if(isMediaCenter())
 		window.external.MediaCenter.Dialog(msg, "Error", 1, 5, false);
 	else
 		alert(msg);
