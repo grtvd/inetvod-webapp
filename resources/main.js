@@ -18,10 +18,24 @@ function tryit(m)
 
 /******************************************************************************/
 
+function isMediaCenter()
+{
+	try
+	{
+		if(window.external.MediaCenter)
+			return true;
+	}
+	catch(ignore)
+	{
+	}
+	return false;
+}
+
+/******************************************************************************/
+
 function showMsg(msg)
 {
-
-	if(window.external && window.external.MediaCenter)
+	if(isMediaCenter())
 		window.external.MediaCenter.Dialog(msg, "", 1, 5, false);
 	else
 		alert(msg);
@@ -54,7 +68,7 @@ function showError(loc, e)
 	if(!gShowErrors)
 		return;
 
-	if(window.external && window.external.MediaCenter)
+	if(isMediaCenter())
 		window.external.MediaCenter.Dialog(msg, "Error", 1, 5, false);
 	else
 		alert(msg);
@@ -4567,9 +4581,14 @@ function Session()
 	{
 		try
 		{
-			this.fDownloadServiceMgr = new ActiveXObject("iNetVOD.DLS.Gateway.DownloadServiceMgr");
+//			this.fDownloadServiceMgr = new ActiveXObject("iNetVOD.DLS.Gateway.DownloadServiceMgr");
+			this.fDownloadServiceMgr = document.getElementById("DownloadServiceMgr");
+			this.fDownloadServiceMgr.getPlayerSerialNo();	//force test to validate, throwing execption if fails
 		}
-		catch(ignore) {}
+		catch(ignore)
+		{
+			this.fDownloadServiceMgr = null;
+		}
 	}
 
 	return this.fDownloadServiceMgr != null;
@@ -10565,6 +10584,7 @@ function RentedShowDetailScreen(/*RentedShowSearch or RentedShow*/ rentedShowSea
 	{
 		this.Callback = RentedShowDetailScreen.prototype.afterWatchShow;
 		oSession.watchShow(this, this.fRentedShowID);
+		oSession.downloadRefresh();
 		return;
 	}
 	else if(controlID == RentedShowDetailScreen.DeleteNowID)
@@ -10586,7 +10606,6 @@ function RentedShowDetailScreen(/*RentedShowSearch or RentedShow*/ rentedShowSea
 		return;
 
 	var oSession = MainApp.getThe().getSession();
-	oSession.downloadRefresh();
 
 	var useApp = oSession.determineAppForShow(license.ShowURL);
 	var downloadStatus = oSession.getDownloadRentedShowStatus(this.fRentedShowID);
